@@ -1,8 +1,8 @@
 pluginManagement {
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
-        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
@@ -11,7 +11,32 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
-}
+    versionCatalogs {
+        create("libs") {
+            version("agp", "8.7.2")
+            version("kotlin", "1.9.24")
+            version("room", "2.6.1")
+            version("lifecycle", "2.8.6")
+            version("navigation", "2.8.3")
+            library("appcompat", "androidx.appcompat:appcompat:1.7.0")
+            library("material", "com.google.android.material:material:1.12.0")
+            library("constraintlayout", "androidx.constraintlayout:constraintlayout:2.1.4")
 
-rootProject.name = "RepasDeLaFlemme"
-include ':app'
+            library("core-ktx", "androidx.core:core-ktx:1.13.1")
+            library("activity", "androidx.activity:activity:1.9.2")
+            library("fragment", "androidx.fragment:fragment:1.8.3")
+
+            library("room-runtime", "androidx.room:room-runtime").versionRef("room")
+            library("room-ktx", "androidx.room:room-ktx").versionRef("room")
+            library("room-compiler", "androidx.room:room-compiler").versionRef("room")
+
+            library("lifecycle-viewmodel", "androidx.lifecycle:lifecycle-viewmodel").versionRef("lifecycle")
+            library("lifecycle-livedata", "androidx.lifecycle:lifecycle-livedata").versionRef("lifecycle")
+
+            library("navigation-fragment", "androidx.navigation:navigation-fragment").versionRef("navigation")
+            library("navigation-ui", "androidx.navigation:navigation-ui").versionRef("navigation")
+        }
+    }
+}
+rootProject.name = "AppCuisineReste"
+include(":app")

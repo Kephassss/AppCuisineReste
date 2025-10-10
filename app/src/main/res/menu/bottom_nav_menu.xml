@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/pantryFragment" android:title="@string/tab_pantry" android:icon="@drawable/ic_kitchen"/>
+    <item android:id="@+id/recipesFragment" android:title="@string/tab_recipes" android:icon="@drawable/ic_recipe"/>
+    <item android:id="@+id/shoppingFragment" android:title="@string/tab_shopping" android:icon="@drawable/ic_cart"/>
+</menu>

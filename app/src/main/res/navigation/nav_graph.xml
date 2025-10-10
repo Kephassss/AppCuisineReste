@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/pantryFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.repasdelaflemme.app.ui.home.HomeFragment"
-        android:label="@string/menu_home">
+        android:id="@+id/pantryFragment"
+        android:name="com.kephas.appcuisinereste.ui.pantry.PantryFragment"
+        android:label="@string/tab_pantry" />
+
+    <fragment
+        android:id="@+id/recipesFragment"
+        android:name="com.kephas.appcuisinereste.ui.recipes.RecipesFragment"
+        android:label="@string/tab_recipes">
         <action
-            android:id="@+id/action_home_to_detail"
+            android:id="@+id/action_recipes_to_detail"
             app:destination="@id/recipeDetailFragment"/>
     </fragment>
 
     <fragment
         android:id="@+id/recipeDetailFragment"
-        android:name="com.repasdelaflemme.app.ui.detail.RecipeDetailFragment"
-        android:label="@string/recipes"/>
+        android:name="com.kephas.appcuisinereste.ui.recipes.RecipeDetailFragment"
+        android:label="@string/title_recipe_detail" />
+
+    <fragment
+        android:id="@+id/shoppingFragment"
+        android:name="com.kephas.appcuisinereste.ui.shopping.ShoppingFragment"
+        android:label="@string/tab_shopping" />
 </navigation>

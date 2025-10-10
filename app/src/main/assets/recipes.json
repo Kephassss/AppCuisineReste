@@ -1,17 +1,38 @@
 [
   {
-    "id": "1",
-    "title": "Omelette express",
-    "durationMin": 10
+    "id": "pates_tomate_fromage",
+    "title": "Pâtes tomate fromage",
+    "minutes": 20,
+    "servings": 2,
+    "vegetarian": true,
+    "tags": ["rapide","pas_cher"],
+    "ingredients": [
+      {"id":"pate","qty":200,"unit":"g"},
+      {"id":"tomate","qty":2,"unit":"pcs"},
+      {"id":"fromage","qty":50,"unit":"g"},
+      {"id":"oignon","qty":1,"unit":"pcs"}
+    ],
+    "steps": [
+      "Cuire les pâtes.",
+      "Revenir l’oignon, ajouter la tomate.",
+      "Mélanger avec les pâtes, parsemer de fromage."
+    ]
   },
   {
-    "id": "2",
-    "title": "Pâtes ail & huile",
-    "durationMin": 15
-  },
-  {
-    "id": "3",
-    "title": "Riz sauté aux restes",
-    "durationMin": 20
+    "id": "omelette_fromage_oignon",
+    "title": "Omelette fromage & oignon",
+    "minutes": 15,
+    "servings": 2,
+    "vegetarian": true,
+    "tags": ["rapide"],
+    "ingredients": [
+      {"id":"oeuf","qty":4,"unit":"pcs"},
+      {"id":"fromage","qty":60,"unit":"g"},
+      {"id":"oignon","qty":1,"unit":"pcs"}
+    ],
+    "steps": [
+      "Battre les œufs.",
+      "Cuire avec oignon revenu, ajouter fromage."
+    ]
   }
 ]

@@ -1,0 +1,7 @@
+[
+  {"id":"tomate","name":"Tomate","category":"légume","unit":"pcs"},
+  {"id":"oeuf","name":"Œuf","category":"produit_laitier","unit":"pcs"},
+  {"id":"pate","name":"Pâtes","category":"féculent","unit":"g"},
+  {"id":"fromage","name":"Fromage râpé","category":"produit_laitier","unit":"g"},
+  {"id":"oignon","name":"Oignon","category":"légume","unit":"pcs"}
+]
