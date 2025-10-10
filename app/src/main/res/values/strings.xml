@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Repas de la flemme</string>
+    <string name="welcome_title">Hello 👋 Repas de la flemme</string>
+    <string name="welcome_subtitle">Bienvenue ! Ajoute tes ingrédients et on te propose des idées rapides.</string>
+    <string name="find_ideas">Trouver des idées</string>
+    <string name="search_hint">Ajoute des ingrédients (ex. œufs, pâtes, tomate)</string>
+    <string name="empty_results">Aucun plat trouvé. Essaie d’enlever un filtre ou d’ajouter un ingrédient de base.</string>
+    <string name="menu_home">Accueil</string>
+    <string name="menu_favorites">Favoris</string>
+    <string name="menu_pantry">Garde-manger</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="recipes">Recettes</string>
+</resources>
