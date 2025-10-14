@@ -1,78 +1,54 @@
-
 [versions]
-# ===== OUTILS DE BUILD =====
-agp = "8.4.1" # Version stable et cohérente pour le plugin Android Gradle
+agp = "8.7.2"
 hilt = "2.51.1"
-navigationSafeArgs = "2.7.7"
-javaVersion = "17"
+navigation = "2.7.7"
+room = "2.6.1"
+lifecycle = "2.8.6"
 
-# ===== SDK ANDROID =====
-compileSdk = "35"
-minSdk = "24"
-targetSdk = "35"
-
-# ===== BIBLIOTHÈQUES ANDROIDX =====
 appcompat = "1.6.1"
 material = "1.12.0"
 constraintlayout = "2.1.4"
-lifecycle = "2.7.0"
-navigation = "2.7.7"
-room = "2.6.1"
-work = "2.9.0"
-splashscreen = "1.0.1"
-preference = "1.2.1"
-
-# ===== BIBLIOTHÈQUES TIERCES =====
-glide = "4.16.0"
+recyclerview = "1.3.2"
+cardview = "1.0.0"
 gson = "2.10.1"
+glide = "4.16.0"
 timber = "5.0.1"
-sqliteJdbc = "3.45.1.0" # Pilote pour la vérification de Room sur Windows
 
-# ===== DÉPENDANCES DE TEST =====
 junit = "4.13.2"
 androidxJunit = "1.1.5"
 espresso = "3.5.1"
-mockitoCore = "5.11.0"
 archCoreTesting = "2.2.0"
-
-[libraries]
-# ===== ANDROIDX (pour Java) =====
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
-androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle" }
-androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata", version.ref = "lifecycle" }
-androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigation" }
-androidx-navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigation" }
-androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-androidx-work-runtime = { group = "androidx.work", name = "work-runtime", version.ref = "work" }
-androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
-
-# ===== GOOGLE =====
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
-
-# ===== AUTRES BIBLIOTHÈQUES (pour Java) =====
-glide-runtime = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
-glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
-timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
-sqlite-jdbc = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "sqliteJdbc" }
-
-# ===== BIBLIOTHÈQUES DE TEST (pour Java) =====
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
-androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
-mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoCore" }
-androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCoreTesting" }
-androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" } # 'roomtesting' était redondant
-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+mockitoCore = "5.11.0"
 
 [plugins]
-# ===== PLUGINS (pour Java) =====
-android-application = { id = "com.android.application", version.ref = "agp" }
-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "navigationSafeArgs" } # Renommé pour être plus générique
+android.application = { id = "com.android.application", version.ref = "agp" }
+hilt.android        = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
+[libraries]
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
+
+lifecycle.viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle" }
+lifecycle.livedata  = { group = "androidx.lifecycle", name = "lifecycle-livedata",  version.ref = "lifecycle" }
+
+navigation.fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigation" }
+navigation.ui       = { group = "androidx.navigation", name = "navigation-ui",       version.ref = "navigation" }
+
+room.runtime  = { group = "androidx.room", name = "room-runtime",  version.ref = "room" }
+room.compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+
+gson  = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide.compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+androidx.test.ext.junit     = { group = "androidx.test.ext", name = "junit",        version.ref = "androidxJunit" }
+androidx.test.espresso.core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
+androidx.arch.core.testing  = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCoreTesting" }
+
+mockito.core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoCore" }

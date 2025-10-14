@@ -1,12 +1,4 @@
-// Corrected content
-buildscript {
-    dependencies {
-        // This block can often be removed in modern Gradle projects,
-        // but it's fine to leave it if you have specific needs.
-        classpath "com.android.tools.build:gradle:8.7.2"
-    }
-}
 plugins {
-    // Make the Hilt plugin available to the project
+    alias(libs.plugins.android.application) apply false
     alias(libs.plugins.hilt.android) apply false
 }
