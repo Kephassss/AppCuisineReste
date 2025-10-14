@@ -1,26 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/inputIngredient"
-        android:hint="@string/hint_ingredient"
-        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:background="@drawable/bg_home_header"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/inputQuantity"
-        android:hint="@string/hint_quantity"
-        android:inputType="numberDecimal"
-        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <ImageView
+            android:src="@drawable/mascot_chef"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="Mascotte"/>
 
-    <Button
-        android:id="@+id/btnAdd"
-        android:text="@string/btn_add"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/tab_pantry"
+            android:textStyle="bold"
+            android:textColor="@color/cr_on_primary"
+            android:textSize="20sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical" android:padding="16dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputIngredient"
+                android:hint="@string/hint_ingredient"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputQuantity"
+                android:hint="@string/hint_quantity"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAdd"
+            style="@style/Widget.Material3.Button.Filled"
+            android:text="@string/btn_add"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pantryList"
+        android:padding="16dp"
         android:layout_width="match_parent" android:layout_height="0dp"
         android:layout_weight="1"/>
 </LinearLayout>

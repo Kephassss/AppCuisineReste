@@ -1,14 +1,15 @@
-
 <resources>
+    <!-- App -->
+    <string name="app_name">CuisineReste</string>
+
     <!-- Onglets / Navigation -->
-    <string name="tab_pantry">Placard</string>
+    <string name="tab_pantry">Ingrédients</string>
     <string name="tab_recipes">Recettes</string>
     <string name="tab_shopping">Courses</string>
     <string name="title_recipe_detail">Détails recette</string>
-    <string name="app_name">AppCuisineReste</string>
 
     <!-- Écrans / Formulaires -->
-    <string name="hint_ingredient">Ingrédient…</string>
+    <string name="hint_ingredient">Ajouter un ingrédient…</string>
     <string name="hint_quantity">Quantité</string>
     <string name="btn_add">Ajouter</string>
     <string name="section_ingredients">Ingrédients</string>
@@ -19,4 +20,14 @@
     <string name="filter_quick">Rapide</string>
     <string name="search_hint">Rechercher…</string>
     <string name="find_ideas">Trouver des idées</string>
+
+    <!-- Accueil -->
+    <string name="home_saved_recipes">%1$d recettes sauvegardées</string>
+    <string name="home_btn_pantry">Mes ingrédients</string>
+    <string name="home_btn_discover">Découvrir des recettes</string>
+
+    <!-- Détail recette -->
+    <string name="btn_start_recipe">Commencer la recette</string>
+    <string name="minutes_short">%1$d min</string>
+    <string name="servings_short">%1$d pers.</string>
 </resources>

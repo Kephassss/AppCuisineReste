@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/md_theme_surface"/>
+    <item android:drawable="@color/cr_surface"/>
     <item>
         <shape android:shape="rectangle">
             <size android:width="200dp" android:height="200dp"/>
-            <solid android:color="@color/md_theme_primary"/>
+            <solid android:color="@color/cr_primary"/>
             <corners android:radius="24dp"/>
         </shape>
     </item>

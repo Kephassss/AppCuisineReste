@@ -1,28 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/search_input"
+    <!-- Header brand with mascot and actions -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/search_hint"
-        android:imeOptions="actionSearch"/>
+        android:layout_height="220dp"
+        android:background="@drawable/bg_home_header"
+        android:padding="20dp">
 
-    <Button
-        android:id="@+id/find_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/find_ideas"
-        android:layout_marginTop="8dp"/>
+        <ImageView
+            android:id="@+id/mascot"
+            android:src="@drawable/mascot_chef"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="end|top"
+            android:contentDescription="Mascotte"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/homeTitle"
+                android:text="@string/app_name"
+                android:textColor="@color/cr_on_primary"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/homeStat"
+                android:text="@string/home_saved_recipes"
+                android:textColor="@color/cr_on_primary"
+                android:layout_marginTop="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPantry"
+                    style="@style/Widget.Material3.Button.Filled"
+                    android:text="@string/home_btn_pantry"
+                    app:icon="@drawable/ic_kitchen"
+                    app:iconPadding="8dp"
+                    app:iconGravity="textStart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <Space android:layout_width="12dp" android:layout_height="1dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDiscover"
+                    style="@style/Widget.Material3.Button.Tonal"
+                    android:text="@string/home_btn_discover"
+                    app:icon="@drawable/ic_recipe"
+                    app:iconPadding="8dp"
+                    app:iconGravity="textStart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="12dp"/>
+        android:padding="16dp"/>
 </LinearLayout>

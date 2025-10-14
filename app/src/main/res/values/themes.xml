@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- (Optionnel) Ancien thème, à garder si utilisé -->
+    <!-- Ancien thème conservé si besoin -->
     <style name="Theme.RepasDelaFlemme" parent="Theme.Material3.DayNight.NoActionBar" />
 
     <style name="Theme.RepasDelaFlemme.Starting" parent="Theme.RepasDelaFlemme">
@@ -9,18 +9,46 @@
         <item name="android:windowDisablePreview">false</item>
     </style>
 
-    <!-- Thème principal de l'app -->
+    <!-- Thème principal -->
     <style name="Theme.AppCuisineReste" parent="Theme.Material3.DayNight.NoActionBar">
-        <!--
-        <item name="colorPrimary">@color/my_light_primary</item>
-        <item name="colorSecondary">@color/my_light_secondary</item>
-        -->
+        <!-- Brand colors -->
+        <item name="colorPrimary">@color/cr_primary</item>
+        <item name="colorOnPrimary">@color/cr_on_primary</item>
+        <item name="colorPrimaryContainer">@color/cr_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/cr_on_primary_container</item>
+        <item name="colorSecondary">@color/cr_secondary</item>
+        <item name="colorSurface">@color/cr_surface</item>
+        <item name="colorOnSurface">@color/cr_on_surface</item>
+        <item name="colorSurfaceVariant">@color/cr_surface_variant</item>
+
+        <!-- Rounded shapes -->
+        <item name="shapeAppearanceSmallComponent">@style/Shape.Rounded.Small</item>
+        <item name="shapeAppearanceMediumComponent">@style/Shape.Rounded.Medium</item>
+        <item name="shapeAppearanceLargeComponent">@style/Shape.Rounded.Large</item>
+
+        <!-- System bars -->
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
     </style>
 
-    <!-- Thème de splash -->
+    <!-- Splash -->
     <style name="Theme.AppCuisineReste.Starting" parent="Theme.AppCuisineReste">
         <item name="android:windowBackground">@drawable/splash_background</item>
         <item name="android:windowDisablePreview">false</item>
+    </style>
+
+    <!-- Shapes -->
+    <style name="Shape.Rounded">
+        <item name="cornerFamily">rounded</item>
+    </style>
+    <style name="Shape.Rounded.Small" parent="@style/Shape.Rounded">
+        <item name="cornerSize">10dp</item>
+    </style>
+    <style name="Shape.Rounded.Medium" parent="@style/Shape.Rounded">
+        <item name="cornerSize">16dp</item>
+    </style>
+    <style name="Shape.Rounded.Large" parent="@style/Shape.Rounded">
+        <item name="cornerSize">28dp</item>
     </style>
 
 </resources>
