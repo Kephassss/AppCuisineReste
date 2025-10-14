@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kephas.appcuisinereste">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Optional: Internet permission for future API calls -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".RepasApplication"
         android:allowBackup="true"
-        android:label="@string/app_name"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCuisineReste"
-        android:name=".App"> <!-- si tu as une classe Application personnalisée, sinon tu peux retirer cette ligne -->
+        android:theme="@style/Theme.RepasDelaFlemme"
+        tools:targetApi="31">
 
-        <!-- Activité principale -->
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCuisineReste.Starting"> <!-- optionnel : splash -->
+            android:theme="@style/Theme.RepasDelaFlemme.Starting"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- Deep links -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="app" android:host="recipe" />
+                <data android:scheme="app" android:host="search" />
             </intent-filter>
         </activity>
     </application>
