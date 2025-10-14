@@ -41,6 +41,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
 
     static class VH extends RecyclerView.ViewHolder {
         TextView title, subtitle;
+
         VH(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);

@@ -8,7 +8,7 @@ android {
     compileSdk 35
 
     defaultConfig {
-        applicationId "com.repasdelaflemme.app"
+        applicationId "com.repasdelaflemme.app"  // ✅ Changez en "com.repasdelaflemme.app"
         minSdk 24
         targetSdk 35
         versionCode 1

@@ -1,7 +1,6 @@
 package com.kephas.appcuisinereste;
 
 import android.app.Application;
-import timber.log.Timber;
 
 public class App extends Application {
 
@@ -9,9 +8,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // Initialiser Timber pour les logs (optionnel mais utile)
-        if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
-        }
+        // Application initialisée
     }
 }
