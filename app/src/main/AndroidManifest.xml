@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.kephas.appcuisinereste"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.kephas.appcuisinereste">
 
     <application
         android:allowBackup="true"
@@ -8,13 +8,17 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCuisineReste">
+        android:theme="@style/Theme.AppCuisineReste"
+        android:name=".App"> <!-- si tu as une classe Application personnalisée, sinon tu peux retirer cette ligne -->
+
+        <!-- Activité principale -->
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.AppCuisineReste.Starting"> <!-- optionnel : splash -->
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

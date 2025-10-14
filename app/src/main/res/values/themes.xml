@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- (Optionnel) Ancien thème, à garder si utilisé -->
     <style name="Theme.RepasDelaFlemme" parent="Theme.Material3.DayNight.NoActionBar" />
+
     <style name="Theme.RepasDelaFlemme.Starting" parent="Theme.RepasDelaFlemme">
         <item name="android:windowBackground">@drawable/splash_background</item>
         <item name="android:windowDisablePreview">false</item>
     </style>
-    <!-- Base application theme. -->
+
+    <!-- Thème principal de l'app -->
     <style name="Theme.AppCuisineReste" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <!-- For example, you can set primary and secondary colors -->
         <!--
         <item name="colorPrimary">@color/my_light_primary</item>
         <item name="colorSecondary">@color/my_light_secondary</item>
         -->
     </style>
+
+    <!-- Thème de splash -->
+    <style name="Theme.AppCuisineReste.Starting" parent="Theme.AppCuisineReste">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowDisablePreview">false</item>
+    </style>
+
 </resources>

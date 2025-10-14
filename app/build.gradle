@@ -60,4 +60,5 @@ dependencies {
     implementation libs.room.ktx
     // Processeur d'annotations pour Room
     kapt libs.room.compiler
+    kapt "org.xerial:sqlite-jdbc:3.39.2.1"
 }
