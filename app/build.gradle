@@ -1,6 +1,9 @@
 plugins {
+    // Applique le plugin pour une application Android
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android' version '1.9.24' apply false
+    // Applique le plugin Kotlin pour Android
+    id 'org.jetbrains.kotlin.android'
+    // Applique le plugin pour le processeur d'annotations de Kotlin (nécessaire pour Room, Hilt, etc.)
     id 'kotlin-kapt'
 }
 
@@ -34,11 +37,16 @@ android {
     }
 }
 
+// Les options Kotlin doivent être dans leur propre bloc, au même niveau que 'android' et 'dependencies'
+kotlin {
+    jvmToolchain(17)
+}
+
 dependencies {
     implementation libs.appcompat
     implementation libs.material
     implementation libs.constraintlayout
-    implementation libs.core.ktx
+    implementation libs.core.ktx // Un seul core-ktx suffit
     implementation libs.activity
     implementation libs.fragment
 
@@ -50,5 +58,6 @@ dependencies {
 
     implementation libs.room.runtime
     implementation libs.room.ktx
+    // Processeur d'annotations pour Room
     kapt libs.room.compiler
 }
