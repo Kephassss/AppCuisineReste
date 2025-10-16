@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Styles pour les composants (Widgets) -->
+
+    <!-- Style pour les "chips" d'ingrédients -->
     <style name="Widget.CooknRest.Chip.Ingredient" parent="Widget.Material3.Chip.Assist">
         <item name="chipBackgroundColor">@color/cr_primary_container</item>
         <item name="android:textColor">@color/cr_on_primary_container</item>
@@ -9,6 +12,7 @@
         <item name="android:paddingEnd">6dp</item>
     </style>
 
+    <!-- Style pour l'indicateur actif de la barre de navigation -->
     <style name="Widget.CooknRest.Nav.ActiveIndicator">
         <item name="android:color">@color/cr_primary_container</item>
         <item name="android:width">48dp</item>
@@ -16,7 +20,7 @@
         <item name="shapeAppearance">@style/ShapeAppearance.CooknRest.Rounded.Small</item>
     </style>
 
-    <!-- Touch-friendly button style -->
+    <!-- Styles pour les boutons "Touch-friendly" -->
     <style name="Widget.CooknRest.TouchButton" parent="Widget.Material3.Button">
         <item name="rippleColor">@color/cr_primary_container</item>
         <item name="android:minHeight">48dp</item>
@@ -47,18 +51,4 @@
         <item name="android:translationZ">2dp</item>
     </style>
 
-    <!-- Your existing styles... -->
-
-    <!-- Add this new style definition -->
-    <style name="Widget.CooknRest.Nav" parent="Widget.Material3.NavigationView">
-        <!-- You can add custom item attributes here -->
-        <!-- For example, to change the icon tint -->
-        <item name="itemIconTint">@color/nav_item_tint</item>
-
-        <!-- To change the text color -->
-        <item name="itemTextColor">@color/nav_item_tint</item>
-
-        <!-- To change the background of the selected item -->
-        <item name="itemBackground">@drawable/bg_nav_active_indicator</item>
-    </style>
 </resources>

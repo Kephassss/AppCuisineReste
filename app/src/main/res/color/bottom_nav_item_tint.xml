@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+    Couleur pour l'icône et le texte de l'élément SÉLECTIONNÉ.
+    Un blanc pur (ou presque) est idéal pour indiquer clairement la sélection
+    sur un fond sombre.
+    -->
+    <item android:state_checked="true" android:color="#FFFFFF" />
+
+    <!--
+    Couleur pour les icônes et textes des éléments NON SÉLECTIONNÉS.
+    Un gris moyen offre une bonne visibilité tout en montrant
+    que l'élément n'est pas actif.
+    -->
+    <item android:state_checked="false" android:color="#8A8A8A" />
+
+    <!--
+    Couleur par défaut (fallback).
+    Identique à la couleur des éléments non sélectionnés.
+    -->
+    <item android:color="#8A8A8A" />
+
+</selector>

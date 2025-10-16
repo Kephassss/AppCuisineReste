@@ -1,134 +1,94 @@
 package com.repasdelaflemme.app.ui.home;
 
-import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider; // Importation nécessaire
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-import android.widget.TextView;
-import com.repasdelaflemme.app.R;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-import com.repasdelaflemme.app.data.AssetsRepository;
-import com.repasdelaflemme.app.data.PrefPantryStore;
-import com.repasdelaflemme.app.data.model.Recipe;
-import com.repasdelaflemme.app.data.model.RecipeIngredient;
-import com.repasdelaflemme.app.ui.common.RecipeCard;
 import android.view.animation.AnimationUtils;
-import java.util.ArrayList;
-import java.util.List;
+import com.repasdelaflemme.app.R;
+import com.repasdelaflemme.app.databinding.FragmentHomeBinding; // Importation du ViewBinding
 
 public class HomeFragment extends Fragment {
 
-    private RecyclerView recyclerView;
+    // Le ViewModel pour gérer les données de ce fragment
+    private HomeViewModel homeViewModel;
+    // Le ViewBinding pour accéder aux vues de manière sécurisée
+    private FragmentHomeBinding binding;
+    // L'adaptateur pour le RecyclerView
     private RecipeAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        recyclerView = view.findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        // Show skeleton while preparing data
-        recyclerView.setAdapter(new SkeletonAdapter(6));
+        // Utilisation du ViewBinding pour infler le layout
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+
+        // Initialisation de l'adaptateur pour les recettes
         adapter = new RecipeAdapter(item -> {
             NavController nav = NavHostFragment.findNavController(this);
             Bundle args = new Bundle();
             args.putString("recipeId", item.id);
             nav.navigate(R.id.recipeDetailFragment, args);
         });
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_slide_up));
-        return view;
+
+        // Configuration du RecyclerView
+        binding.recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        // Affichage d'un squelette (skeleton) pendant le chargement
+        binding.recycler.setAdapter(new SkeletonAdapter(6));
+        binding.recycler.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_slide_up));
+
+        return binding.getRoot(); // Retourne la vue racine du binding
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<RecipeCard> cards = toCards(loadRecipes(requireContext()));
-        recyclerView.setAdapter(adapter);
-        adapter.submit(cards);
-        View empty = view.findViewById(R.id.emptyHome);
-        if (empty != null) empty.setVisibility(cards == null || cards.isEmpty() ? View.VISIBLE : View.GONE);
 
-        // Update header stat with number of saved recipes (placeholder using items size)
-        TextView stat = view.findViewById(R.id.homeStat);
-        if (stat != null) {
-            String txt = getString(R.string.home_saved_recipes, cards != null ? cards.size() : 0);
-            stat.setText(txt);
-        }
 
-        // Shortcuts buttons to sections
-        View btnPantry = view.findViewById(R.id.btnPantry);
-        View btnDiscover = view.findViewById(R.id.btnDiscover);
-        View btnFindByPantry = view.findViewById(R.id.btnFindByPantry);
+        // Initialisation du ViewModel
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
+        // Observation des données depuis le ViewModel
+        homeViewModel.getRecipeCards().observe(getViewLifecycleOwner(), recipeCards -> {
+            if (recipeCards != null) {
+                // ... (other code)
+
+                // Mise à jour du compteur de recettes (CORRECTED LINE)
+                String statText = requireContext().getString(R.string.home_saved_recipes, recipeCards.size());
+                binding.homeStat.setText(statText);
+            }
+        });
+
+        // Chargement des données (le ViewModel s'en occupe en arrière-plan)
+        homeViewModel.loadRecipes(requireContext());
+
+        // Configuration des boutons de raccourci
+        setupShortcutButtons();
+    }
+
+    private void setupShortcutButtons() {
         NavController navController = NavHostFragment.findNavController(this);
-        if (btnPantry != null) {
-            btnPantry.setOnClickListener(v -> navController.navigate(R.id.pantryFragment));
-        }
-        if (btnDiscover != null) {
-            btnDiscover.setOnClickListener(v -> navController.navigate(R.id.recipesFragment));
-        }
-        if (btnFindByPantry != null) {
-            btnFindByPantry.setOnClickListener(v -> {
-                Bundle args = new Bundle();
-                args.putBoolean("focusPantry", true);
-                navController.navigate(R.id.recipesFragment, args);
-            });
-        }
+        binding.btnPantry.setOnClickListener(v -> navController.navigate(R.id.pantryFragment));
+        binding.btnDiscover.setOnClickListener(v -> navController.navigate(R.id.recipesFragment));
+        binding.btnFindByPantry.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putBoolean("focusPantry", true);
+            navController.navigate(R.id.recipesFragment, args);
+        });
     }
 
-    private List<Recipe> loadRecipes(Context context) {
-        List<Recipe> list = AssetsRepository.getRecipes(context);
-        if (list.isEmpty()) {
-            Toast.makeText(context, getString(R.string.error_loading_recipes), Toast.LENGTH_SHORT).show();
-        }
-        return list;
-    }
-
-    private List<RecipeCard> toCards(List<Recipe> recipes) {
-        PrefPantryStore store = new PrefPantryStore(requireContext());
-        List<String> have = store.getIngredientIds();
-        List<RecipeCard> out = new ArrayList<>();
-        for (Recipe r : recipes) {
-            int haveCount = 0;
-            int total = 0;
-            if (r.ingredients != null) {
-                total = r.ingredients.size();
-                for (RecipeIngredient ri : r.ingredients) {
-                    if (have.contains(ri.id)) haveCount++;
-                }
-            }
-            int missing = Math.max(0, total - haveCount);
-            Integer resId = null; String imageUrl = null;
-            if (r.image != null) {
-                if (r.image.startsWith("res:")) {
-                    String name = r.image.substring(4);
-                    int id = getResources().getIdentifier(name, "drawable", requireContext().getPackageName());
-                    if (id != 0) resId = id;
-                } else if (r.image.startsWith("http")) {
-                    imageUrl = r.image;
-                }
-            }
-            RecipeCard card = new RecipeCard(r.id, r.title, r.minutes, total == 0 ? null : (haveCount * 100 / Math.max(1, total)))
-                    .withMissing(missing)
-                    .withVegetarian(r.vegetarian != null && r.vegetarian)
-                    .withHalal(r.halal)
-                    .withBudget(r.budget)
-                    .withUtensils(r.utensils)
-                    .withCuisine(r.cuisine)
-                    .withAllergens(r.allergens)
-                    .withContainsAlcohol(r.containsAlcohol)
-                    .withContainsPork(r.containsPork)
-                    .withImage(resId)
-                    .withImageUrl(imageUrl);
-            out.add(card);
-        }
-        return out;
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Nettoyage de la référence au binding pour éviter les fuites de mémoire
+        binding = null;
     }
 }

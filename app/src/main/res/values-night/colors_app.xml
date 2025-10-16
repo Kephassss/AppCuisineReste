@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+    Définition des couleurs pour le thème sombre (mode nuit).
+    Ces couleurs écraseront celles définies dans le dossier /values/colors.xml
+    lorsque l'appareil est en mode sombre.
+    -->
+
+    <!-- Couleurs de la marque (Palette sombre) -->
+    <color name="cr_primary">#98DAA9</color> <!-- Un vert plus clair et moins saturé pour être lisible sur fond sombre -->
+    <color name="cr_on_primary">#00391A</color> <!-- Un vert très foncé, presque noir, pour le texte sur la couleur primaire -->
+    <color name="cr_primary_container">#00532F</color> <!-- Un vert foncé pour les conteneurs -->
+    <color name="cr_on_primary_container">#B4F3C3</color> <!-- Texte vert clair sur les conteneurs foncés -->
+
+    <color name="cr_secondary">#B8CCB7</color> <!-- Couleur secondaire, un gris-vert clair -->
+
+    <!-- Couleurs de surface (fonds, cartes, etc.) -->
+    <color name="cr_surface">#1A1C19</color> <!-- Fond principal de l'app, un gris très foncé -->
+    <color name="cr_on_surface">#E2E3DE</color> <!-- Texte principal, un gris très clair pour une bonne lisibilité -->
+    <color name="cr_surface_variant">#424941</color> <!-- Une surface légèrement plus claire pour différencier les éléments -->
+    <color name="cr_on_surface_variant">#C2C9BF</color> <!-- Texte pour les surfaces variantes -->
+
+    <!-- Autres couleurs -->
+    <color name="cr_outline">#8C938B</color> <!-- Couleur pour les bordures et les séparateurs -->
+    <color name="cr_background">#1A1C19</color> <!-- Couleur de fond générale (identique à cr_surface) -->
+    <color name="cr_on_background">#E2E3DE</color> <!-- Texte sur le fond général -->
+
+</resources>

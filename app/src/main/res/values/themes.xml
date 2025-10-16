@@ -50,5 +50,12 @@
     <style name="ShapeAppearance.CooknRest.Rounded.Large" parent="@style/ShapeAppearance.CooknRest.Rounded">
         <item name="cornerSize">28dp</item>
     </style>
+    <style name="Widget.CooknRest.Nav" parent="Widget.MaterialComponents.BottomNavigationView">
+        <!-- You can add custom attributes here if needed -->
+        <!-- For example: -->
+        <!-- <item name="android:background">@color/your_color</item> -->
+        <!-- <item name="itemIconTint">@color/your_icon_tint_color_selector</item> -->
+        <!-- <item name="itemTextColor">@color/your_text_color_selector</item> -->
+    </style>
 
 </resources>

@@ -1,312 +1,93 @@
 ﻿<resources>
   <!-- App -->
   <string name="app_name">CuisineReste</string>
+
   <!-- Onglets / Navigation -->
-  <string name="tab_pantry">Ingré;dients</string>
+  <string name="tab_pantry">Ingrédients</string>
   <string name="tab_recipes">Recettes</string>
   <string name="tab_shopping">Courses</string>
   <string name="title_recipe_detail">Détails recette</string>
-  <!-- écrans / Formulaires -->
-  <string name="hint_ingredient">Ajouter un ingrédient ¦</string>
+
+  <!-- Écrans / Formulaires -->
+  <string name="hint_ingredient">Ajouter un ingrédient…</string>
   <string name="hint_quantity">Quantité</string>
   <string name="btn_add">Ajouter</string>
-  <string name="section_Ingredients">Ingrédients</string>
+  <string name="section_ingredients">Ingrédients</string>
   <string name="btn_add_missing">Ajouter les manquants</string>
-  <string name="section_ingredients">Ingredients</string>
-  <string name="section_steps">étapes</string>
-  <string name="hint_search_recipe">Rechercher une recette ¦</string>
-  <string name="filter_veg">Végétarien</string>
-  <string name="filter_quick">Rapide</string>
-  <string name="search_hint">Rechercher ¦</string>
+  <string name="section_steps">Étapes</string>
+  <string name="hint_search_recipe">Rechercher une recette…</string>
+  <string name="search_hint">Rechercher…</string>
   <string name="find_ideas">Trouver des idées</string>
+
   <!-- Accueil -->
   <string name="home_saved_recipes">%1$d recettes sauvegardées</string>
   <string name="home_btn_pantry">Mes ingrédients</string>
   <string name="home_btn_discover">Découvrir des recettes</string>
+
   <!-- Détail recette -->
   <string name="btn_start_recipe">Commencer la recette</string>
   <string name="minutes_short">%1$d min</string>
   <string name="servings_short">%1$d pers.</string>
+
   <!-- Actions principales -->
-  <string name="action_choose_Ingredients">Choisir les ingrédients</string>
+  <string name="action_choose_ingredients">Choisir les ingrédients</string>
   <string name="action_find_recipes">Trouver des recettes</string>
-  <!-- états/infos -->
+
+  <!-- États/infos -->
   <string name="empty_pantry">Aucun ingrédient pour le moment</string>
   <string name="empty_recipes">Aucune recette trouvée</string>
   <string name="error_loading_recipes">Erreur chargement recettes</string>
   <string name="error_loading_Ingredients">Erreur chargement ingrédients</string>
+
   <!-- Détails / cuisine guidée -->
   <string name="step_previous">Précédent</string>
   <string name="step_next">Suivant</string>
   <string name="step_finish">Terminer</string>
-  <string name="step_progress">étape %1$d/%2$d</string>
+  <string name="step_progress">Étape %1$d/%2$d</string>
   <string name="step_play">Lire</string>
   <string name="step_pause">Pause</string>
-  <string name="swipe_hint">Balayez pour changer dÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢étape</string>
+  <string name="swipe_hint">Balayez pour changer d’étape</string>
+
+  <!-- Filtres et tags -->
+  <string name="filter_veg">Végétarien</string>
+  <string name="filter_quick">Rapide</string>
   <string name="filter_halal">Halal uniquement</string>
-  <string name="ust_poele">Poele</string>
-  <string name="cui_other">Autres</string>
   <string name="filter_time_quick">&lt; 20 min</string>
-  <string name="all_no_soy">Sans soja</string>
-  <string name="filter_budget_2">Budget â‚¬â‚¬</string>
-  <string name="ust_casserole">Casserole</string>
-  <string name="filter_budget_3">Budget â‚¬â‚¬â‚¬</string>
+  <string name="filter_time_medium">20–40 min</string>
   <string name="filter_time_long">&gt; 40 min</string>
-  <string name="cui_med">Méditerranéen</string>
+  <string name="filter_budget_1">Budget €</string>
+  <string name="filter_budget_2">Budget €€</string>
+  <string name="filter_budget_3">Budget €€€</string>
+
+  <!-- Allergènes -->
+  <string name="all_no_soy">Sans soja</string>
   <string name="all_no_sesame">Sans sésame</string>
-  <string name="filter_time_medium">20â€“40 min</string>
-  <string name="all_no_tree_nuts">Sans fruits Ã  coque</string>
-  <string name="cui_in">Indien</string>
-  <string name="cui_it">Italien</string>
+  <string name="all_no_tree_nuts">Sans fruits à coque</string>
   <string name="all_no_shellfish">Sans crustacé</string>
   <string name="all_no_pork">Sans porc</string>
-  <string name="cui_mex">Mexicain</string>
-  <string name="ust_four">Four</string>
-  <string name="ust_wok">Wok</string>
   <string name="all_no_gluten">Sans gluten</string>
-  <string name="cui_as">Asiatique</string>
-  <string name="all_no_egg">Sans Å“uf</string>
-  <string name="cui_fr">FranÃ§ais</string>
-  <string name="ust_cocotte">Cocotte</string>
-  <string name="cui_us">US</string>
+  <string name="all_no_egg">Sans œuf</string>
   <string name="all_no_alcohol">Sans alcool</string>
-  <string name="cui_magh">Maghrébin</string>
   <string name="all_no_lactose">Sans lactose</string>
   <string name="all_no_peanut">Sans arachide</string>
+
+  <!-- Ustensiles -->
+  <string name="ust_poele">Poêle</string>
+  <string name="ust_casserole">Casserole</string>
+  <string name="ust_four">Four</string>
+  <string name="ust_wok">Wok</string>
+  <string name="ust_cocotte">Cocotte</string>
   <string name="ust_mixeur">Mixeur</string>
-  <string name="filter_budget_1">Budget â‚¬</string>
-    <string name="action_choose_ingredients">Choose ingredients</string>
 
-  <!-- Onglets / Navigation -->
-    <!-- <string name="tab_pantry">Ingrédients</string> -->
+  <!-- Types de cuisine -->
+  <string name="cui_other">Autres</string>
+  <string name="cui_med">Méditerranéen</string>
+  <string name="cui_in">Indien</string>
+  <string name="cui_it">Italien</string>
+  <string name="cui_mex">Mexicain</string>
+  <string name="cui_as">Asiatique</string>
+  <string name="cui_fr">Français</string>
+  <string name="cui_us">US</string>
+  <string name="cui_magh">Maghrébin</string>
 
-    <!-- <string name="title_recipe_detail">Détails recette</string> -->
-
-  <!-- Écrans / Formulaires -->
-    <!-- <string name="hint_ingredient">Ajouter un ingrédient…</string> -->
-
-    <!-- <string name="hint_quantity">Quantité</string> -->
-
-    <!-- <string name="section_Ingredients">Ingrédients</string> -->
-
-    <!-- <string name="section_steps">Étapes</string> -->
-
-    <!-- <string name="hint_search_recipe">Rechercher une recette…</string> -->
-
-    <!-- <string name="filter_veg">Végétarien</string> -->
-
-    <!-- <string name="search_hint">Rechercher…</string> -->
-
-    <!-- <string name="find_ideas">Trouver des idées</string> -->
-
-  <!-- Accueil -->
-    <!-- <string name="home_saved_recipes">%1$d recettes sauvegardées</string> -->
-
-    <!-- <string name="home_btn_pantry">Mes ingrédients</string> -->
-
-    <!-- <string name="home_btn_discover">Découvrir des recettes</string> -->
-
-  <!-- Actions principales -->
-    <!-- <string name="action_choose_ingredients">Choisir les ingrédients</string> -->
-
-  <!-- États/infos -->
-    <!-- <string name="empty_pantry">Aucun ingrédient pour le moment</string> -->
-
-    <!-- <string name="empty_recipes">Aucune recette trouvée</string> -->
-
-    <!-- <string name="error_loading_Ingredients">Erreur chargement ingrédients</string> -->
-
-  <!-- Détails / cuisine guidée -->
-    <!-- <string name="step_previous">Précédent</string> -->
-
-    <!-- <string name="step_progress">Étape %1$d/%2$d</string> -->
-
-    <!-- <string name="swipe_hint">Balayez pour changer d’étape</string> -->
-
-    <!-- <string name="ust_poele">Poêle</string> -->
-
-    <!-- <string name="filter_budget_2">Budget €€</string> -->
-
-    <!-- <string name="filter_budget_3">Budget €€€</string> -->
-
-    <!-- <string name="cui_med">Méditerranéen</string> -->
-
-    <!-- <string name="all_no_sesame">Sans sésame</string> -->
-
-    <!-- <string name="filter_time_medium">20–40 min</string> -->
-
-    <!-- <string name="all_no_tree_nuts">Sans fruits à coque</string> -->
-
-    <!-- <string name="all_no_shellfish">Sans crustacé</string> -->
-
-    <!-- <string name="all_no_egg">Sans œuf</string> -->
-
-    <!-- <string name="cui_fr">Français</string> -->
-
-    <!-- <string name="cui_magh">Maghrébin</string> -->
-
-    <!-- <string name="filter_budget_1">Budget €</string> -->
-
-
-  <!-- Onglets / Navigation -->
-    <!-- <string name="tab_pantry">Ingrédients</string> -->
-
-    <!-- <string name="title_recipe_detail">Détails recette</string> -->
-
-
-  <!-- Écrans / Formulaires -->
-    <!-- <string name="hint_ingredient">Ajouter un ingrédient…</string> -->
-
-    <!-- <string name="hint_quantity">Quantité</string> -->
-
-    <!-- <string name="section_ingredients">Ingrédients</string> -->
-
-    <!-- <string name="section_steps">Étapes</string> -->
-
-    <!-- <string name="hint_search_recipe">Rechercher une recette…</string> -->
-
-    <!-- <string name="search_hint">Rechercher…</string> -->
-
-    <!-- <string name="find_ideas">Trouver des idées</string> -->
-
-
-  <!-- Accueil -->
-    <!-- <string name="home_saved_recipes">%1$d recettes sauvegardées</string> -->
-
-    <!-- <string name="home_btn_pantry">Mes ingrédients</string> -->
-
-    <!-- <string name="home_btn_discover">Découvrir des recettes</string> -->
-
-
-  <!-- Actions principales -->
-    <!-- <string name="action_choose_ingredients">Choisir les ingrédients</string> -->
-
-
-  <!-- États/infos -->
-    <!-- <string name="empty_pantry">Aucun ingrédient pour le moment</string> -->
-
-    <!-- <string name="empty_recipes">Aucune recette trouvée</string> -->
-
-    <!-- <string name="error_loading_Ingredients">Erreur chargement ingrédients</string> -->
-
-
-  <!-- Détails / cuisine guidée -->
-    <!-- <string name="step_previous">Précédent</string> -->
-
-    <!-- <string name="step_progress">Étape %1$d/%2$d</string> -->
-
-    <!-- <string name="swipe_hint">Balayez pour changer d’étape</string> -->
-
-
-  <!-- Filtres et tags -->
-    <!-- <string name="filter_veg">Végétarien</string> -->
-
-    <!-- <string name="filter_time_medium">20–40 min</string> -->
-
-    <!-- <string name="filter_budget_1">Budget €</string> -->
-
-    <!-- <string name="filter_budget_2">Budget €€</string> -->
-
-    <!-- <string name="filter_budget_3">Budget €€€</string> -->
-
-    <!-- <string name="all_no_sesame">Sans sésame</string> -->
-
-    <!-- <string name="all_no_tree_nuts">Sans fruits à coque</string> -->
-
-    <!-- <string name="all_no_shellfish">Sans crustacé</string> -->
-
-    <!-- <string name="all_no_egg">Sans œuf</string> -->
-
-
-  <!-- Ustensiles -->
-    <!-- <string name="ust_poele">Poêle</string> -->
-
-    <!-- <string name="cui_med">Méditerranéen</string> -->
-
-    <!-- <string name="cui_fr">Français</string> -->
-
-    <!-- <string name="cui_magh">Maghrébin</string> -->
-
-
-  <!-- Onglets / Navigation -->
-    <!-- <string name="tab_pantry">Ingrédients</string> -->
-
-    <!-- <string name="title_recipe_detail">Détails recette</string> -->
-
-
-  <!-- Écrans / Formulaires -->
-    <!-- <string name="hint_ingredient">Ajouter un ingrédient…</string> -->
-
-    <!-- <string name="hint_quantity">Quantité</string> -->
-
-    <!-- <string name="section_ingredients">Ingrédients</string> -->
-
-    <!-- <string name="section_steps">Étapes</string> -->
-
-    <!-- <string name="hint_search_recipe">Rechercher une recette…</string> -->
-
-    <!-- <string name="search_hint">Rechercher…</string> -->
-
-    <!-- <string name="find_ideas">Trouver des idées</string> -->
-
-
-  <!-- Accueil -->
-    <!-- <string name="home_saved_recipes">%1$d recettes sauvegardées</string> -->
-
-    <!-- <string name="home_btn_pantry">Mes ingrédients</string> -->
-
-    <!-- <string name="home_btn_discover">Découvrir des recettes</string> -->
-
-
-  <!-- Actions principales -->
-    <!-- <string name="action_choose_ingredients">Choisir les ingrédients</string> -->
-
-
-  <!-- États/infos -->
-    <!-- <string name="empty_pantry">Aucun ingrédient pour le moment</string> -->
-
-    <!-- <string name="empty_recipes">Aucune recette trouvée</string> -->
-
-    <!-- <string name="error_loading_Ingredients">Erreur chargement ingrédients</string> -->
-
-
-  <!-- Détails / cuisine guidée -->
-    <!-- <string name="step_previous">Précédent</string> -->
-
-    <!-- <string name="step_progress">Étape %1$d/%2$d</string> -->
-
-    <!-- <string name="swipe_hint">Balayez pour changer d’étape</string> -->
-
-
-  <!-- Filtres et tags -->
-    <!-- <string name="filter_veg">Végétarien</string> -->
-
-    <!-- <string name="filter_time_medium">20–40 min</string> -->
-
-    <!-- <string name="filter_budget_1">Budget €</string> -->
-
-    <!-- <string name="filter_budget_2">Budget €€</string> -->
-
-    <!-- <string name="filter_budget_3">Budget €€€</string> -->
-
-    <!-- <string name="all_no_sesame">Sans sésame</string> -->
-
-    <!-- <string name="all_no_tree_nuts">Sans fruits à coque</string> -->
-
-    <!-- <string name="all_no_shellfish">Sans crustacé</string> -->
-
-    <!-- <string name="all_no_egg">Sans œuf</string> -->
-
-
-  <!-- Ustensiles -->
-    <!-- <string name="ust_poele">Poêle</string> -->
-
-    <!-- <string name="cui_med">Méditerranéen</string> -->
-
-    <!-- <string name="cui_fr">Français</string> -->
-
-    <!-- <string name="cui_magh">Maghrébin</string> -->
 </resources>
-
-
-

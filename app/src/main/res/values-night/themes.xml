@@ -1,7 +1,52 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.CookNReste" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Ancien thème conservé si besoin -->
+    <style name="Theme.RepasDelaFlemme" parent="Theme.Material3.DayNight.NoActionBar" />
+
+    <!-- Thème principal -->
+    <style name="Theme.AppCuisineReste" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Couleurs de la marque -->
+        <item name="colorPrimary">@color/cr_primary</item>
+        <item name="colorOnPrimary">@color/cr_on_primary</item>
+        <item name="colorPrimaryContainer">@color/cr_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/cr_on_primary_container</item>
+        <item name="colorSecondary">@color/cr_secondary</item>
+        <item name="colorSurface">@color/cr_surface</item>
+        <item name="colorOnSurface">@color/cr_on_surface</item>
+        <item name="colorSurfaceVariant">@color/cr_surface_variant</item>
+
+        <!-- Formes arrondies -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.CooknRest.Rounded.Small</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.CooknRest.Rounded.Medium</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.CooknRest.Rounded.Large</item>
+
+        <!-- Barres système -->
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
     </style>
+
+    <!-- Thème pour l'écran de démarrage (Splash) -->
+    <style name="Theme.AppCuisineReste.Starting" parent="Theme.AppCuisineReste">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowDisablePreview">false</item>
+    </style>
+
+    <!-- Définitions des formes -->
+    <style name="ShapeAppearance.CooknRest.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="ShapeAppearance.CooknRest.Rounded.Small" parent="@style/ShapeAppearance.CooknRest.Rounded">
+        <item name="cornerSize">10dp</item>
+    </style>
+
+    <style name="ShapeAppearance.CooknRest.Rounded.Medium" parent="@style/ShapeAppearance.CooknRest.Rounded">
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="ShapeAppearance.CooknRest.Rounded.Large" parent="@style/ShapeAppearance.CooknRest.Rounded">
+        <item name="cornerSize">28dp</item>
+    </style>
+
 </resources>

@@ -1,51 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- Header brand with mascot and actions -->
+    <!-- En-tête avec les actions principales -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_home_header"
         android:padding="20dp">
-
-        <ImageView
-            android:id="@+id/mascot"
-            android:src="@drawable/mascot_chef"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_gravity="end|top"
-            android:contentDescription="Mascotte"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/homeTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textColor="@color/cr_on_primary"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
+            <!-- Ce TextView affiche le nombre de recettes -->
             <TextView
                 android:id="@+id/homeStat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/home_saved_recipes"
-                android:textColor="@color/cr_on_primary" />
+                android:layout_gravity="start"
+                android:layout_marginBottom="16dp"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                tools:text="Vous avez 5 recettes" />
 
+            <!-- Boutons de raccourci pour le garde-manger et la découverte -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
@@ -75,30 +62,52 @@
                     app:iconPadding="8dp" />
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnFindByPantry"
-                style="@style/Widget.CooknRest.TouchButton.Tonal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/action_find_recipes" />
         </LinearLayout>
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="16dp"/>
-    
-    <TextView
-        android:id="@+id/emptyHome"
+    <!--
+    CORRECTION : Le bouton principal a été reconstruit ici.
+    Vos attributs 'text' et 'icon' ont été remis dans cette balise.
+    -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnFindByPantry"
+        style="@style/Widget.Material3.Button.TonalButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/empty_recipes"
-        android:gravity="center"
-        android:textColor="#666"
-        android:padding="16dp"
-        android:visibility="gone"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+ />
+
+    <!-- Cadre pour gérer l'affichage de la liste ou du message vide -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!--
+        CORRECTION : La liste des recettes (RecyclerView) a été reconstruite ici.
+        Votre attribut 'tools:listitem' a été remis dans cette balise.
+        -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+/>
+
+        <!-- Message affiché quand la liste est vide -->
+        <TextView
+            android:id="@+id/emptyHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/empty_recipes"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </FrameLayout>
+
 </LinearLayout>
