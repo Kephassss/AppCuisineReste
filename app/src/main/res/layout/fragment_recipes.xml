@@ -45,10 +45,149 @@
             android:checkable="true"/>
     </com.google.android.material.chip.ChipGroup>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recipesList"
+    <!-- Advanced filters: halal, budget, time, utensils, cuisines, allergens -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipsHalal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:singleLine="true"
+        app:singleSelection="false">
+        <com.google.android.material.chip.Chip
+            android:id="@+id/checkHalal"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="@string/filter_halal"
+            android:checkable="true"/>
+      </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipsBudget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:singleLine="true"
+        app:singleSelection="false">
+        <com.google.android.material.chip.Chip
+            android:id="@+id/checkBudget1"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="@string/filter_budget_1"
+            android:checkable="true"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/checkBudget2"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="@string/filter_budget_2"
+            android:checkable="true"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/checkBudget3"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="@string/filter_budget_3"
+            android:checkable="true"/>
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipsTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:singleLine="true"
+        app:singleSelection="false">
+        <com.google.android.material.chip.Chip
+            android:id="@+id/checkTimeQuick"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="@string/filter_time_quick"
+            android:checkable="true"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/checkTimeMedium"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="@string/filter_time_medium"
+            android:checkable="true"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/checkTimeLong"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="@string/filter_time_long"
+            android:checkable="true"/>
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipsUtensils"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:singleLine="false"
+        app:singleSelection="false">
+        <com.google.android.material.chip.Chip android:id="@+id/checkUstPoele" style="@style/Widget.Material3.Chip.Filter" android:text="@string/ust_poele" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkUstCasserole" style="@style/Widget.Material3.Chip.Filter" android:text="@string/ust_casserole" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkUstFour" style="@style/Widget.Material3.Chip.Filter" android:text="@string/ust_four" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkUstWok" style="@style/Widget.Material3.Chip.Filter" android:text="@string/ust_wok" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkUstCocotte" style="@style/Widget.Material3.Chip.Filter" android:text="@string/ust_cocotte" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkUstMixeur" style="@style/Widget.Material3.Chip.Filter" android:text="@string/ust_mixeur" android:checkable="true"/>
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipsCuisine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:singleLine="false"
+        app:singleSelection="false">
+        <com.google.android.material.chip.Chip android:id="@+id/checkCuisineFrancais" style="@style/Widget.Material3.Chip.Filter" android:text="@string/cui_fr" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkCuisineItalien" style="@style/Widget.Material3.Chip.Filter" android:text="@string/cui_it" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkCuisineAsiatique" style="@style/Widget.Material3.Chip.Filter" android:text="@string/cui_as" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkCuisineIndien" style="@style/Widget.Material3.Chip.Filter" android:text="@string/cui_in" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkCuisineMaghreb" style="@style/Widget.Material3.Chip.Filter" android:text="@string/cui_magh" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkCuisineMexicain" style="@style/Widget.Material3.Chip.Filter" android:text="@string/cui_mex" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkCuisineUS" style="@style/Widget.Material3.Chip.Filter" android:text="@string/cui_us" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkCuisineMed" style="@style/Widget.Material3.Chip.Filter" android:text="@string/cui_med" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkCuisineAutres" style="@style/Widget.Material3.Chip.Filter" android:text="@string/cui_other" android:checkable="true"/>
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipsAllergens"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:singleLine="false"
+        app:singleSelection="false">
+        <com.google.android.material.chip.Chip android:id="@+id/checkNoGluten" style="@style/Widget.Material3.Chip.Filter" android:text="@string/all_no_gluten" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkNoLactose" style="@style/Widget.Material3.Chip.Filter" android:text="@string/all_no_lactose" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkNoOeuf" style="@style/Widget.Material3.Chip.Filter" android:text="@string/all_no_egg" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkNoArachide" style="@style/Widget.Material3.Chip.Filter" android:text="@string/all_no_peanut" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkNoFruitsCoque" style="@style/Widget.Material3.Chip.Filter" android:text="@string/all_no_tree_nuts" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkNoCrustace" style="@style/Widget.Material3.Chip.Filter" android:text="@string/all_no_shellfish" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkNoSoja" style="@style/Widget.Material3.Chip.Filter" android:text="@string/all_no_soy" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkNoSesame" style="@style/Widget.Material3.Chip.Filter" android:text="@string/all_no_sesame" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkNoAlcohol" style="@style/Widget.Material3.Chip.Filter" android:text="@string/all_no_alcohol" android:checkable="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/checkNoPork" style="@style/Widget.Material3.Chip.Filter" android:text="@string/all_no_pork" android:checkable="true"/>
+    </com.google.android.material.chip.ChipGroup>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recipesList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:id="@+id/emptyView"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+            <ImageView
+                android:src="@drawable/ic_swipe"
+                android:alpha="0.6"
+                android:layout_width="64dp"
+                android:layout_height="64dp"/>
+            <TextView
+                android:layout_marginTop="8dp"
+                android:text="@string/empty_recipes"
+                android:textColor="#666"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

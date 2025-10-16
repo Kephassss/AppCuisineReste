@@ -13,6 +13,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.repasdelaflemme.app.R;
+import com.repasdelaflemme.app.ui.common.AnimUtils;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
             // Floating Action Button: primary action per screen
             FloatingActionButton fab = findViewById(R.id.fab_main);
+            // Subtle press animation on FAB
+            AnimUtils.attachPressAnimator(fab);
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 int id = destination.getId();
                 if (id == R.id.homeFragment) {
@@ -77,12 +80,16 @@ public class MainActivity extends AppCompatActivity {
                     fab.setOnClickListener(v -> navController.navigate(R.id.pantryFragment));
                 } else if (id == R.id.pantryFragment) {
                     fab.show();
-                    fab.setImageResource(R.drawable.ic_recipe);
+                    // Icon fitted to "voir recettes avec mes ingrédients"
+                    fab.setImageResource(R.drawable.ic_bowl);
                     fab.setContentDescription(getString(R.string.action_find_recipes));
                     fab.setOnClickListener(v -> {
+                        v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
                         Bundle args = new Bundle();
                         args.putBoolean("focusPantry", true);
                         navController.navigate(R.id.recipesFragment, args);
+                        // Small bounce on click
+                        AnimUtils.bounceKeyframes(fab, 4f, 500, false);
                     });
                 } else {
                     fab.hide();

@@ -1,0 +1,163 @@
+[
+  {
+    "id": "pates_tomate_fromage",
+    "title": "Pâtes tomate fromage",
+    "minutes": 20,
+    "servings": 2,
+    "vegetarian": true,
+    "image": "res:logo_app",
+    "tags": ["rapide","pas_cher"],
+    "ingredients": [
+      {"id":"pate","qty":200,"unit":"g"},
+      {"id":"tomate","qty":2,"unit":"pcs"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"ail","qty":2,"unit":"g"},
+      {"id":"huile","qty":1,"unit":"tbsp"},
+      {"id":"sel","qty":1,"unit":"tsp"},
+      {"id":"poivre","qty":0.5,"unit":"tsp"},
+      {"id":"fromage","qty":50,"unit":"g"}
+    ],
+    "steps": [
+      "Porter à ébullition 2 L d'eau salée (10 g/L).",
+      "Cuire 200 g de pâtes al dente (8–10 min).",
+      "Émincer 1 oignon, 2 gousses d'ail; couper 2 tomates en dés.",
+      "Poêle: 1 c. à s. d'huile, suer l'oignon 3 min, l'ail 30 s.",
+      "Ajouter tomates, sel, poivre; compoter 6–8 min.",
+      "Égoutter les pâtes (garder 2 c. à s. d'eau); mélanger 1 min.",
+      "Hors du feu, incorporer 50 g de fromage râpé; rectifier."
+    ]
+  },
+  {
+    "id": "omelette_fromage_oignon",
+    "title": "Omelette fromage & oignon",
+    "minutes": 15,
+    "servings": 2,
+    "vegetarian": true,
+    "image": "res:logo_app",
+    "tags": ["rapide"],
+    "ingredients": [
+      {"id":"oeuf","qty":4,"unit":"pcs"},
+      {"id":"fromage","qty":60,"unit":"g"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"beurre","qty":10,"unit":"g"},
+      {"id":"sel","qty":0.5,"unit":"tsp"},
+      {"id":"poivre","qty":0.5,"unit":"tsp"}
+    ],
+    "steps": [
+      "Émincer finement 1 oignon; râper 60 g de fromage.",
+      "Battre 4 œufs 15–20 s avec sel et poivre.",
+      "Poêle 24 cm: fondre 10 g de beurre, suer l'oignon 4–5 min.",
+      "Verser les œufs; rabattre bords 30–45 s.",
+      "Parsemer le fromage; plier en deux.",
+      "Cuire 30–60 s selon cuisson; servir."
+    ]
+  },
+  {
+    "id": "riz_cantonais",
+    "title": "Riz cantonais simplifié",
+    "minutes": 25,
+    "servings": 3,
+    "vegetarian": false,
+    "image": "res:logo_app",
+    "tags": ["rapide","familial"],
+    "ingredients": [
+      {"id":"riz","qty":200,"unit":"g"},
+      {"id":"oeuf","qty":2,"unit":"pcs"},
+      {"id":"petit_pois","qty":80,"unit":"g"},
+      {"id":"jambon","qty":100,"unit":"g"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"sauce_soja","qty":2,"unit":"tbsp"},
+      {"id":"huile","qty":1,"unit":"tbsp"}
+    ],
+    "steps": [
+      "Cuire 200 g de riz (200 g/300 ml eau, 12 min doux + 10 min repos).",
+      "Faire une fine omelette; détailler en lanières.",
+      "Émincer 1 oignon; couper jambon en dés; décongeler petits pois.",
+      "Wok vif: huile, oignon 1 min; ajouter jambon + pois 2 min.",
+      "Ajouter riz; sauter 3–4 min en séparant les grains.",
+      "Assaisonner 2 c. à s. sauce soja; ajouter omelette; mélanger."
+    ]
+  },
+  {
+    "id": "curry_poulet_coco",
+    "title": "Curry de poulet au lait de coco",
+    "minutes": 30,
+    "servings": 4,
+    "vegetarian": false,
+    "image": "res:logo_app",
+    "tags": ["épices","crémeux"],
+    "ingredients": [
+      {"id":"poulet","qty":500,"unit":"g"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"ail","qty":3,"unit":"g"},
+      {"id":"curry","qty":2,"unit":"tsp"},
+      {"id":"tomate","qty":2,"unit":"pcs"},
+      {"id":"lait_coco","qty":400,"unit":"ml"},
+      {"id":"huile","qty":1,"unit":"tbsp"},
+      {"id":"sel","qty":1,"unit":"tsp"}
+    ],
+    "steps": [
+      "Cuber 500 g de poulet (2–3 cm); saler légèrement.",
+      "Émincer oignon/ail; couper tomates en dés.",
+      "Poêle moyen-vif: saisir poulet 3–4 min; réserver.",
+      "Suer oignon 3 min; ail 30 s; torréfier curry 30 s.",
+      "Ajouter tomates 3–4 min; verser 400 ml lait coco.",
+      "Frémir; remettre poulet; mijoter doux 12–15 min; rectifier."
+    ]
+  },
+  {
+    "id": "salade_grecque",
+    "title": "Salade grecque",
+    "minutes": 12,
+    "servings": 2,
+    "vegetarian": true,
+    "image": "res:logo_app",
+    "tags": ["frais","été"],
+    "ingredients": [
+      {"id":"concombre","qty":1,"unit":"pcs"},
+      {"id":"tomate","qty":3,"unit":"pcs"},
+      {"id":"oignon","qty":0.5,"unit":"pcs"},
+      {"id":"feta","qty":120,"unit":"g"},
+      {"id":"huile","qty":2,"unit":"tbsp"},
+      {"id":"citron","qty":0.5,"unit":"pcs"},
+      {"id":"origan","qty":1,"unit":"tsp"},
+      {"id":"sel","qty":0.5,"unit":"tsp"}
+    ],
+    "steps": [
+      "Concombre en demi-lunes 1 cm; tomates en quartiers; oignon émincé fin.",
+      "Feta en cubes 1,5 cm.",
+      "Sauce: 2 c. à s. huile d'olive, jus 1/2 citron, 1 c. à c. origan, 1/2 c. à c. sel, poivre.",
+      "Mélanger délicatement; goûter et ajuster; servir frais."
+    ]
+  },
+  {
+    "id": "ratatouille_maison",
+    "title": "Ratatouille maison",
+    "minutes": 45,
+    "servings": 4,
+    "vegetarian": true,
+    "image": "res:logo_app",
+    "tags": ["classique","légumes"],
+    "ingredients": [
+      {"id":"aubergine","qty":1,"unit":"pcs"},
+      {"id":"courgette","qty":2,"unit":"pcs"},
+      {"id":"poivron","qty":1,"unit":"pcs"},
+      {"id":"tomate","qty":4,"unit":"pcs"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"ail","qty":3,"unit":"g"},
+      {"id":"herbes_de_provence","qty":1,"unit":"tsp"},
+      {"id":"huile","qty":2,"unit":"tbsp"},
+      {"id":"sel","qty":1,"unit":"tsp"},
+      {"id":"poivre","qty":0.5,"unit":"tsp"}
+    ],
+    "steps": [
+      "Cuber légumes 2 cm; émincer oignon; hacher ail; tomates en dés.",
+      "Saisir séparément chaque légume 4–5 min (feu moyen-vif); réserver.",
+      "Suer oignon 3 min; ajouter ail 30 s.",
+      "Tout remettre + tomates + herbes + sel/poivre.",
+      "Couvrir et mijoter doux 20–25 min; découvrir 5 min si besoin.",
+      "Rectifier l'assaisonnement; servir."
+    ]
+  }
+]
+

@@ -1,78 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout android:orientation="vertical"
-        android:layout_width="match_parent" android:layout_height="wrap_content">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <!-- Photo du plat -->
-        <ImageView
-            android:id="@+id/imgPhoto"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_recipe"
-            android:tintMode="src_in"
-            android:tint="@color/cr_primary_container"
-            android:background="@color/cr_surface_variant"
-            android:contentDescription="Photo recette"/>
+            android:layout_height="wrap_content">
 
-        <!-- Titre + métadonnées + action -->
-        <LinearLayout
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:orientation="vertical">
-            <TextView android:id="@+id/txtTitle" android:textStyle="bold" android:textSize="22sp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/txtTimeServings"
-                android:textColor="#666"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipsMeta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                app:singleLine="true"
-                app:singleSelection="false"/>
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnStartRecipe"
-                style="@style/Widget.CooknRest.TouchButton"
-                android:text="@string/btn_start_recipe"
-                app:icon="@drawable/ic_book"
-                app:iconPadding="8dp"
-                app:iconGravity="textStart"
-                android:layout_marginTop="8dp"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-        </LinearLayout>
+            <!-- Photo du plat -->
+            <ImageView
+                android:id="@+id/imgPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_recipe"
+                android:tintMode="src_in"
+                android:tint="@color/cr_primary_container"
+                android:background="@color/cr_surface_variant"
+                android:contentDescription="Photo recette"/>
 
-        <LinearLayout
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:orientation="vertical">
-
-            <TextView android:text="@string/section_ingredients" android:textStyle="bold"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-
-            <TextView android:id="@+id/txtIngredients"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAddMissingToShopping"
-                style="@style/Widget.CooknRest.TouchButton.Tonal"
-                android:text="@string/btn_add_missing"
-                android:layout_marginTop="8dp"
-                android:layout_width="wrap_content" android:layout_height="wrap_content" />
-
-            <TextView android:text="@string/section_steps" android:textStyle="bold"
-                android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingTop="8dp"/>
-
+            <!-- Titre + métadonnées + action -->
             <LinearLayout
-                android:id="@+id/stepsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="6dp"/>
+                android:padding="16dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/txtTitle"
+                    android:textStyle="bold"
+                    android:textSize="22sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/txtTimeServings"
+                    android:textColor="#666"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipsMeta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    app:singleLine="true"
+                    app:singleSelection="false"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnStartRecipe"
+                    style="@style/Widget.CooknRest.TouchButton"
+                    android:text="@string/btn_start_recipe"
+                    app:icon="@drawable/ic_book"
+                    app:iconPadding="8dp"
+                    app:iconGravity="textStart"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:text="@string/section_ingredients"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/txtIngredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddMissingToShopping"
+                    style="@style/Widget.CooknRest.TouchButton.Tonal"
+                    android:text="@string/btn_add_missing"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="@string/section_steps"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"/>
+
+                <LinearLayout
+                    android:id="@+id/stepsContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="6dp"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
+        <!-- Skeleton overlay -->
+        <LinearLayout
+            android:id="@+id/detailSkeleton"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="24dp"
+            android:background="@android:color/transparent">
+            <View android:layout_width="match_parent" android:layout_height="220dp" android:background="@drawable/skeleton_block"/>
+            <LinearLayout android:orientation="vertical" android:padding="16dp"
+                android:layout_width="match_parent" android:layout_height="wrap_content">
+                <View android:layout_width="match_parent" android:layout_height="22dp" android:background="@drawable/skeleton_block"/>
+                <View android:layout_width="220dp" android:layout_height="14dp" android:layout_marginTop="8dp" android:background="@drawable/skeleton_block"/>
+                <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                    <View android:layout_width="72dp" android:layout_height="28dp" android:layout_marginRight="8dp" android:background="@drawable/skeleton_block"/>
+                    <View android:layout_width="48dp" android:layout_height="28dp" android:layout_marginRight="8dp" android:background="@drawable/skeleton_block"/>
+                    <View android:layout_width="64dp" android:layout_height="28dp" android:background="@drawable/skeleton_block"/>
+                </LinearLayout>
+                <View android:layout_width="140dp" android:layout_height="36dp" android:layout_marginTop="10dp" android:background="@drawable/skeleton_block"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:padding="16dp"
+                android:layout_width="match_parent" android:layout_height="wrap_content">
+                <View android:layout_width="200dp" android:layout_height="18dp" android:background="@drawable/skeleton_block"/>
+                <View android:layout_width="match_parent" android:layout_height="12dp" android:layout_marginTop="8dp" android:background="@drawable/skeleton_block"/>
+                <View android:layout_width="match_parent" android:layout_height="12dp" android:layout_marginTop="6dp" android:background="@drawable/skeleton_block"/>
+                <View android:layout_width="220dp" android:layout_height="12dp" android:layout_marginTop="6dp" android:background="@drawable/skeleton_block"/>
+                <View android:layout_width="120dp" android:layout_height="36dp" android:layout_marginTop="10dp" android:background="@drawable/skeleton_block"/>
+                <View android:layout_width="100dp" android:layout_height="18dp" android:layout_marginTop="14dp" android:background="@drawable/skeleton_block"/>
+                <View android:layout_width="match_parent" android:layout_height="12dp" android:layout_marginTop="8dp" android:background="@drawable/skeleton_block"/>
+                <View android:layout_width="match_parent" android:layout_height="12dp" android:layout_marginTop="6dp" android:background="@drawable/skeleton_block"/>
+                <View android:layout_width="240dp" android:layout_height="12dp" android:layout_marginTop="6dp" android:background="@drawable/skeleton_block"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+
 </ScrollView>

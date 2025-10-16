@@ -105,6 +105,40 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
                 chip4.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.white));
                 holder.chips.addView(chip4);
             }
+            if (item.halal != null && item.halal) {
+                Chip c = new Chip(holder.itemView.getContext());
+                c.setText(holder.itemView.getContext().getString(R.string.filter_halal));
+                c.setClickable(false);
+                c.setChipBackgroundColorResource(R.color.cr_secondary);
+                c.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.white));
+                holder.chips.addView(c);
+            }
+            if (item.budget != null && item.budget > 0) {
+                String label = item.budget == 1 ? "€" : (item.budget == 2 ? "€€" : "€€€");
+                Chip c = new Chip(holder.itemView.getContext());
+                c.setText(label);
+                c.setClickable(false);
+                c.setChipBackgroundColorResource(R.color.cr_surface_variant);
+                holder.chips.addView(c);
+            }
+            if (item.cuisine != null && !item.cuisine.isEmpty()) {
+                Chip c = new Chip(holder.itemView.getContext());
+                c.setText(capFirst(item.cuisine));
+                c.setClickable(false);
+                c.setChipBackgroundColorResource(R.color.cr_surface_variant);
+                holder.chips.addView(c);
+            }
+            if (item.utensils != null && !item.utensils.isEmpty()) {
+                int count = Math.min(2, item.utensils.size());
+                for (int i = 0; i < count; i++) {
+                    String u = item.utensils.get(i);
+                    Chip c = new Chip(holder.itemView.getContext());
+                    c.setText(mapUstensilLabel(u));
+                    c.setClickable(false);
+                    c.setChipBackgroundColorResource(R.color.cr_surface_variant);
+                    holder.chips.addView(c);
+                }
+            }
         }
 
         holder.itemView.setOnClickListener(v -> {
@@ -132,6 +166,24 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
             tagTime = itemView.findViewById(R.id.tagTime);
             chips = itemView.findViewById(R.id.chips);
             cover = itemView.findViewById(R.id.cover);
+        }
+    }
+
+    private static String capFirst(String s) {
+        if (s == null || s.isEmpty()) return "";
+        return s.substring(0,1).toUpperCase() + s.substring(1);
+    }
+
+    private static String mapUstensilLabel(String u) {
+        if (u == null) return "";
+        switch (u.toLowerCase()) {
+            case "poele": return "Poêle";
+            case "casserole": return "Casserole";
+            case "four": return "Four";
+            case "wok": return "Wok";
+            case "cocotte": return "Cocotte";
+            case "mixeur": return "Mixeur";
+            default: return capFirst(u);
         }
     }
 }

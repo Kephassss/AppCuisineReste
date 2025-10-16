@@ -2,4 +2,5 @@
 <resources>
     <item name="tag_animated" type="id"/>
     <item name="tag_animated_x" type="id"/>
+    <item name="tag_fab_pulse" type="id"/>
 </resources>

@@ -35,13 +35,14 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = view.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        // Show skeleton while preparing data
+        recyclerView.setAdapter(new SkeletonAdapter(6));
         adapter = new RecipeAdapter(item -> {
             NavController nav = NavHostFragment.findNavController(this);
             Bundle args = new Bundle();
             args.putString("recipeId", item.id);
             nav.navigate(R.id.recipeDetailFragment, args);
         });
-        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_slide_up));
         return view;
     }
@@ -50,7 +51,10 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         List<RecipeCard> cards = toCards(loadRecipes(requireContext()));
+        recyclerView.setAdapter(adapter);
         adapter.submit(cards);
+        View empty = view.findViewById(R.id.emptyHome);
+        if (empty != null) empty.setVisibility(cards == null || cards.isEmpty() ? View.VISIBLE : View.GONE);
 
         // Update header stat with number of saved recipes (placeholder using items size)
         TextView stat = view.findViewById(R.id.homeStat);
@@ -114,6 +118,13 @@ public class HomeFragment extends Fragment {
             RecipeCard card = new RecipeCard(r.id, r.title, r.minutes, total == 0 ? null : (haveCount * 100 / Math.max(1, total)))
                     .withMissing(missing)
                     .withVegetarian(r.vegetarian != null && r.vegetarian)
+                    .withHalal(r.halal)
+                    .withBudget(r.budget)
+                    .withUtensils(r.utensils)
+                    .withCuisine(r.cuisine)
+                    .withAllergens(r.allergens)
+                    .withContainsAlcohol(r.containsAlcohol)
+                    .withContainsPork(r.containsPork)
                     .withImage(resId)
                     .withImageUrl(imageUrl);
             out.add(card);

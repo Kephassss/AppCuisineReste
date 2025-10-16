@@ -91,4 +91,14 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="16dp"/>
+    
+    <TextView
+        android:id="@+id/emptyHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_recipes"
+        android:gravity="center"
+        android:textColor="#666"
+        android:padding="16dp"
+        android:visibility="gone"/>
 </LinearLayout>

@@ -23,10 +23,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.repasdelaflemme.app.ui.home.SkeletonAdapter;
+
 public class PantryFragment extends Fragment {
 
     private PrefPantryStore store;
-    private Map<String, Ingredient> ingredientIndex = new HashMap<>();
+    private final Map<String, Ingredient> ingredientIndex = new HashMap<>();
     private PantryCatalogAdapter catalogAdapter;
     private RecyclerView list;
     private TextView emptyView;
@@ -55,7 +57,10 @@ public class PantryFragment extends Fragment {
             if (selected) store.add(ing.id); else store.remove(ing.id);
             updateAfterChange();
         });
-        list.setAdapter(catalogAdapter);
+
+        // Show skeleton while we prepare the catalog
+        list.setAdapter(new SkeletonAdapter(10, R.layout.item_pantry_skeleton));
+        list.postDelayed(() -> list.setAdapter(catalogAdapter), 150);
         list.setLayoutAnimation(android.view.animation.AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_slide_up));
 
         // Suggestions
@@ -102,11 +107,8 @@ public class PantryFragment extends Fragment {
         }
     }
 
-
-
-
     private void updateAfterChange() {
-        // Mettre à jour les chips, la sélection du catalogue et l’état vide
+        // Mettre à jour les chips, la sélection du catalogue et l'état vide
         if (catalogAdapter != null) {
             catalogAdapter.setSelectedIds(store.getIngredientIds());
         }
@@ -114,5 +116,28 @@ public class PantryFragment extends Fragment {
         if (emptyView != null) {
             emptyView.setVisibility(store.getIngredientIds().isEmpty() ? View.VISIBLE : View.GONE);
         }
+
+        // Animate/pulse the FAB when selection present; stop when empty
+        try {
+            View fab = requireActivity().findViewById(R.id.fab_main);
+            boolean hasAny = store != null && !store.getIngredientIds().isEmpty();
+            if (fab != null) {
+                Object tag = fab.getTag(R.id.tag_fab_pulse);
+                if (hasAny) {
+                    if (!(tag instanceof android.animation.ObjectAnimator)) {
+                        fab.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+                        android.animation.ObjectAnimator a = com.repasdelaflemme.app.ui.common.AnimUtils.pulseLoop(fab, 0.96f, 1.04f, 900L);
+                        fab.setTag(R.id.tag_fab_pulse, a);
+                    }
+                } else {
+                    if (tag instanceof android.animation.ObjectAnimator) {
+                        try { ((android.animation.ObjectAnimator) tag).cancel(); } catch (Exception ignored2) {}
+                        fab.setTag(R.id.tag_fab_pulse, null);
+                        fab.setScaleX(1f); fab.setScaleY(1f);
+                    }
+                }
+            }
+        } catch (Exception ignored) { }
     }
 }
+

@@ -36,6 +36,8 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        View skeleton = view.findViewById(R.id.detailSkeleton);
+        if (skeleton != null) skeleton.setVisibility(View.VISIBLE);
         String recipeId = getArguments() != null ? getArguments().getString("recipeId") : null;
         if (recipeId == null) {
             Toast.makeText(getContext(), "ID recette manquant", Toast.LENGTH_SHORT).show();
@@ -138,6 +140,7 @@ public class RecipeDetailFragment extends Fragment {
                 Toast.makeText(getContext(), newMissing.isEmpty() ? "Tous les ingrédients sont disponibles" : "Ingrédients ajoutés", Toast.LENGTH_SHORT).show();
             });
         }
+        try { if (skeleton != null) skeleton.setVisibility(View.GONE); } catch (Exception ignored) {}
     }
 
     private List<String> renderIngredients(Recipe r, TextView ings, PrefPantryStore store) {

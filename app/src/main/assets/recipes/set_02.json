@@ -1,0 +1,119 @@
+[
+  {
+    "id": "spaghetti_carbonara_classique",
+    "title": "Spaghetti carbonara (classique)",
+    "minutes": 20,
+    "servings": 2,
+    "vegetarian": false,
+    "halal": false,
+    "budget": 2,
+    "utensils": ["casserole","poele"],
+    "cuisine": "italien",
+    "image": "res:logo_app",
+    "tags": ["pâtes","crémeux"],
+    "ingredients": [
+      {"id":"pate","qty":200,"unit":"g"},
+      {"id":"oeuf","qty":2,"unit":"pcs"},
+      {"id":"fromage","qty":60,"unit":"g"},
+      {"id":"lardon","qty":100,"unit":"g"},
+      {"id":"poivre","qty":0.5,"unit":"tsp"}
+    ],
+    "steps": [
+      "Porter à ébullition 2 L d'eau salée; cuire 200 g de spaghetti al dente.",
+      "Poêle: dorer 100 g de lardons 4–5 min; réserver; garder le gras.",
+      "Battre 2 œufs avec 60 g de fromage râpé et 1 pincée de poivre.",
+      "Égoutter les pâtes en gardant 3 c. à s. d'eau; mélanger avec gras + lardons.",
+      "Hors du feu, incorporer œufs/fromage; lier avec l'eau de cuisson; servir immédiatement."
+    ]
+  },
+  {
+    "id": "couscous_legumes_halal",
+    "title": "Couscous de légumes (halal)",
+    "minutes": 35,
+    "servings": 4,
+    "vegetarian": true,
+    "halal": true,
+    "budget": 1,
+    "utensils": ["casserole"],
+    "cuisine": "maghrébin",
+    "image": "res:logo_app",
+    "tags": ["légumes","léger","halal"],
+    "ingredients": [
+      {"id":"semoule","qty":300,"unit":"g"},
+      {"id":"carotte","qty":2,"unit":"pcs"},
+      {"id":"courgette","qty":2,"unit":"pcs"},
+      {"id":"pois_chiche","qty":200,"unit":"g"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"huile","qty":2,"unit":"tbsp"},
+      {"id":"cumin","qty":1,"unit":"tsp"},
+      {"id":"paprika","qty":1,"unit":"tsp"},
+      {"id":"sel","qty":1,"unit":"tsp"}
+    ],
+    "steps": [
+      "Émincer 1 oignon; couper carottes/courgettes en bâtonnets.",
+      "Casserole: 2 c. à s. d'huile, suer oignon 2 min; ajouter épices 30 s.",
+      "Ajouter 700 ml d'eau, pois chiches; porter à frémissement; ajouter légumes; cuire 12–15 min.",
+      "Hydrater 300 g de semoule selon paquet; égrainer.",
+      "Servir semoule + bouillon de légumes; rectifier sel/épices."
+    ]
+  },
+  {
+    "id": "pad_thai_poulet",
+    "title": "Pad Thaï au poulet",
+    "minutes": 30,
+    "servings": 2,
+    "vegetarian": false,
+    "halal": true,
+    "budget": 2,
+    "utensils": ["wok"],
+    "cuisine": "asiatique",
+    "image": "res:logo_app",
+    "tags": ["wok","street"],
+    "ingredients": [
+      {"id":"poulet","qty":250,"unit":"g"},
+      {"id":"pate","qty":160,"unit":"g"},
+      {"id":"oeuf","qty":1,"unit":"pcs"},
+      {"id":"oignon","qty":0.5,"unit":"pcs"},
+      {"id":"huile","qty":2,"unit":"tbsp"},
+      {"id":"sauce_soja","qty":2,"unit":"tbsp"},
+      {"id":"coriandre","qty":1,"unit":"tsp"}
+    ],
+    "steps": [
+      "Faire tremper 160 g de nouilles de riz 10–15 min dans l'eau tiède; égoutter.",
+      "Wok: 1 c. à s. d'huile, saisir poulet en lanières 4 min; réserver.",
+      "Ajouter un filet d'huile; œuf brouillé 30 s; ajouter oignon émincé 1 min.",
+      "Mettre nouilles + 2 c. à s. sauce soja; sauter 2–3 min; remettre poulet.",
+      "Parsemer coriandre; servir avec citron vert si dispo."
+    ]
+  },
+  {
+    "id": "ratatouille_four_provencale",
+    "title": "Ratatouille au four (provençale)",
+    "minutes": 55,
+    "servings": 4,
+    "vegetarian": true,
+    "halal": true,
+    "budget": 1,
+    "utensils": ["four"],
+    "cuisine": "français",
+    "image": "res:logo_app",
+    "tags": ["légumes","four"],
+    "ingredients": [
+      {"id":"aubergine","qty":1,"unit":"pcs"},
+      {"id":"courgette","qty":2,"unit":"pcs"},
+      {"id":"poivron","qty":1,"unit":"pcs"},
+      {"id":"tomate","qty":4,"unit":"pcs"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"huile","qty":3,"unit":"tbsp"},
+      {"id":"herbes_de_provence","qty":1,"unit":"tsp"},
+      {"id":"sel","qty":1,"unit":"tsp"}
+    ],
+    "steps": [
+      "Préchauffer le four à 190°C. Couper tous les légumes en tranches/cubes 1–2 cm.",
+      "Mélanger avec 3 c. à s. d'huile, herbes, sel; étaler en une couche dans un grand plat.",
+      "Cuire 40–45 min en mélangeant 2 fois; légumes fondants et légèrement rôtis.",
+      "Rectifier l'assaisonnement; reposer 5 min; servir."
+    ]
+  }
+]
+
