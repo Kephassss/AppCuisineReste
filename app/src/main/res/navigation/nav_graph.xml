@@ -6,7 +6,15 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.repasdelaflemme.app.ui.home.HomeFragment"
-        android:label="@string/app_name" />
+        android:label="@string/app_name">
+        <action
+            android:id="@+id/action_home_to_detail"
+            app:destination="@id/recipeDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
 
     <fragment
         android:id="@+id/pantryFragment"
@@ -17,18 +25,46 @@
         android:id="@+id/recipesFragment"
         android:name="com.repasdelaflemme.app.ui.recipes.RecipesFragment"
         android:label="@string/tab_recipes">
+        <argument
+            android:name="focusPantry"
+            app:argType="boolean"
+            android:defaultValue="false" />
         <action
             android:id="@+id/action_recipes_to_detail"
-            app:destination="@id/recipeDetailFragment"/>
+            app:destination="@id/recipeDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment
         android:id="@+id/recipeDetailFragment"
         android:name="com.repasdelaflemme.app.ui.detail.RecipeDetailFragment"
-        android:label="@string/title_recipe_detail" />
+        android:label="@string/title_recipe_detail">
+        <argument
+            android:name="recipeId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_detail_to_cooking"
+            app:destination="@id/cookingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/shoppingFragment"
         android:name="com.repasdelaflemme.app.ui.shopping.ShoppingFragment"
         android:label="@string/tab_shopping" />
+
+    <fragment
+        android:id="@+id/cookingFragment"
+        android:name="com.repasdelaflemme.app.ui.detail.CookingFragment"
+        android:label="@string/btn_start_recipe">
+        <argument
+            android:name="recipeId"
+            app:argType="string" />
+    </fragment>
 </navigation>

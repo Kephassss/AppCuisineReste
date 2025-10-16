@@ -6,39 +6,44 @@
     <LinearLayout android:orientation="vertical"
         android:layout_width="match_parent" android:layout_height="wrap_content">
 
-        <!-- Colored header -->
-        <LinearLayout
+        <!-- Photo du plat -->
+        <ImageView
+            android:id="@+id/imgPhoto"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:background="@drawable/bg_home_header"
-            android:padding="20dp"
-            android:orientation="horizontal">
+            android:layout_height="220dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_recipe"
+            android:tintMode="src_in"
+            android:tint="@color/cr_primary_container"
+            android:background="@color/cr_surface_variant"
+            android:contentDescription="Photo recette"/>
 
-            <ImageView
-                android:src="@drawable/mascot_chef"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:contentDescription="Mascotte"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_marginStart="12dp">
-                <TextView android:id="@+id/txtTitle" android:textStyle="bold" android:textSize="22sp"
-                    android:textColor="@color/cr_on_primary"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
-                <TextView android:id="@+id/txtTimeServings"
-                    android:textColor="@color/cr_on_primary"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnStartRecipe"
-                    style="@style/Widget.Material3.Button.Filled"
-                    android:text="@string/btn_start_recipe"
-                    android:layout_marginTop="8dp"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            </LinearLayout>
+        <!-- Titre + métadonnées + action -->
+        <LinearLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:orientation="vertical">
+            <TextView android:id="@+id/txtTitle" android:textStyle="bold" android:textSize="22sp"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/txtTimeServings"
+                android:textColor="#666"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipsMeta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                app:singleLine="true"
+                app:singleSelection="false"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStartRecipe"
+                style="@style/Widget.CooknRest.TouchButton"
+                android:text="@string/btn_start_recipe"
+                app:icon="@drawable/ic_book"
+                app:iconPadding="8dp"
+                app:iconGravity="textStart"
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
@@ -54,7 +59,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddMissingToShopping"
-                style="@style/Widget.Material3.Button.Tonal"
+                style="@style/Widget.CooknRest.TouchButton.Tonal"
                 android:text="@string/btn_add_missing"
                 android:layout_marginTop="8dp"
                 android:layout_width="wrap_content" android:layout_height="wrap_content" />
@@ -62,8 +67,12 @@
             <TextView android:text="@string/section_steps" android:textStyle="bold"
                 android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingTop="8dp"/>
 
-            <TextView android:id="@+id/txtSteps"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:id="@+id/stepsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="6dp"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

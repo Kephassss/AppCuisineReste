@@ -1,22 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:padding="16dp"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/inputSearch"
-        android:hint="@string/hint_search_recipe"
-        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputSearch"
+            android:hint="@string/hint_search_recipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent" android:layout_height="wrap_content">
-        <CheckBox android:id="@+id/checkVegetarian" android:text="@string/filter_veg"/>
-        <CheckBox android:id="@+id/checkQuick" android:text="@string/filter_quick"/>
-    </LinearLayout>
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipsFilters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:singleLine="true"
+        app:singleSelection="false">
+        <com.google.android.material.chip.Chip
+            android:id="@+id/checkVegetarian"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="@string/filter_veg"
+            android:checkable="true"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/checkQuick"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="@string/filter_quick"
+            android:checkable="true"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/checkFromPantryOnly"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="Avec mes ingrédients"
+            android:checkable="true"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/checkAllowOneMissing"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:text="Autoriser 1 manquant"
+            android:checkable="true"/>
+    </com.google.android.material.chip.ChipGroup>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recipesList"
-        android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"/>
+
 </LinearLayout>

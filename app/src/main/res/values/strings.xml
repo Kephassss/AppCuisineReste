@@ -30,4 +30,23 @@
     <string name="btn_start_recipe">Commencer la recette</string>
     <string name="minutes_short">%1$d min</string>
     <string name="servings_short">%1$d pers.</string>
+
+    <!-- Actions principales -->
+    <string name="action_choose_ingredients">Choisir les ingrédients</string>
+    <string name="action_find_recipes">Trouver des recettes</string>
+
+    <!-- États/infos -->
+    <string name="empty_pantry">Aucun ingrédient pour le moment</string>
+    <string name="empty_recipes">Aucune recette trouvée</string>
+    <string name="error_loading_recipes">Erreur chargement recettes</string>
+    <string name="error_loading_ingredients">Erreur chargement ingrédients</string>
+
+    <!-- Détails / cuisine guidée -->
+    <string name="step_previous">Précédent</string>
+    <string name="step_next">Suivant</string>
+    <string name="step_finish">Terminer</string>
+    <string name="step_progress">Étape %1$d/%2$d</string>
+    <string name="step_play">Lire</string>
+    <string name="step_pause">Pause</string>
+    <string name="swipe_hint">Balayez pour changer d’étape</string>
 </resources>

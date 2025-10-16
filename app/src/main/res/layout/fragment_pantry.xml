@@ -31,31 +31,29 @@
         android:orientation="vertical" android:padding="16dp"
         android:layout_width="match_parent" android:layout_height="wrap_content">
 
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipSelected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:singleLine="false"
+            app:singleSelection="false"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputIngredient"
-                android:hint="@string/hint_ingredient"
+                android:id="@+id/inputSearchIngredient"
+                android:hint="@string/search_hint"
                 android:layout_width="match_parent" android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent" android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputQuantity"
-                android:hint="@string/hint_quantity"
-                android:inputType="numberDecimal"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAdd"
-            style="@style/Widget.Material3.Button.Filled"
-            android:text="@string/btn_add"
-            android:layout_marginTop="8dp"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/emptyView"
+        android:text="@string/empty_pantry"
+        android:gravity="center"
+        android:padding="24dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pantryList"

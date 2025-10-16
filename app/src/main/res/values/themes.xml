@@ -22,9 +22,9 @@
         <item name="colorSurfaceVariant">@color/cr_surface_variant</item>
 
         <!-- Rounded shapes -->
-        <item name="shapeAppearanceSmallComponent">@style/Shape.Rounded.Small</item>
-        <item name="shapeAppearanceMediumComponent">@style/Shape.Rounded.Medium</item>
-        <item name="shapeAppearanceLargeComponent">@style/Shape.Rounded.Large</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.CooknRest.Rounded.Small</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.CooknRest.Rounded.Medium</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.CooknRest.Rounded.Large</item>
 
         <!-- System bars -->
         <item name="android:statusBarColor">?attr/colorPrimary</item>
@@ -38,16 +38,16 @@
     </style>
 
     <!-- Shapes -->
-    <style name="Shape.Rounded">
+    <style name="ShapeAppearance.CooknRest.Rounded" parent="">
         <item name="cornerFamily">rounded</item>
     </style>
-    <style name="Shape.Rounded.Small" parent="@style/Shape.Rounded">
+    <style name="ShapeAppearance.CooknRest.Rounded.Small" parent="@style/ShapeAppearance.CooknRest.Rounded">
         <item name="cornerSize">10dp</item>
     </style>
-    <style name="Shape.Rounded.Medium" parent="@style/Shape.Rounded">
+    <style name="ShapeAppearance.CooknRest.Rounded.Medium" parent="@style/ShapeAppearance.CooknRest.Rounded">
         <item name="cornerSize">16dp</item>
     </style>
-    <style name="Shape.Rounded.Large" parent="@style/Shape.Rounded">
+    <style name="ShapeAppearance.CooknRest.Rounded.Large" parent="@style/ShapeAppearance.CooknRest.Rounded">
         <item name="cornerSize">28dp</item>
     </style>
 

@@ -5,17 +5,22 @@
     "minutes": 20,
     "servings": 2,
     "vegetarian": true,
+    "image": "https://images.unsplash.com/photo-1521389508051-d7ffb5dc8bbf?q=80&w=800&auto=format&fit=crop",
     "tags": ["rapide","pas_cher"],
     "ingredients": [
       {"id":"pate","qty":200,"unit":"g"},
       {"id":"tomate","qty":2,"unit":"pcs"},
-      {"id":"fromage","qty":50,"unit":"g"},
-      {"id":"oignon","qty":1,"unit":"pcs"}
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"ail","qty":2,"unit":"g"},
+      {"id":"huile","qty":1,"unit":"tbsp"},
+      {"id":"sel","qty":1,"unit":"tsp"},
+      {"id":"poivre","qty":0.5,"unit":"tsp"},
+      {"id":"fromage","qty":50,"unit":"g"}
     ],
     "steps": [
-      "Cuire les pâtes.",
-      "Revenir l’oignon, ajouter la tomate.",
-      "Mélanger avec les pâtes, parsemer de fromage."
+      "Cuire les pâtes al dente.",
+      "Revenir l'oignon et l'ail dans l'huile, ajouter la tomate.",
+      "Mélanger avec les pâtes, assaisonner et parsemer de fromage."
     ]
   },
   {
@@ -24,15 +29,415 @@
     "minutes": 15,
     "servings": 2,
     "vegetarian": true,
+    "image": "https://images.unsplash.com/photo-1512058564366-c9e3f77a262f?q=80&w=800&auto=format&fit=crop",
     "tags": ["rapide"],
     "ingredients": [
       {"id":"oeuf","qty":4,"unit":"pcs"},
       {"id":"fromage","qty":60,"unit":"g"},
-      {"id":"oignon","qty":1,"unit":"pcs"}
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"beurre","qty":10,"unit":"g"},
+      {"id":"sel","qty":1,"unit":"tsp"},
+      {"id":"poivre","qty":0.5,"unit":"tsp"}
     ],
     "steps": [
-      "Battre les œufs.",
-      "Cuire avec oignon revenu, ajouter fromage."
+      "Battre les œufs avec sel et poivre.",
+      "Revenir l'oignon dans le beurre, verser les œufs, ajouter le fromage, plier et servir."
+    ]
+  },
+  {
+    "id": "riz_cantonais",
+    "title": "Riz cantonais simplifié",
+    "minutes": 25,
+    "servings": 3,
+    "vegetarian": false,
+    "image": "https://images.unsplash.com/photo-1604908177079-8f47b74b3b0a?q=80&w=800&auto=format&fit=crop",
+    "tags": ["rapide","familial"],
+    "ingredients": [
+      {"id":"riz","qty":200,"unit":"g"},
+      {"id":"oeuf","qty":2,"unit":"pcs"},
+      {"id":"petit_pois","qty":80,"unit":"g"},
+      {"id":"jambon","qty":100,"unit":"g"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"sauce_soja","qty":2,"unit":"tbsp"},
+      {"id":"huile","qty":1,"unit":"tbsp"}
+    ],
+    "steps": [
+      "Cuire le riz et laisser tiédir.",
+      "Faire l'omelette, la détailler en lanières.",
+      "Sauter oignon, petits pois, jambon, ajouter riz, sauce soja et omelette."
+    ]
+  },
+  {
+    "id": "curry_poulet_coco",
+    "title": "Curry de poulet au lait de coco",
+    "minutes": 30,
+    "servings": 4,
+    "vegetarian": false,
+    "image": "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop",
+    "tags": ["épices","crémeux"],
+    "ingredients": [
+      {"id":"poulet","qty":500,"unit":"g"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"ail","qty":3,"unit":"g"},
+      {"id":"curry","qty":2,"unit":"tsp"},
+      {"id":"tomate","qty":2,"unit":"pcs"},
+      {"id":"lait_coco","qty":400,"unit":"ml"},
+      {"id":"huile","qty":1,"unit":"tbsp"},
+      {"id":"sel","qty":1,"unit":"tsp"}
+    ],
+    "steps": [
+      "Saisir le poulet, réserver.",
+      "Revenir oignon/ail, ajouter curry et tomate.",
+      "Ajouter lait de coco et poulet, mijoter 15 min."
+    ]
+  },
+  {
+    "id": "salade_grecque",
+    "title": "Salade grecque",
+    "minutes": 12,
+    "servings": 2,
+    "vegetarian": true,
+    "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=800&auto=format&fit=crop",
+    "tags": ["frais","été"],
+    "ingredients": [
+      {"id":"concombre","qty":1,"unit":"pcs"},
+      {"id":"tomate","qty":3,"unit":"pcs"},
+      {"id":"oignon","qty":0.5,"unit":"pcs"},
+      {"id":"feta","qty":120,"unit":"g"},
+      {"id":"huile","qty":2,"unit":"tbsp"},
+      {"id":"citron","qty":0.5,"unit":"pcs"},
+      {"id":"origan","qty":1,"unit":"tsp"},
+      {"id":"sel","qty":0.5,"unit":"tsp"}
+    ],
+    "steps": [
+      "Couper légumes et feta.",
+      "Assaisonner avec huile, citron, origan, sel."
+    ]
+  },
+  {
+    "id": "ratatouille",
+    "title": "Ratatouille maison",
+    "minutes": 40,
+    "servings": 4,
+    "vegetarian": true,
+    "image": "https://images.unsplash.com/photo-1544025162-8e5f4f1d81c9?q=80&w=800&auto=format&fit=crop",
+    "tags": ["classique","légumes"],
+    "ingredients": [
+      {"id":"aubergine","qty":1,"unit":"pcs"},
+      {"id":"courgette","qty":2,"unit":"pcs"},
+      {"id":"poivron","qty":1,"unit":"pcs"},
+      {"id":"tomate","qty":4,"unit":"pcs"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"ail","qty":3,"unit":"g"},
+      {"id":"herbes_de_provence","qty":1,"unit":"tsp"},
+      {"id":"huile","qty":2,"unit":"tbsp"},
+      {"id":"sel","qty":1,"unit":"tsp"},
+      {"id":"poivre","qty":0.5,"unit":"tsp"}
+    ],
+    "steps": [
+      "Saisir chaque légume séparément.",
+      "Assembler, assaisonner, mijoter 20 min."
+    ]
+  },
+  {
+    "id": "quiche_lorraine_sans_pate",
+    "title": "Quiche lorraine (sans pâte)",
+    "minutes": 35,
+    "servings": 4,
+    "vegetarian": false,
+    "image": "https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=800&auto=format&fit=crop",
+    "tags": ["four","familial"],
+    "ingredients": [
+      {"id":"oeuf","qty":4,"unit":"pcs"},
+      {"id":"creme","qty":200,"unit":"ml"},
+      {"id":"lardon","qty":150,"unit":"g"},
+      {"id":"fromage","qty":80,"unit":"g"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"sel","qty":0.5,"unit":"tsp"},
+      {"id":"poivre","qty":0.5,"unit":"tsp"}
+    ],
+    "steps": [
+      "Mélanger œufs et crème.",
+      "Ajouter lardons, oignon, fromage, assaisonner et cuire 25 min à 180°C."
+    ]
+  },
+  {
+    "id": "soupe_de_courge",
+    "title": "Velouté de courge",
+    "minutes": 30,
+    "servings": 4,
+    "vegetarian": true,
+    "image": "https://images.unsplash.com/photo-1543352634-8730d3d9f735?q=80&w=800&auto=format&fit=crop",
+    "tags": ["hiver","réconfort"],
+    "ingredients": [
+      {"id":"courge","qty":700,"unit":"g"},
+      {"id":"pomme_de_terre","qty":2,"unit":"pcs"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"bouillon_legume","qty":1,"unit":"cube"},
+      {"id":"creme","qty":100,"unit":"ml"},
+      {"id":"sel","qty":1,"unit":"tsp"},
+      {"id":"poivre","qty":0.5,"unit":"tsp"}
+    ],
+    "steps": [
+      "Cuire légumes dans l'eau avec bouillon.",
+      "Mixer et ajouter la crème."
+    ]
+  },
+  {
+    "id": "tacos_poulet",
+    "title": "Tacos de poulet",
+    "minutes": 25,
+    "servings": 3,
+    "vegetarian": false,
+    "image": "https://images.unsplash.com/photo-1617191519400-fb2dabcd1e5f?q=80&w=800&auto=format&fit=crop",
+    "tags": ["street","familial"],
+    "ingredients": [
+      {"id":"tortilla","qty":6,"unit":"pcs"},
+      {"id":"poulet","qty":400,"unit":"g"},
+      {"id":"poivron","qty":1,"unit":"pcs"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"salade","qty":1,"unit":"pcs"},
+      {"id":"sauce_tomate","qty":4,"unit":"tbsp"},
+      {"id":"fromage","qty":80,"unit":"g"},
+      {"id":"cumin","qty":1,"unit":"tsp"}
+    ],
+    "steps": [
+      "Saisir poulet et légumes épicés.",
+      "Garnir tortillas avec salade, sauce et fromage."
+    ]
+  },
+  {
+    "id": "boeuf_bourguignon_simple",
+    "title": "Bœuf bourguignon (express)",
+    "minutes": 60,
+    "servings": 4,
+    "vegetarian": false,
+    "image": "https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=800&auto=format&fit=crop",
+    "tags": ["classique"],
+    "ingredients": [
+      {"id":"boeuf","qty":700,"unit":"g"},
+      {"id":"carotte","qty":3,"unit":"pcs"},
+      {"id":"oignon","qty":2,"unit":"pcs"},
+      {"id":"champignon","qty":200,"unit":"g"},
+      {"id":"bouillon_boeuf","qty":1,"unit":"cube"},
+      {"id":"thym","qty":1,"unit":"tsp"},
+      {"id":"farine","qty":1,"unit":"tbsp"}
+    ],
+    "steps": [
+      "Dorer le bœuf, singer avec la farine.",
+      "Ajouter légumes, bouillon, thym et mijoter."
+    ]
+  },
+  {
+    "id": "saumon_papillote",
+    "title": "Saumon en papillote",
+    "minutes": 22,
+    "servings": 2,
+    "vegetarian": false,
+    "image": "https://images.unsplash.com/photo-1544025163-76f6c8217c2a?q=80&w=800&auto=format&fit=crop",
+    "tags": ["léger","four"],
+    "ingredients": [
+      {"id":"saumon","qty":300,"unit":"g"},
+      {"id":"citron","qty":1,"unit":"pcs"},
+      {"id":"herbes_de_provence","qty":1,"unit":"tsp"},
+      {"id":"huile","qty":1,"unit":"tbsp"},
+      {"id":"sel","qty":0.5,"unit":"tsp"},
+      {"id":"poivre","qty":0.5,"unit":"tsp"}
+    ],
+    "steps": [
+      "Assaisonner le saumon, citron et herbes.",
+      "Cuire 15 min à 180°C en papillote."
+    ]
+  },
+  {
+    "id": "lentilles_saucisse",
+    "title": "Lentilles aux saucisses",
+    "minutes": 40,
+    "servings": 4,
+    "vegetarian": false,
+    "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800&auto=format&fit=crop",
+    "tags": ["rustique"],
+    "ingredients": [
+      {"id":"lentille","qty":300,"unit":"g"},
+      {"id":"carotte","qty":2,"unit":"pcs"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"bouillon_volaille","qty":1,"unit":"cube"},
+      {"id":"thym","qty":1,"unit":"tsp"},
+      {"id":"saucisse","qty":300,"unit":"g"}
+    ],
+    "steps": [
+      "Cuire lentilles avec bouillon et aromates.",
+      "Dorer les saucisses, mélanger et servir."
+    ]
+  },
+  {
+    "id": "shakshuka",
+    "title": "Shakshuka",
+    "minutes": 25,
+    "servings": 2,
+    "vegetarian": true,
+    "image": "https://images.unsplash.com/photo-1544025162-8d6a3aaa9c2a?q=80&w=800&auto=format&fit=crop",
+    "tags": ["brunch","épices"],
+    "ingredients": [
+      {"id":"tomate","qty":4,"unit":"pcs"},
+      {"id":"poivron","qty":1,"unit":"pcs"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"ail","qty":3,"unit":"g"},
+      {"id":"oeuf","qty":4,"unit":"pcs"},
+      {"id":"paprika","qty":1,"unit":"tsp"},
+      {"id":"cumin","qty":1,"unit":"tsp"},
+      {"id":"huile","qty":1,"unit":"tbsp"}
+    ],
+    "steps": [
+      "Préparer une sauce tomate poivron épicée.",
+      "Creuser des nids et pocher les œufs."
+    ]
+  },
+  {
+    "id": "riz_au_lait",
+    "title": "Riz au lait",
+    "minutes": 35,
+    "servings": 4,
+    "vegetarian": true,
+    "image": "https://images.unsplash.com/photo-1542444459-db63f9f1e5e5?q=80&w=800&auto=format&fit=crop",
+    "tags": ["dessert"],
+    "ingredients": [
+      {"id":"riz","qty":120,"unit":"g"},
+      {"id":"lait","qty":1000,"unit":"ml"},
+      {"id":"sucre","qty":60,"unit":"g"},
+      {"id":"sucre_vanille","qty":1,"unit":"sachet"}
+    ],
+    "steps": [
+      "Cuire le riz dans le lait sucré et vanillé en remuant."
+    ]
+  },
+  {
+    "id": "pancakes_maison",
+    "title": "Pancakes maison",
+    "minutes": 20,
+    "servings": 3,
+    "vegetarian": true,
+    "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop",
+    "tags": ["brunch","sucré"],
+    "ingredients": [
+      {"id":"farine","qty":200,"unit":"g"},
+      {"id":"oeuf","qty":2,"unit":"pcs"},
+      {"id":"lait","qty":250,"unit":"ml"},
+      {"id":"sucre","qty":30,"unit":"g"},
+      {"id":"levure_chimique","qty":1,"unit":"sachet"},
+      {"id":"beurre","qty":20,"unit":"g"}
+    ],
+    "steps": [
+      "Mélanger secs puis liquides.",
+      "Cuire des disques dans une poêle beurrée."
+    ]
+  },
+  {
+    "id": "pizza_tortilla",
+    "title": "Pizza tortilla rapide",
+    "minutes": 15,
+    "servings": 2,
+    "vegetarian": true,
+    "image": "https://images.unsplash.com/photo-1548365328-9f547fb0953b?q=80&w=800&auto=format&fit=crop",
+    "tags": ["rapide","four"],
+    "ingredients": [
+      {"id":"tortilla","qty":2,"unit":"pcs"},
+      {"id":"sauce_tomate","qty":4,"unit":"tbsp"},
+      {"id":"mozzarella","qty":120,"unit":"g"},
+      {"id":"origan","qty":1,"unit":"tsp"}
+    ],
+    "steps": [
+      "Garnir tortillas, cuire 8-10 min à 200°C."
+    ]
+  },
+  {
+    "id": "salade_quinoa_feta",
+    "title": "Salade de quinoa à la feta",
+    "minutes": 18,
+    "servings": 2,
+    "vegetarian": true,
+    "image": "https://images.unsplash.com/photo-1551183053-8f72f0ed3f7b?q=80&w=800&auto=format&fit=crop",
+    "tags": ["frais","protéiné"],
+    "ingredients": [
+      {"id":"quinoa","qty":120,"unit":"g"},
+      {"id":"concombre","qty":1,"unit":"pcs"},
+      {"id":"tomate","qty":2,"unit":"pcs"},
+      {"id":"feta","qty":100,"unit":"g"},
+      {"id":"citron","qty":0.5,"unit":"pcs"},
+      {"id":"huile","qty":2,"unit":"tbsp"},
+      {"id":"sel","qty":0.5,"unit":"tsp"}
+    ],
+    "steps": [
+      "Cuire le quinoa, refroidir.",
+      "Mélanger avec légumes, feta et assaisonnement."
+    ]
+  },
+  {
+    "id": "wok_legumes_soja",
+    "title": "Wok de légumes à la sauce soja",
+    "minutes": 15,
+    "servings": 2,
+    "vegetarian": true,
+    "image": "https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=800&auto=format&fit=crop",
+    "tags": ["rapide","léger"],
+    "ingredients": [
+      {"id":"brocoli","qty":1,"unit":"pcs"},
+      {"id":"carotte","qty":1,"unit":"pcs"},
+      {"id":"poivron","qty":1,"unit":"pcs"},
+      {"id":"champignon","qty":150,"unit":"g"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"sauce_soja","qty":2,"unit":"tbsp"},
+      {"id":"huile","qty":1,"unit":"tbsp"},
+      {"id":"gingembre","qty":10,"unit":"g"}
+    ],
+    "steps": [
+      "Sauter vivement tous les légumes.",
+      "Déglacer avec sauce soja et gingembre."
+    ]
+  },
+  {
+    "id": "gratin_pates_jambon",
+    "title": "Gratin de pâtes au jambon",
+    "minutes": 30,
+    "servings": 4,
+    "vegetarian": false,
+    "image": "https://images.unsplash.com/photo-1544025162-9b7d602f93a9?q=80&w=800&auto=format&fit=crop",
+    "tags": ["four","kids"],
+    "ingredients": [
+      {"id":"pate","qty":300,"unit":"g"},
+      {"id":"creme","qty":200,"unit":"ml"},
+      {"id":"jambon","qty":150,"unit":"g"},
+      {"id":"fromage","qty":120,"unit":"g"},
+      {"id":"poivre","qty":0.5,"unit":"tsp"}
+    ],
+    "steps": [
+      "Mélanger pâtes cuites, crème, jambon.",
+      "Couvrir de fromage et gratiner."
+    ]
+  },
+  {
+    "id": "chili_sin_carne",
+    "title": "Chili sin carne",
+    "minutes": 35,
+    "servings": 4,
+    "vegetarian": true,
+    "image": "https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=800&auto=format&fit=crop",
+    "tags": ["épicé","veggie"],
+    "ingredients": [
+      {"id":"haricot_rouge","qty":300,"unit":"g"},
+      {"id":"tomate","qty":3,"unit":"pcs"},
+      {"id":"oignon","qty":1,"unit":"pcs"},
+      {"id":"poivron","qty":1,"unit":"pcs"},
+      {"id":"mais","qty":150,"unit":"g"},
+      {"id":"cumin","qty":1,"unit":"tsp"},
+      {"id":"paprika","qty":1,"unit":"tsp"},
+      {"id":"piment","qty":0.5,"unit":"tsp"},
+      {"id":"ail","qty":2,"unit":"g"},
+      {"id":"huile","qty":1,"unit":"tbsp"}
+    ],
+    "steps": [
+      "Suer oignon/ail, ajouter légumes, épices et haricots.",
+      "Mijoter jusqu'à épaississement."
     ]
   }
 ]

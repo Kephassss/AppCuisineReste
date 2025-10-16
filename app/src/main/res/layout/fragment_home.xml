@@ -21,57 +21,67 @@
             android:contentDescription="Mascotte"/>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/homeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/app_name"
                 android:textColor="@color/cr_on_primary"
-                android:textStyle="bold"
                 android:textSize="22sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/homeStat"
-                android:text="@string/home_saved_recipes"
-                android:textColor="@color/cr_on_primary"
-                android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/home_saved_recipes"
+                android:textColor="@color/cr_on_primary" />
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPantry"
-                    style="@style/Widget.Material3.Button.Filled"
-                    android:text="@string/home_btn_pantry"
-                    app:icon="@drawable/ic_kitchen"
-                    app:iconPadding="8dp"
-                    app:iconGravity="textStart"
+                    style="@style/Widget.CooknRest.TouchButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:text="@string/home_btn_pantry"
+                    app:icon="@drawable/ic_kitchen"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp" />
 
-                <Space android:layout_width="12dp" android:layout_height="1dp"/>
+                <Space
+                    android:layout_width="12dp"
+                    android:layout_height="1dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDiscover"
-                    style="@style/Widget.Material3.Button.Tonal"
-                    android:text="@string/home_btn_discover"
-                    app:icon="@drawable/ic_recipe"
-                    app:iconPadding="8dp"
-                    app:iconGravity="textStart"
+                    style="@style/Widget.CooknRest.TouchButton.Tonal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:text="@string/home_btn_discover"
+                    app:icon="@drawable/ic_recipe"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp" />
             </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFindByPantry"
+                style="@style/Widget.CooknRest.TouchButton.Tonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/action_find_recipes" />
         </LinearLayout>
     </FrameLayout>
 
