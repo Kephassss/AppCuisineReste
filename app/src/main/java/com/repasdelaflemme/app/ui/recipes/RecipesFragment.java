@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.repasdelaflemme.app.R;
 import com.repasdelaflemme.app.data.AssetsRepository;
@@ -30,8 +30,9 @@ import java.util.Locale;
 import com.repasdelaflemme.app.data.remote.MealDbClient;
 import com.repasdelaflemme.app.data.remote.MealDbResponse;
 
-public class RecipesFragment extends Fragment { private androidx.recyclerview.widget.RecyclerView listView;
+public class RecipesFragment extends Fragment {
 
+    private RecyclerView listView;
     private RecipeAdapter adapter;
     private List<Recipe> allRecipes = new ArrayList<>();
     private MealDbClient remote;
@@ -49,294 +50,400 @@ public class RecipesFragment extends Fragment { private androidx.recyclerview.wi
         try {
             this.rootView = view;
 
+            // Configuration du RecyclerView
             RecyclerView list = view.findViewById(R.id.recipesList);
             View empty = view.findViewById(R.id.emptyView);
+
             if (list != null) {
-                list.setLayoutManager(new androidx.recyclerview.widget.GridLayoutManager(getContext(), 2));
+                list.setLayoutManager(new GridLayoutManager(getContext(), 2));
                 list.setAdapter(new com.repasdelaflemme.app.ui.home.SkeletonAdapter(8));
                 list.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_slide_up));
                 this.listView = list;
             }
 
+            // Configuration de l'adaptateur
             adapter = new RecipeAdapter(item -> {
                 try {
                     NavController nav = NavHostFragment.findNavController(this);
                     Bundle args = new Bundle();
                     args.putString("recipeId", item.id);
                     nav.navigate(R.id.recipeDetailFragment, args);
-                } catch (Throwable ignored) {}
+                } catch (Throwable ignored) {
+                    Log.e("RecipesFragment", "Navigation error", ignored);
+                }
             });
 
+            // Chargement des recettes
             allRecipes = AssetsRepository.getRecipes(requireContext());
-            remote = new MealDbClient();
+            try { remote = new MealDbClient(); } catch (Throwable t) { remote = null; Log.w("RecipesFragment", "Remote client init failed", t); }
 
-            EditText search = view.findViewById(R.id.inputSearch);
-            Chip veg = view.findViewById(R.id.checkVegetarian);
-            Chip quick = view.findViewById(R.id.checkQuick);
-            Chip fromPantryOnly = view.findViewById(R.id.checkFromPantryOnly);
-            Chip allowOneMissing = view.findViewById(R.id.checkAllowOneMissing);
-            Chip halal = view.findViewById(R.id.checkHalal);
-            Chip b1 = view.findViewById(R.id.checkBudget1);
-            Chip b2 = view.findViewById(R.id.checkBudget2);
-            Chip b3 = view.findViewById(R.id.checkBudget3);
-            Chip tQuick = view.findViewById(R.id.checkTimeQuick);
-            Chip tMed = view.findViewById(R.id.checkTimeMedium);
-            Chip tLong = view.findViewById(R.id.checkTimeLong);
-            Chip uPoele = view.findViewById(R.id.checkUstPoele);
-            Chip uCasserole = view.findViewById(R.id.checkUstCasserole);
-            Chip uFour = view.findViewById(R.id.checkUstFour);
-            Chip uWok = view.findViewById(R.id.checkUstWok);
-            Chip uCocotte = view.findViewById(R.id.checkUstCocotte);
-            Chip uMixeur = view.findViewById(R.id.checkUstMixeur);
-            Chip cFr = view.findViewById(R.id.checkCuisineFrancais);
-            Chip cIt = view.findViewById(R.id.checkCuisineItalien);
-            Chip cAs = view.findViewById(R.id.checkCuisineAsiatique);
-            Chip cIn = view.findViewById(R.id.checkCuisineIndien);
-            Chip cMagh = view.findViewById(R.id.checkCuisineMaghreb);
-            Chip cMex = view.findViewById(R.id.checkCuisineMexicain);
-            Chip cUs = view.findViewById(R.id.checkCuisineUS);
-            Chip cMed = view.findViewById(R.id.checkCuisineMed);
-            Chip cOther = view.findViewById(R.id.checkCuisineAutres);
-            Chip aNoGluten = view.findViewById(R.id.checkNoGluten);
-            Chip aNoLactose = view.findViewById(R.id.checkNoLactose);
-            Chip aNoEgg = view.findViewById(R.id.checkNoOeuf);
-            Chip aNoPeanut = view.findViewById(R.id.checkNoArachide);
-            Chip aNoTreeNuts = view.findViewById(R.id.checkNoFruitsCoque);
-            Chip aNoShell = view.findViewById(R.id.checkNoCrustace);
-            Chip aNoSoy = view.findViewById(R.id.checkNoSoja);
-            Chip aNoSesame = view.findViewById(R.id.checkNoSesame);
-            Chip aNoAlcohol = view.findViewById(R.id.checkNoAlcohol);
-            Chip aNoPork = view.findViewById(R.id.checkNoPork);
+            // Configuration des filtres
+            setupFilters(view);
 
-            View.OnClickListener trigger = v -> {
-                try { applyFilters(search, veg, quick, fromPantryOnly, allowOneMissing); }
-                catch (Throwable t) { Log.w("RecipesFragment", "applyFilters crashed", t); showSafeError(); }
-            };
-            if (veg != null) veg.setOnClickListener(trigger);
-            if (quick != null) quick.setOnClickListener(trigger);
-            if (fromPantryOnly != null) fromPantryOnly.setOnClickListener(trigger);
-            if (allowOneMissing != null) allowOneMissing.setOnClickListener(trigger);
-            for (Chip ch : new Chip[]{halal,b1,b2,b3,tQuick,tMed,tLong,uPoele,uCasserole,uFour,uWok,uCocotte,uMixeur,cFr,cIt,cAs,cIn,cMagh,cMex,cUs,cMed,cOther,aNoGluten,aNoLactose,aNoEgg,aNoPeanut,aNoTreeNuts,aNoShell,aNoSoy,aNoSesame,aNoAlcohol,aNoPork}) {
-                if (ch != null) ch.setOnClickListener(trigger);
-            }
-            if (search != null) {
-                search.addTextChangedListener(new android.text.TextWatcher() {
-                    @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                    @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        try { applyFilters(search, veg, quick, fromPantryOnly, allowOneMissing); }
-                        catch (Throwable t) { Log.w("RecipesFragment", "applyFilters crashed", t); showSafeError(); }
-                    }
-                    @Override public void afterTextChanged(android.text.Editable s) {}
-                });
-            }
-
+            // Focus initial sur le placard si demandé
             boolean focusPantry = getArguments() != null && getArguments().getBoolean("focusPantry", false);
+            Chip fromPantryOnly = view.findViewById(R.id.checkFromPantryOnly);
             if (focusPantry && fromPantryOnly != null) {
                 fromPantryOnly.setChecked(true);
             }
-            // initial
-            try { applyFilters(search, veg, quick, fromPantryOnly, allowOneMissing); }
-            catch (Throwable t) { Log.w("RecipesFragment", "initial applyFilters crashed", t); showSafeError(); safePopulateFallback(); }
+
+            // Affichage initial
+            applyFilters();
+
         } catch (Throwable fatal) {
-            Log.e("RecipesFragment", "fatal setup error", fatal);
+            Log.e("RecipesFragment", "Fatal setup error", fatal);
             showSafeError();
             safePopulateFallback();
         }
     }
 
-    private void applyFilters(EditText search, Chip veg, Chip quick, Chip fromPantryOnly, Chip allowOneMissing) {
-        if (getContext() == null) return;
-        String q = "";
-        try {
-            if (search != null && search.getText() != null) {
-                q = search.getText().toString().trim().toLowerCase(Locale.ROOT);
-            }
-        } catch (Throwable ignored) { q = ""; }
-        boolean onlyVeg = veg != null && safeIsChecked(veg);
-        boolean onlyQuick = quick != null && safeIsChecked(quick);
-        boolean pantryOnly = fromPantryOnly != null && safeIsChecked(fromPantryOnly);
-        boolean oneMissing = allowOneMissing != null && safeIsChecked(allowOneMissing);
-        // collect advanced filters
-        boolean halalOnly = chipChecked(R.id.checkHalal);
-        java.util.Set<Integer> budgets = new java.util.HashSet<>();
-        if (chipChecked(R.id.checkBudget1)) budgets.add(1);
-        if (chipChecked(R.id.checkBudget2)) budgets.add(2);
-        if (chipChecked(R.id.checkBudget3)) budgets.add(3);
-        java.util.Set<String> times = new java.util.HashSet<>(); // quick/med/long markers
-        if (chipChecked(R.id.checkTimeQuick)) times.add("quick");
-        if (chipChecked(R.id.checkTimeMedium)) times.add("medium");
-        if (chipChecked(R.id.checkTimeLong)) times.add("long");
-        java.util.Set<String> utensils = new java.util.HashSet<>();
-        if (chipChecked(R.id.checkUstPoele)) utensils.add("poele");
-        if (chipChecked(R.id.checkUstCasserole)) utensils.add("casserole");
-        if (chipChecked(R.id.checkUstFour)) utensils.add("four");
-        if (chipChecked(R.id.checkUstWok)) utensils.add("wok");
-        if (chipChecked(R.id.checkUstCocotte)) utensils.add("cocotte");
-        if (chipChecked(R.id.checkUstMixeur)) utensils.add("mixeur");
-        java.util.Set<String> cuisines = new java.util.HashSet<>();
-        if (chipChecked(R.id.checkCuisineFrancais)) cuisines.add("franÃ§ais");
-        if (chipChecked(R.id.checkCuisineItalien)) cuisines.add("italien");
-        if (chipChecked(R.id.checkCuisineAsiatique)) cuisines.add("asiatique");
-        if (chipChecked(R.id.checkCuisineIndien)) cuisines.add("indien");
-        if (chipChecked(R.id.checkCuisineMaghreb)) cuisines.add("maghrÃ©bin");
-        if (chipChecked(R.id.checkCuisineMexicain)) cuisines.add("mexicain");
-        if (chipChecked(R.id.checkCuisineUS)) cuisines.add("us");
-        if (chipChecked(R.id.checkCuisineMed)) cuisines.add("mÃ©diterranÃ©en");
-        if (chipChecked(R.id.checkCuisineAutres)) cuisines.add("autres");
-        java.util.Set<String> avoid = new java.util.HashSet<>();
-        if (chipChecked(R.id.checkNoGluten)) avoid.add("gluten");
-        if (chipChecked(R.id.checkNoLactose)) avoid.add("lactose");
-        if (chipChecked(R.id.checkNoOeuf)) avoid.add("oeuf");
-        if (chipChecked(R.id.checkNoArachide)) avoid.add("arachide");
-        if (chipChecked(R.id.checkNoFruitsCoque)) avoid.add("fruits_a_coque");
-        if (chipChecked(R.id.checkNoCrustace)) avoid.add("crustace");
-        if (chipChecked(R.id.checkNoSoja)) avoid.add("soja");
-        if (chipChecked(R.id.checkNoSesame)) avoid.add("sesame");
-        boolean noAlcohol = chipChecked(R.id.checkNoAlcohol);
-        boolean noPork = chipChecked(R.id.checkNoPork);
+    private void setupFilters(View view) {
+        // Récupération des filtres
+        EditText search = view.findViewById(R.id.inputSearch);
+        Chip veg = view.findViewById(R.id.checkVegetarian);
+        Chip quick = view.findViewById(R.id.checkQuick);
+        Chip fromPantryOnly = view.findViewById(R.id.checkFromPantryOnly);
+        Chip allowOneMissing = view.findViewById(R.id.checkAllowOneMissing);
 
-        List<String> have;
-        try {
-            PrefPantryStore store = new PrefPantryStore(requireContext());
-            have = store.getIngredientIds();
-            if (have == null) have = new ArrayList<>();
-        } catch (Throwable t) {
-            have = new ArrayList<>();
+        // Configuration des listeners
+        View.OnClickListener trigger = v -> applyFilters();
+
+        if (veg != null) veg.setOnClickListener(trigger);
+        if (quick != null) quick.setOnClickListener(trigger);
+        if (fromPantryOnly != null) fromPantryOnly.setOnClickListener(trigger);
+        if (allowOneMissing != null) allowOneMissing.setOnClickListener(trigger);
+
+        // Tous les autres filtres
+        int[] chipIds = {
+                R.id.checkHalal, R.id.checkBudget1, R.id.checkBudget2, R.id.checkBudget3,
+                R.id.checkTimeQuick, R.id.checkTimeMedium, R.id.checkTimeLong,
+                R.id.checkUstPoele, R.id.checkUstCasserole, R.id.checkUstFour,
+                R.id.checkUstWok, R.id.checkUstCocotte, R.id.checkUstMixeur,
+                R.id.checkCuisineFrancais, R.id.checkCuisineItalien, R.id.checkCuisineAsiatique,
+                R.id.checkCuisineIndien, R.id.checkCuisineMaghreb, R.id.checkCuisineMexicain,
+                R.id.checkCuisineUS, R.id.checkCuisineMed, R.id.checkCuisineAutres,
+                R.id.checkNoGluten, R.id.checkNoLactose, R.id.checkNoOeuf,
+                R.id.checkNoArachide, R.id.checkNoFruitsCoque, R.id.checkNoCrustace,
+                R.id.checkNoSoja, R.id.checkNoSesame, R.id.checkNoAlcohol, R.id.checkNoPork
+        };
+
+        for (int id : chipIds) {
+            Chip chip = view.findViewById(id);
+            if (chip != null) chip.setOnClickListener(trigger);
         }
 
-        List<RecipeCard> out = new ArrayList<>();
-        for (Recipe r : allRecipes) {
-            if (onlyVeg && (r.vegetarian == null || !r.vegetarian)) continue;
-            if (onlyQuick && r.minutes > 20) continue;
-            if (halalOnly && (r.halal == null || !r.halal)) continue;
-            if (!budgets.isEmpty()) {
-                Integer b = r.budget;
-                if (b == null || !budgets.contains(b)) continue;
-            }
-            if (!times.isEmpty()) {
-                boolean okTime = (r.minutes < 20 && times.contains("quick")) ||
-                                 (r.minutes >= 20 && r.minutes <= 40 && times.contains("medium")) ||
-                                 (r.minutes > 40 && times.contains("long"));
-                if (!okTime) continue;
-            }
-            if (!utensils.isEmpty()) {
-                List<String> uts = r.utensils;
-                boolean okU = false;
-                if (uts != null) {
-                    for (String u : uts) { if (utensils.contains(u)) { okU = true; break; } }
+        // Recherche en temps réel
+        if (search != null) {
+            search.addTextChangedListener(new android.text.TextWatcher() {
+                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    applyFilters();
                 }
-                if (!okU) continue;
+                @Override public void afterTextChanged(android.text.Editable s) {}
+            });
+        }
+    }
+
+    private void applyFilters() {
+        if (getContext() == null || rootView == null) return;
+
+        try {
+            // Récupération de la recherche
+            String query = "";
+            EditText search = rootView.findViewById(R.id.inputSearch);
+            if (search != null && search.getText() != null) {
+                query = search.getText().toString().trim().toLowerCase(Locale.ROOT);
             }
-            if (!cuisines.isEmpty()) {
-                String cu = r.cuisine != null ? r.cuisine.toLowerCase(java.util.Locale.ROOT) : null;
-                if (cu == null || !cuisines.contains(cu)) continue;
+
+            // Récupération des filtres de base
+            boolean onlyVeg = chipChecked(R.id.checkVegetarian);
+            boolean onlyQuick = chipChecked(R.id.checkQuick);
+            boolean pantryOnly = chipChecked(R.id.checkFromPantryOnly);
+            boolean oneMissing = chipChecked(R.id.checkAllowOneMissing);
+
+            // Récupération des filtres avancés
+            boolean halalOnly = chipChecked(R.id.checkHalal);
+
+            java.util.Set<Integer> budgets = new java.util.HashSet<>();
+            if (chipChecked(R.id.checkBudget1)) budgets.add(1);
+            if (chipChecked(R.id.checkBudget2)) budgets.add(2);
+            if (chipChecked(R.id.checkBudget3)) budgets.add(3);
+
+            java.util.Set<String> times = new java.util.HashSet<>();
+            if (chipChecked(R.id.checkTimeQuick)) times.add("quick");
+            if (chipChecked(R.id.checkTimeMedium)) times.add("medium");
+            if (chipChecked(R.id.checkTimeLong)) times.add("long");
+
+            java.util.Set<String> utensils = new java.util.HashSet<>();
+            if (chipChecked(R.id.checkUstPoele)) utensils.add("poele");
+            if (chipChecked(R.id.checkUstCasserole)) utensils.add("casserole");
+            if (chipChecked(R.id.checkUstFour)) utensils.add("four");
+            if (chipChecked(R.id.checkUstWok)) utensils.add("wok");
+            if (chipChecked(R.id.checkUstCocotte)) utensils.add("cocotte");
+            if (chipChecked(R.id.checkUstMixeur)) utensils.add("mixeur");
+
+            java.util.Set<String> cuisines = new java.util.HashSet<>();
+            if (chipChecked(R.id.checkCuisineFrancais)) cuisines.add("français");
+            if (chipChecked(R.id.checkCuisineItalien)) cuisines.add("italien");
+            if (chipChecked(R.id.checkCuisineAsiatique)) cuisines.add("asiatique");
+            if (chipChecked(R.id.checkCuisineIndien)) cuisines.add("indien");
+            if (chipChecked(R.id.checkCuisineMaghreb)) cuisines.add("maghrébin");
+            if (chipChecked(R.id.checkCuisineMexicain)) cuisines.add("mexicain");
+            if (chipChecked(R.id.checkCuisineUS)) cuisines.add("us");
+            if (chipChecked(R.id.checkCuisineMed)) cuisines.add("méditerranéen");
+            if (chipChecked(R.id.checkCuisineAutres)) cuisines.add("autres");
+
+            java.util.Set<String> avoid = new java.util.HashSet<>();
+            if (chipChecked(R.id.checkNoGluten)) avoid.add("gluten");
+            if (chipChecked(R.id.checkNoLactose)) avoid.add("lactose");
+            if (chipChecked(R.id.checkNoOeuf)) avoid.add("oeuf");
+            if (chipChecked(R.id.checkNoArachide)) avoid.add("arachide");
+            if (chipChecked(R.id.checkNoFruitsCoque)) avoid.add("fruits_a_coque");
+            if (chipChecked(R.id.checkNoCrustace)) avoid.add("crustace");
+            if (chipChecked(R.id.checkNoSoja)) avoid.add("soja");
+            if (chipChecked(R.id.checkNoSesame)) avoid.add("sesame");
+
+            boolean noAlcohol = chipChecked(R.id.checkNoAlcohol);
+            boolean noPork = chipChecked(R.id.checkNoPork);
+
+            // Récupération des ingrédients du placard
+            List<String> have = new ArrayList<>();
+            try {
+                PrefPantryStore store = new PrefPantryStore(requireContext());
+                have = store.getIngredientIds();
+                if (have == null) have = new ArrayList<>();
+            } catch (Throwable t) {
+                Log.e("RecipesFragment", "Error loading pantry", t);
             }
-            if (!avoid.isEmpty()) {
-                List<String> alls = r.allergens;
-                if (alls != null) {
+
+            // Filtrage des recettes
+            List<RecipeCard> out = new ArrayList<>();
+            for (Recipe r : allRecipes) {
+                // Filtres de base
+                if (onlyVeg && (r.vegetarian == null || !r.vegetarian)) continue;
+                if (onlyQuick && r.minutes > 20) continue;
+                if (halalOnly && (r.halal == null || !r.halal)) continue;
+
+                // Filtre budget
+                if (!budgets.isEmpty() && (r.budget == null || !budgets.contains(r.budget))) continue;
+
+                // Filtre temps
+                if (!times.isEmpty()) {
+                    boolean okTime = (r.minutes < 20 && times.contains("quick")) ||
+                            (r.minutes >= 20 && r.minutes <= 40 && times.contains("medium")) ||
+                            (r.minutes > 40 && times.contains("long"));
+                    if (!okTime) continue;
+                }
+
+                // Filtre ustensiles
+                if (!utensils.isEmpty()) {
+                    boolean okU = false;
+                    if (r.utensils != null) {
+                        for (String u : r.utensils) {
+                            if (utensils.contains(u)) {
+                                okU = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!okU) continue;
+                }
+
+                // Filtre cuisine (vérifie les flags directement, comparaison normalisée)
+                boolean anyCui = chipChecked(R.id.checkCuisineFrancais) || chipChecked(R.id.checkCuisineItalien) ||
+                        chipChecked(R.id.checkCuisineAsiatique) || chipChecked(R.id.checkCuisineIndien) ||
+                        chipChecked(R.id.checkCuisineMaghreb) || chipChecked(R.id.checkCuisineMexicain) ||
+                        chipChecked(R.id.checkCuisineUS) || chipChecked(R.id.checkCuisineMed) ||
+                        chipChecked(R.id.checkCuisineAutres);
+                if (anyCui) {
+                    String cu = r.cuisine != null ? normalizeString(r.cuisine) : null;
+                    boolean okCui = false;
+                    if (cu != null) {
+                        okCui = (chipChecked(R.id.checkCuisineFrancais) && "francais".equals(cu)) ||
+                                 (chipChecked(R.id.checkCuisineItalien) && "italien".equals(cu)) ||
+                                 (chipChecked(R.id.checkCuisineAsiatique) && "asiatique".equals(cu)) ||
+                                 (chipChecked(R.id.checkCuisineIndien) && "indien".equals(cu)) ||
+                                 (chipChecked(R.id.checkCuisineMaghreb) && "maghrebin".equals(cu)) ||
+                                 (chipChecked(R.id.checkCuisineMexicain) && "mexicain".equals(cu)) ||
+                                 (chipChecked(R.id.checkCuisineUS) && "us".equals(cu)) ||
+                                 (chipChecked(R.id.checkCuisineMed) && "mediterraneen".equals(cu)) ||
+                                 (chipChecked(R.id.checkCuisineAutres) && "autres".equals(cu));
+                    }
+                    if (!okCui) continue;
+                }
+
+                // Filtre allergènes
+                if (!avoid.isEmpty() && r.allergens != null) {
                     boolean hasBad = false;
-                    for (String a : alls) { if (avoid.contains(a)) { hasBad = true; break; } }
+                    for (String a : r.allergens) {
+                        if (avoid.contains(a)) {
+                            hasBad = true;
+                            break;
+                        }
+                    }
                     if (hasBad) continue;
                 }
-            }
-            if (noAlcohol && Boolean.TRUE.equals(r.containsAlcohol)) continue;
-            if (noPork && Boolean.TRUE.equals(r.containsPork)) continue;
 
-            String hay = (r.title != null ? r.title.toLowerCase(Locale.ROOT) : "");
-            if (!q.isEmpty() && !hay.contains(q)) continue;
+                if (noAlcohol && Boolean.TRUE.equals(r.containsAlcohol)) continue;
+                if (noPork && Boolean.TRUE.equals(r.containsPork)) continue;
 
-            int haveCount = 0;
-            int total = r.ingredients != null ? r.ingredients.size() : 0;
-            if (r.ingredients != null) {
-                for (RecipeIngredient ri : r.ingredients) {
-                    if (have.contains(ri.id)) haveCount++;
+                // Recherche textuelle
+                if (!query.isEmpty()) {
+                    String hay = (r.title != null ? r.title.toLowerCase(Locale.ROOT) : "");
+                    if (!hay.contains(query)) continue;
                 }
-            }
-            int missing = Math.max(0, total - haveCount);
-            if (pantryOnly && missing > 0) continue;
-            if (!pantryOnly && oneMissing && missing > 1) continue;
-            Integer resId = null; String imageUrl = null;
-            if (r.image != null) {
-                if (r.image.startsWith("res:")) {
-                    String name = r.image.substring(4);
-                    int id = getResources().getIdentifier(name, "drawable", requireContext().getPackageName());
-                    if (id != 0) resId = id;
-                } else if (r.image.startsWith("http")) {
-                    imageUrl = r.image;
+
+                // Calcul du pourcentage de correspondance
+                int haveCount = 0;
+                int total = (r.ingredients != null) ? r.ingredients.size() : 0;
+                if (r.ingredients != null) {
+                    for (RecipeIngredient ri : r.ingredients) {
+                        if (have.contains(ri.id)) haveCount++;
+                    }
                 }
+                int missing = Math.max(0, total - haveCount);
+
+                // Filtre placard
+                if (pantryOnly && missing > 0) continue;
+                if (!pantryOnly && oneMissing && missing > 1) continue;
+
+                // Création de la carte
+                Integer resId = null;
+                String imageUrl = null;
+                if (r.image != null) {
+                    if (r.image.startsWith("res:")) {
+                        String name = r.image.substring(4);
+                        int id = getResources().getIdentifier(name, "drawable", requireContext().getPackageName());
+                        if (id != 0) resId = id;
+                    } else if (r.image.startsWith("http")) {
+                        imageUrl = r.image;
+                    }
+                }
+
+                int matchScore = total == 0 ? 0 : (haveCount * 100 / Math.max(1, total));
+                RecipeCard card = new RecipeCard(r.id, r.title, r.minutes, matchScore)
+                        .withMissing(missing)
+                        .withVegetarian(r.vegetarian != null && r.vegetarian)
+                        .withHalal(r.halal)
+                        .withBudget(r.budget)
+                        .withUtensils(r.utensils)
+                        .withCuisine(r.cuisine)
+                        .withAllergens(r.allergens)
+                        .withContainsAlcohol(r.containsAlcohol)
+                        .withContainsPork(r.containsPork)
+                        .withImage(resId)
+                        .withImageUrl(imageUrl);
+                out.add(card);
             }
-            RecipeCard card = new RecipeCard(r.id, r.title, r.minutes, total == 0 ? 0 : (haveCount * 100 / Math.max(1, total)))
-                    .withMissing(missing)
-                    .withVegetarian(r.vegetarian != null && r.vegetarian)
-                    .withHalal(r.halal)
-                    .withBudget(r.budget)
-                    .withUtensils(r.utensils)
-                    .withCuisine(r.cuisine)
-                    .withAllergens(r.allergens)
-                    .withContainsAlcohol(r.containsAlcohol)
-                    .withContainsPork(r.containsPork)
-                    .withImage(resId)
-                    .withImageUrl(imageUrl);
-            out.add(card);
+
+            // Tri par pourcentage de correspondance (décroissant)
+            out.sort((a, b) -> {
+                int scoreA = a.matchScore != null ? a.matchScore : 0;
+                int scoreB = b.matchScore != null ? b.matchScore : 0;
+                return Integer.compare(scoreB, scoreA);
+            });
+
+            // Mise à jour de l'affichage
+            if (listView != null && listView.getAdapter() != adapter) {
+                listView.setAdapter(adapter);
+            }
+            if (adapter != null) {
+                adapter.submit(out);
+            }
+
+            // Gestion du message vide
+            View emptyV = rootView.findViewById(R.id.emptyView);
+            if (emptyV != null) {
+                emptyV.setVisibility(out.isEmpty() ? View.VISIBLE : View.GONE);
+            }
+
+            // Recherche externe si query longue
+            if (query.length() >= 3 && remote != null) {
+                searchRemote(query, out);
+            }
+
+        } catch (Throwable t) {
+            Log.e("RecipesFragment", "Error applying filters", t);
+            showSafeError();
         }
-        // naive sort by matchScore desc
-        out.sort((a,b) -> Integer.compare(b.matchScore != null ? b.matchScore : 0, a.matchScore != null ? a.matchScore : 0));
-        if (listView != null && listView.getAdapter() != adapter) {
-            try { listView.setAdapter(adapter); } catch (Exception ignored) {}
-        }
-        if (adapter != null) adapter.submit(out);
+    }
+
+    private void searchRemote(String query, List<RecipeCard> currentResults) {
         try {
-            View emptyV = rootView != null ? rootView.findViewById(R.id.emptyView) : null;
-            if (emptyV != null) emptyV.setVisibility(out.isEmpty() ? View.VISIBLE : View.GONE);
-        } catch (Exception ignored) {}
-        
-        if (q.length() >= 3 && remote != null) {
-            try { remote.search(q, new MealDbClient.OnResult() {
-                @Override public void onSuccess(MealDbResponse res) {
-                    if (res == null || res.meals == null) return;
+            remote.search(query, new MealDbClient.OnResult() {
+                @Override
+                public void onSuccess(MealDbResponse res) {
+                    if (res == null || res.meals == null || getActivity() == null) return;
+
                     List<RecipeCard> remoteCards = new ArrayList<>();
                     for (MealDbResponse.Meal m : res.meals) {
-                        RecipeCard c = new RecipeCard("mealdb_" + m.idMeal, m.strMeal != null ? m.strMeal : "Recette", 20, null)
-                                .withImageUrl(m.strMealThumb);
+                        RecipeCard c = new RecipeCard(
+                                "mealdb_" + m.idMeal,
+                                m.strMeal != null ? m.strMeal : "Recette",
+                                20,
+                                null
+                        ).withImageUrl(m.strMealThumb);
                         remoteCards.add(c);
                     }
-                    List<RecipeCard> combined = new ArrayList<>(out);
+
+                    List<RecipeCard> combined = new ArrayList<>(currentResults);
                     combined.addAll(remoteCards);
-                    if (getActivity() != null && adapter != null) getActivity().runOnUiThread(() -> adapter.submit(combined));
+
+                    getActivity().runOnUiThread(() -> {
+                        if (adapter != null) adapter.submit(combined);
+                    });
                 }
-                @Override public void onError(Throwable t) { }
-            }); } catch (Throwable t) { Log.w("RecipesFragment", "remote search error", t); }
+
+                @Override
+                public void onError(Throwable t) {
+                    Log.w("RecipesFragment", "Remote search error", t);
+                }
+            });
+        } catch (Throwable t) {
+            Log.w("RecipesFragment", "Remote search failed", t);
         }
     }
 
     private void safePopulateFallback() {
         try {
             if (getContext() == null) return;
-            List<Recipe> src = (allRecipes != null && !allRecipes.isEmpty()) ? allRecipes : AssetsRepository.getRecipes(requireContext());
-            List<String> have;
+
+            List<Recipe> src = !allRecipes.isEmpty() ? allRecipes : AssetsRepository.getRecipes(requireContext());
+            List<String> have = new ArrayList<>();
+
             try {
                 PrefPantryStore store = new PrefPantryStore(requireContext());
                 have = store.getIngredientIds();
                 if (have == null) have = new ArrayList<>();
             } catch (Throwable t) {
-                have = new ArrayList<>();
+                Log.e("RecipesFragment", "Error in fallback", t);
             }
+
             List<RecipeCard> cards = new ArrayList<>();
             for (Recipe r : src) {
                 int haveCount = 0;
                 int total = r.ingredients != null ? r.ingredients.size() : 0;
+
                 if (r.ingredients != null) {
-                    for (RecipeIngredient ri : r.ingredients) { if (have.contains(ri.id)) haveCount++; }
+                    for (RecipeIngredient ri : r.ingredients) {
+                        if (have.contains(ri.id)) haveCount++;
+                    }
                 }
-                Integer resId = null; String imageUrl = null;
+
+                Integer resId = null;
+                String imageUrl = null;
                 if (r.image != null) {
                     if (r.image.startsWith("res:")) {
                         String name = r.image.substring(4);
                         int id = getResources().getIdentifier(name, "drawable", requireContext().getPackageName());
                         if (id != 0) resId = id;
-                    } else if (r.image.startsWith("http")) { imageUrl = r.image; }
+                    } else if (r.image.startsWith("http")) {
+                        imageUrl = r.image;
+                    }
                 }
-                RecipeCard c = new RecipeCard(r.id, r.title, r.minutes, total == 0 ? 0 : (haveCount * 100 / Math.max(1, total)))
+
+                int matchScore = total == 0 ? 0 : (haveCount * 100 / Math.max(1, total));
+                RecipeCard c = new RecipeCard(r.id, r.title, r.minutes, matchScore)
                         .withMissing(Math.max(0, total - haveCount))
                         .withVegetarian(r.vegetarian != null && r.vegetarian)
                         .withHalal(r.halal)
@@ -350,26 +457,27 @@ public class RecipesFragment extends Fragment { private androidx.recyclerview.wi
                         .withImageUrl(imageUrl);
                 cards.add(c);
             }
-            cards.sort((a,b) -> Integer.compare(b.matchScore != null ? b.matchScore : 0, a.matchScore != null ? a.matchScore : 0));
-            if (listView != null && listView.getAdapter() != adapter) listView.setAdapter(adapter);
-            if (adapter != null) adapter.submit(cards);
-            if (rootView != null) {
-                View emptyV = rootView.findViewById(R.id.emptyView);
-                if (emptyV != null) emptyV.setVisibility(cards.isEmpty() ? View.VISIBLE : View.GONE);
-            }
-        } catch (Throwable ignored) {}
-    }
 
-    private boolean safeIsChecked(Chip chip) {
-        try { return chip.isChecked(); } catch (Throwable t) { return false; }
-    }
+            cards.sort((a, b) -> {
+                int scoreA = a.matchScore != null ? a.matchScore : 0;
+                int scoreB = b.matchScore != null ? b.matchScore : 0;
+                return Integer.compare(scoreB, scoreA);
+            });
 
-    private void showSafeError() {
-        try {
-            if (getContext() != null) {
-                android.widget.Toast.makeText(getContext(), getString(R.string.error_loading_recipes), android.widget.Toast.LENGTH_SHORT).show();
+            if (listView != null && listView.getAdapter() != adapter) {
+                listView.setAdapter(adapter);
             }
-        } catch (Throwable ignored) {}
+            if (adapter != null) {
+                adapter.submit(cards);
+            }
+
+            View emptyV = rootView != null ? rootView.findViewById(R.id.emptyView) : null;
+            if (emptyV != null) {
+                emptyV.setVisibility(cards.isEmpty() ? View.VISIBLE : View.GONE);
+            }
+        } catch (Throwable ignored) {
+            Log.e("RecipesFragment", "Fallback failed", ignored);
+        }
     }
 
     private boolean chipChecked(int id) {
@@ -377,10 +485,32 @@ public class RecipesFragment extends Fragment { private androidx.recyclerview.wi
             if (rootView == null) return false;
             View v = rootView.findViewById(id);
             return (v instanceof Chip) && ((Chip) v).isChecked();
-        } catch (Throwable t) { return false; }
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    private void showSafeError() {
+        try {
+            if (getContext() != null) {
+                android.widget.Toast.makeText(
+                        getContext(),
+                        getString(R.string.error_loading_recipes),
+                        android.widget.Toast.LENGTH_SHORT
+                ).show();
+            }
+        } catch (Throwable ignored) {}
+    }
+
+    // Normalise une chaîne: minuscule + suppression des accents
+    private static String normalizeString(String s) {
+        try {
+            if (s == null) return null;
+            String lower = s.toLowerCase(java.util.Locale.ROOT);
+            String norm = java.text.Normalizer.normalize(lower, java.text.Normalizer.Form.NFD);
+            return norm.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        } catch (Throwable t) {
+            return s;
+        }
     }
 }
-
-
-
-

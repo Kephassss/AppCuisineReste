@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.repasdelaflemme.app.R;
+import com.repasdelaflemme.app.BuildConfig;
 import com.repasdelaflemme.app.ui.common.AnimUtils;
 import android.view.View;
 
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Pas de Toolbar dans le layout actuel
 
         // Navigation
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
@@ -65,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
             if (fab != null) {
             // Subtle press animation on FAB
             AnimUtils.attachPressAnimator(fab);
+            // Long-press to trigger a test crash in debug builds (to verify Crashlytics/log capture)
+            if (BuildConfig.DEBUG) {
+                fab.setOnLongClickListener(v -> { throw new RuntimeException("Test Crash (long-press FAB)"); });
+            }
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 int id = destination.getId();
                 if (id == R.id.homeFragment) {

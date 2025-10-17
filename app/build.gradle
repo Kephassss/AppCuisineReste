@@ -4,6 +4,13 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
 }
 
+// Apply Firebase plugins only if google-services.json is present
+def hasGoogleServices = file("google-services.json").exists()
+if (hasGoogleServices) {
+    apply plugin: 'com.google.gms.google-services'
+    apply plugin: 'com.google.firebase.crashlytics'
+}
+
 android {
     namespace "com.repasdelaflemme.app"
     compileSdk 35
@@ -24,12 +31,22 @@ android {
             debuggable true
             minifyEnabled false
             buildConfigField "Boolean", "ENABLE_LOGGING", "true"
+            if (hasGoogleServices) {
+                firebaseCrashlytics {
+                    mappingFileUploadEnabled false
+                }
+            }
         }
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "Boolean", "ENABLE_LOGGING", "false"
+            if (hasGoogleServices) {
+                firebaseCrashlytics {
+                    mappingFileUploadEnabled true
+                }
+            }
         }
     }
 
@@ -91,6 +108,11 @@ dependencies {
 
     // Coroutines
     implementation libs.kotlinx.coroutines.android
+
+    // Firebase Crashlytics (conditional by presence of google-services.json at build time)
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.crashlytics
+    implementation libs.firebase.analytics
 
     // Testing
     testImplementation libs.junit
