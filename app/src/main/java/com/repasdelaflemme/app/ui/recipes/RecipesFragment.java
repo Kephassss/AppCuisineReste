@@ -46,92 +46,102 @@ public class RecipesFragment extends Fragment { private androidx.recyclerview.wi
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.rootView = view;
+        try {
+            this.rootView = view;
 
-        RecyclerView list = view.findViewById(R.id.recipesList);
-        View empty = view.findViewById(R.id.emptyView);
-        list.setLayoutManager(new androidx.recyclerview.widget.GridLayoutManager(getContext(), 2));
-        // Show skeleton while initial filters compute
-        list.setAdapter(new com.repasdelaflemme.app.ui.home.SkeletonAdapter(8));
-        adapter = new RecipeAdapter(item -> {
-            NavController nav = NavHostFragment.findNavController(this);
-            Bundle args = new Bundle();
-            args.putString("recipeId", item.id);
-            nav.navigate(R.id.recipeDetailFragment, args);
-        });
-        list.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_slide_up));
-        this.listView = list;
+            RecyclerView list = view.findViewById(R.id.recipesList);
+            View empty = view.findViewById(R.id.emptyView);
+            if (list != null) {
+                list.setLayoutManager(new androidx.recyclerview.widget.GridLayoutManager(getContext(), 2));
+                list.setAdapter(new com.repasdelaflemme.app.ui.home.SkeletonAdapter(8));
+                list.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_slide_up));
+                this.listView = list;
+            }
 
-        allRecipes = AssetsRepository.getRecipes(requireContext());
-        remote = new MealDbClient();
-
-        EditText search = view.findViewById(R.id.inputSearch);
-        Chip veg = view.findViewById(R.id.checkVegetarian);
-        Chip quick = view.findViewById(R.id.checkQuick);
-        Chip fromPantryOnly = view.findViewById(R.id.checkFromPantryOnly);
-        Chip allowOneMissing = view.findViewById(R.id.checkAllowOneMissing);
-        Chip halal = view.findViewById(R.id.checkHalal);
-        Chip b1 = view.findViewById(R.id.checkBudget1);
-        Chip b2 = view.findViewById(R.id.checkBudget2);
-        Chip b3 = view.findViewById(R.id.checkBudget3);
-        Chip tQuick = view.findViewById(R.id.checkTimeQuick);
-        Chip tMed = view.findViewById(R.id.checkTimeMedium);
-        Chip tLong = view.findViewById(R.id.checkTimeLong);
-        Chip uPoele = view.findViewById(R.id.checkUstPoele);
-        Chip uCasserole = view.findViewById(R.id.checkUstCasserole);
-        Chip uFour = view.findViewById(R.id.checkUstFour);
-        Chip uWok = view.findViewById(R.id.checkUstWok);
-        Chip uCocotte = view.findViewById(R.id.checkUstCocotte);
-        Chip uMixeur = view.findViewById(R.id.checkUstMixeur);
-        Chip cFr = view.findViewById(R.id.checkCuisineFrancais);
-        Chip cIt = view.findViewById(R.id.checkCuisineItalien);
-        Chip cAs = view.findViewById(R.id.checkCuisineAsiatique);
-        Chip cIn = view.findViewById(R.id.checkCuisineIndien);
-        Chip cMagh = view.findViewById(R.id.checkCuisineMaghreb);
-        Chip cMex = view.findViewById(R.id.checkCuisineMexicain);
-        Chip cUs = view.findViewById(R.id.checkCuisineUS);
-        Chip cMed = view.findViewById(R.id.checkCuisineMed);
-        Chip cOther = view.findViewById(R.id.checkCuisineAutres);
-        Chip aNoGluten = view.findViewById(R.id.checkNoGluten);
-        Chip aNoLactose = view.findViewById(R.id.checkNoLactose);
-        Chip aNoEgg = view.findViewById(R.id.checkNoOeuf);
-        Chip aNoPeanut = view.findViewById(R.id.checkNoArachide);
-        Chip aNoTreeNuts = view.findViewById(R.id.checkNoFruitsCoque);
-        Chip aNoShell = view.findViewById(R.id.checkNoCrustace);
-        Chip aNoSoy = view.findViewById(R.id.checkNoSoja);
-        Chip aNoSesame = view.findViewById(R.id.checkNoSesame);
-        Chip aNoAlcohol = view.findViewById(R.id.checkNoAlcohol);
-        Chip aNoPork = view.findViewById(R.id.checkNoPork);
-
-        View.OnClickListener trigger = v -> {
-            try { applyFilters(search, veg, quick, fromPantryOnly, allowOneMissing); }
-            catch (Throwable t) { Log.w("RecipesFragment", "applyFilters crashed", t); showSafeError(); }
-        };
-        if (veg != null) veg.setOnClickListener(trigger);
-        if (quick != null) quick.setOnClickListener(trigger);
-        if (fromPantryOnly != null) fromPantryOnly.setOnClickListener(trigger);
-        if (allowOneMissing != null) allowOneMissing.setOnClickListener(trigger);
-        for (Chip ch : new Chip[]{halal,b1,b2,b3,tQuick,tMed,tLong,uPoele,uCasserole,uFour,uWok,uCocotte,uMixeur,cFr,cIt,cAs,cIn,cMagh,cMex,cUs,cMed,cOther,aNoGluten,aNoLactose,aNoEgg,aNoPeanut,aNoTreeNuts,aNoShell,aNoSoy,aNoSesame,aNoAlcohol,aNoPork}) {
-            if (ch != null) ch.setOnClickListener(trigger);
-        }
-        if (search != null) {
-            search.addTextChangedListener(new android.text.TextWatcher() {
-                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    try { applyFilters(search, veg, quick, fromPantryOnly, allowOneMissing); }
-                    catch (Throwable t) { Log.w("RecipesFragment", "applyFilters crashed", t); showSafeError(); }
-                }
-                @Override public void afterTextChanged(android.text.Editable s) {}
+            adapter = new RecipeAdapter(item -> {
+                try {
+                    NavController nav = NavHostFragment.findNavController(this);
+                    Bundle args = new Bundle();
+                    args.putString("recipeId", item.id);
+                    nav.navigate(R.id.recipeDetailFragment, args);
+                } catch (Throwable ignored) {}
             });
-        }
 
-        boolean focusPantry = getArguments() != null && getArguments().getBoolean("focusPantry", false);
-        if (focusPantry && fromPantryOnly != null) {
-            fromPantryOnly.setChecked(true);
+            allRecipes = AssetsRepository.getRecipes(requireContext());
+            remote = new MealDbClient();
+
+            EditText search = view.findViewById(R.id.inputSearch);
+            Chip veg = view.findViewById(R.id.checkVegetarian);
+            Chip quick = view.findViewById(R.id.checkQuick);
+            Chip fromPantryOnly = view.findViewById(R.id.checkFromPantryOnly);
+            Chip allowOneMissing = view.findViewById(R.id.checkAllowOneMissing);
+            Chip halal = view.findViewById(R.id.checkHalal);
+            Chip b1 = view.findViewById(R.id.checkBudget1);
+            Chip b2 = view.findViewById(R.id.checkBudget2);
+            Chip b3 = view.findViewById(R.id.checkBudget3);
+            Chip tQuick = view.findViewById(R.id.checkTimeQuick);
+            Chip tMed = view.findViewById(R.id.checkTimeMedium);
+            Chip tLong = view.findViewById(R.id.checkTimeLong);
+            Chip uPoele = view.findViewById(R.id.checkUstPoele);
+            Chip uCasserole = view.findViewById(R.id.checkUstCasserole);
+            Chip uFour = view.findViewById(R.id.checkUstFour);
+            Chip uWok = view.findViewById(R.id.checkUstWok);
+            Chip uCocotte = view.findViewById(R.id.checkUstCocotte);
+            Chip uMixeur = view.findViewById(R.id.checkUstMixeur);
+            Chip cFr = view.findViewById(R.id.checkCuisineFrancais);
+            Chip cIt = view.findViewById(R.id.checkCuisineItalien);
+            Chip cAs = view.findViewById(R.id.checkCuisineAsiatique);
+            Chip cIn = view.findViewById(R.id.checkCuisineIndien);
+            Chip cMagh = view.findViewById(R.id.checkCuisineMaghreb);
+            Chip cMex = view.findViewById(R.id.checkCuisineMexicain);
+            Chip cUs = view.findViewById(R.id.checkCuisineUS);
+            Chip cMed = view.findViewById(R.id.checkCuisineMed);
+            Chip cOther = view.findViewById(R.id.checkCuisineAutres);
+            Chip aNoGluten = view.findViewById(R.id.checkNoGluten);
+            Chip aNoLactose = view.findViewById(R.id.checkNoLactose);
+            Chip aNoEgg = view.findViewById(R.id.checkNoOeuf);
+            Chip aNoPeanut = view.findViewById(R.id.checkNoArachide);
+            Chip aNoTreeNuts = view.findViewById(R.id.checkNoFruitsCoque);
+            Chip aNoShell = view.findViewById(R.id.checkNoCrustace);
+            Chip aNoSoy = view.findViewById(R.id.checkNoSoja);
+            Chip aNoSesame = view.findViewById(R.id.checkNoSesame);
+            Chip aNoAlcohol = view.findViewById(R.id.checkNoAlcohol);
+            Chip aNoPork = view.findViewById(R.id.checkNoPork);
+
+            View.OnClickListener trigger = v -> {
+                try { applyFilters(search, veg, quick, fromPantryOnly, allowOneMissing); }
+                catch (Throwable t) { Log.w("RecipesFragment", "applyFilters crashed", t); showSafeError(); }
+            };
+            if (veg != null) veg.setOnClickListener(trigger);
+            if (quick != null) quick.setOnClickListener(trigger);
+            if (fromPantryOnly != null) fromPantryOnly.setOnClickListener(trigger);
+            if (allowOneMissing != null) allowOneMissing.setOnClickListener(trigger);
+            for (Chip ch : new Chip[]{halal,b1,b2,b3,tQuick,tMed,tLong,uPoele,uCasserole,uFour,uWok,uCocotte,uMixeur,cFr,cIt,cAs,cIn,cMagh,cMex,cUs,cMed,cOther,aNoGluten,aNoLactose,aNoEgg,aNoPeanut,aNoTreeNuts,aNoShell,aNoSoy,aNoSesame,aNoAlcohol,aNoPork}) {
+                if (ch != null) ch.setOnClickListener(trigger);
+            }
+            if (search != null) {
+                search.addTextChangedListener(new android.text.TextWatcher() {
+                    @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                    @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        try { applyFilters(search, veg, quick, fromPantryOnly, allowOneMissing); }
+                        catch (Throwable t) { Log.w("RecipesFragment", "applyFilters crashed", t); showSafeError(); }
+                    }
+                    @Override public void afterTextChanged(android.text.Editable s) {}
+                });
+            }
+
+            boolean focusPantry = getArguments() != null && getArguments().getBoolean("focusPantry", false);
+            if (focusPantry && fromPantryOnly != null) {
+                fromPantryOnly.setChecked(true);
+            }
+            // initial
+            try { applyFilters(search, veg, quick, fromPantryOnly, allowOneMissing); }
+            catch (Throwable t) { Log.w("RecipesFragment", "initial applyFilters crashed", t); showSafeError(); safePopulateFallback(); }
+        } catch (Throwable fatal) {
+            Log.e("RecipesFragment", "fatal setup error", fatal);
+            showSafeError();
+            safePopulateFallback();
         }
-        // initial
-        try { applyFilters(search, veg, quick, fromPantryOnly, allowOneMissing); }
-        catch (Throwable t) { Log.w("RecipesFragment", "initial applyFilters crashed", t); showSafeError(); }
     }
 
     private void applyFilters(EditText search, Chip veg, Chip quick, Chip fromPantryOnly, Chip allowOneMissing) {
@@ -299,6 +309,57 @@ public class RecipesFragment extends Fragment { private androidx.recyclerview.wi
         }
     }
 
+    private void safePopulateFallback() {
+        try {
+            if (getContext() == null) return;
+            List<Recipe> src = (allRecipes != null && !allRecipes.isEmpty()) ? allRecipes : AssetsRepository.getRecipes(requireContext());
+            List<String> have;
+            try {
+                PrefPantryStore store = new PrefPantryStore(requireContext());
+                have = store.getIngredientIds();
+                if (have == null) have = new ArrayList<>();
+            } catch (Throwable t) {
+                have = new ArrayList<>();
+            }
+            List<RecipeCard> cards = new ArrayList<>();
+            for (Recipe r : src) {
+                int haveCount = 0;
+                int total = r.ingredients != null ? r.ingredients.size() : 0;
+                if (r.ingredients != null) {
+                    for (RecipeIngredient ri : r.ingredients) { if (have.contains(ri.id)) haveCount++; }
+                }
+                Integer resId = null; String imageUrl = null;
+                if (r.image != null) {
+                    if (r.image.startsWith("res:")) {
+                        String name = r.image.substring(4);
+                        int id = getResources().getIdentifier(name, "drawable", requireContext().getPackageName());
+                        if (id != 0) resId = id;
+                    } else if (r.image.startsWith("http")) { imageUrl = r.image; }
+                }
+                RecipeCard c = new RecipeCard(r.id, r.title, r.minutes, total == 0 ? 0 : (haveCount * 100 / Math.max(1, total)))
+                        .withMissing(Math.max(0, total - haveCount))
+                        .withVegetarian(r.vegetarian != null && r.vegetarian)
+                        .withHalal(r.halal)
+                        .withBudget(r.budget)
+                        .withUtensils(r.utensils)
+                        .withCuisine(r.cuisine)
+                        .withAllergens(r.allergens)
+                        .withContainsAlcohol(r.containsAlcohol)
+                        .withContainsPork(r.containsPork)
+                        .withImage(resId)
+                        .withImageUrl(imageUrl);
+                cards.add(c);
+            }
+            cards.sort((a,b) -> Integer.compare(b.matchScore != null ? b.matchScore : 0, a.matchScore != null ? a.matchScore : 0));
+            if (listView != null && listView.getAdapter() != adapter) listView.setAdapter(adapter);
+            if (adapter != null) adapter.submit(cards);
+            if (rootView != null) {
+                View emptyV = rootView.findViewById(R.id.emptyView);
+                if (emptyV != null) emptyV.setVisibility(cards.isEmpty() ? View.VISIBLE : View.GONE);
+            }
+        } catch (Throwable ignored) {}
+    }
+
     private boolean safeIsChecked(Chip chip) {
         try { return chip.isChecked(); } catch (Throwable t) { return false; }
     }
@@ -319,7 +380,6 @@ public class RecipesFragment extends Fragment { private androidx.recyclerview.wi
         } catch (Throwable t) { return false; }
     }
 }
-
 
 
 

@@ -48,10 +48,16 @@ public class AssetsRepository {
                     } catch (Exception ignored) {}
                 }
             } catch (Exception ignored) {}
-            // If dataset is small, synthesize additional detailed recipes to reach ~500
-            if (all.size() < 500) {
-                int need = 500 - all.size();
+            // Avoid inflating dataset too much on low-memory devices
+            // Keep a reasonable cap to prevent UI freezes or OOMs when opening the Recipes tab.
+            final long maxMem = Runtime.getRuntime().maxMemory();
+            final int target = (maxMem <= 192L * 1024L * 1024L) ? 120 : 240; // 120 items on low-mem, else 240
+            if (all.size() < target) {
+                int need = target - all.size();
                 try { all.addAll(generateSyntheticRecipes(context, need)); } catch (Exception ignored) {}
+            } else if (all.size() > target * 2) {
+                // In case assets already contain a huge list, trim to a sane size
+                all = new java.util.ArrayList<>(all.subList(0, Math.min(all.size(), target * 2)));
             }
             RECIPES_CACHE = all;
             return RECIPES_CACHE;

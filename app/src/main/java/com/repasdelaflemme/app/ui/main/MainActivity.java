@@ -9,7 +9,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.repasdelaflemme.app.R;
@@ -30,36 +29,40 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Toolbar
-        MaterialToolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        // Pas de Toolbar dans le layout actuel
 
         // Navigation
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
-            NavigationUI.setupActionBarWithNavController(this, navController);
+            if (getSupportActionBar() != null) {
+                NavigationUI.setupActionBarWithNavController(this, navController);
+            }
 
             // Lier la BottomNavigationView avec le NavController
             BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
-            NavigationUI.setupWithNavController(bottomNav, navController);
+            if (bottomNav != null) {
+                NavigationUI.setupWithNavController(bottomNav, navController);
+            }
 
             // Main content padding to avoid overlap with bottom nav (like .main-content under a fixed nav)
             View content = findViewById(R.id.nav_host_fragment);
-            ViewCompat.setOnApplyWindowInsetsListener(content, (v, insets) -> {
+            if (content != null) { View finalBottomNav = bottomNav; ViewCompat.setOnApplyWindowInsetsListener(content, (v, insets) -> {
                 Insets sys = insets.getInsets(WindowInsetsCompat.Type.systemBars());
                 int left = v.getPaddingLeft();
                 int right = v.getPaddingRight();
                 int top = v.getPaddingTop();
                 int extra = Math.round(80f * v.getResources().getDisplayMetrics().density); // padding-bottom: 80px (≈80dp)
-                int bottom = sys.bottom + bottomNav.getHeight() + extra;
+                int navHeight = (finalBottomNav != null) ? finalBottomNav.getHeight() : 0;
+                int bottom = sys.bottom + navHeight + extra;
                 v.setPadding(left, top, right, bottom);
                 return insets;
-            });
+            }); }
 
             // Floating Action Button: primary action per screen
             FloatingActionButton fab = findViewById(R.id.fab_main);
+            if (fab != null) {
             // Subtle press animation on FAB
             AnimUtils.attachPressAnimator(fab);
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
@@ -95,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     fab.hide();
                 }
             });
+            }
         }
     }
 
