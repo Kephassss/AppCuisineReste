@@ -31,18 +31,6 @@
 
   <!-- Actions principales -->
   <string name="action_find_recipes">Trouver des recettes</string>
-  
-  <!-- Pantry improvements -->
-  <string name="pantry_filter_categories">Catégories</string>
-  <string name="pantry_select_visible">Tout sélectionner</string>
-  <string name="pantry_clear_visible">Tout désélectionner</string>
-  <string name="pantry_recents">Récents</string>
-  <string name="pantry_frequents">Fréquents</string>
-  <string name="pantry_favorites">Favoris</string>
-  <string name="pantry_selected_count">%1$d sélectionné(s)</string>
-  <string name="action_clear_all">Tout effacer</string>
-  <string name="pantry_cleared">Sélection effacée</string>
-  <string name="action_undo">Annuler</string>
 
   <!-- États/infos -->
   <string name="empty_pantry">Aucun ingrédient pour le moment</string>
@@ -100,18 +88,5 @@
   <string name="cui_fr">Français</string>
   <string name="cui_us">US</string>
   <string name="cui_magh">Maghrébin</string>
-
-  <!-- Sections filtres (UI) -->
-  <string name="filter_section_quick">Filtres rapides</string>
-  <string name="filter_section_diet">Régime</string>
-  <string name="filter_section_budget">Budget</string>
-  <string name="filter_section_time">Temps</string>
-  <string name="filter_section_utensils">Ustensiles</string>
-  <string name="filter_section_cuisine">Cuisines</string>
-  <string name="filter_section_allergens">Allergènes</string>
-  <string name="filters_advanced">Filtres avancés</string>
-  <string name="filters_hide">Masquer les filtres</string>
-  <string name="action_reset">Réinitialiser</string>
-  <string name="action_apply">Appliquer</string>
 
 </resources>

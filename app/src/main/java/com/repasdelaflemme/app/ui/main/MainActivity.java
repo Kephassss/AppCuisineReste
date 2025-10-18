@@ -81,23 +81,9 @@ public class MainActivity extends AppCompatActivity {
                         navController.navigate(R.id.recipesFragment, args);
                     });
                 } else if (id == R.id.recipesFragment) {
-                    fab.show();
-                    fab.setImageResource(R.drawable.ic_kitchen);
-                    fab.setContentDescription(getString(R.string.action_choose_ingredients));
-                    fab.setOnClickListener(v -> navController.navigate(R.id.pantryFragment));
+                    fab.hide();
                 } else if (id == R.id.pantryFragment) {
-                    fab.show();
-                    // Icon fitted to "voir recettes avec mes ingrédients"
-                    fab.setImageResource(R.drawable.ic_bowl);
-                    fab.setContentDescription(getString(R.string.action_find_recipes));
-                    fab.setOnClickListener(v -> {
-                        v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
-                        Bundle args = new Bundle();
-                        args.putBoolean("focusPantry", true);
-                        navController.navigate(R.id.recipesFragment, args);
-                        // Small bounce on click
-                        AnimUtils.bounceKeyframes(fab, 4f, 500, false);
-                    });
+                    fab.hide();
                 } else {
                     fab.hide();
                 }
@@ -116,3 +102,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 }
+

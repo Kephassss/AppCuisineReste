@@ -18,6 +18,7 @@ import com.repasdelaflemme.app.data.AssetsRepository;
 import com.repasdelaflemme.app.data.PrefPantryStore;
 import com.repasdelaflemme.app.data.model.Ingredient;
 import android.view.ContextThemeWrapper;
+import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,7 +81,7 @@ public class PantryFragment extends Fragment {
         list.postDelayed(() -> list.setAdapter(catalogAdapter), 150);
         list.setLayoutAnimation(android.view.animation.AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_slide_up));
 
-        // Recherche + catégories
+        // Recherche + catÃ©gories
         TextView input = view.findViewById(R.id.inputSearchIngredient);
         input.addTextChangedListener(new android.text.TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -95,13 +96,18 @@ public class PantryFragment extends Fragment {
         catalogAdapter.setSelectedIds(store.getIngredientIds());
         setupCategoryChips(catalog);
 
-        // Action groupée: tout désélectionner sur la liste visible
-        View btnClear = view.findViewById(R.id.btnClearVisible);
-        if (btnClear != null) btnClear.setOnClickListener(v -> catalogAdapter.clearVisible());
         View btnClearAll = view.findViewById(R.id.btnClearAll);
         if (btnClearAll != null) btnClearAll.setOnClickListener(v -> {
+            java.util.List<String> previous = new java.util.ArrayList<>(store.getIngredientIds());
             store.setIngredientIds(new java.util.ArrayList<>());
             updateAfterChange();
+            try {
+                Snackbar.make(requireView(), getString(R.string.pantry_cleared), Snackbar.LENGTH_LONG)
+                        .setAction(getString(R.string.action_undo), x -> {
+                            store.setIngredientIds(previous);
+                            updateAfterChange();
+                        }).show();
+            } catch (Throwable ignored) {}
         });
         updateAfterChange();
     }
@@ -162,7 +168,7 @@ public class PantryFragment extends Fragment {
     }
 
     private void updateAfterChange() {
-        // Mettre à jour les chips, la sélection du catalogue et l'état vide
+        // Mettre Ã  jour les chips, la sÃ©lection du catalogue et l'Ã©tat vide
         if (catalogAdapter != null) {
             catalogAdapter.setSelectedIds(store.getIngredientIds());
         }

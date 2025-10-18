@@ -175,6 +175,32 @@ tasks.register('verifyRecipeImages') {
 // Run check before building; can bypass with -PallowMissingRecipeImages
 tasks.matching { it.name == 'preBuild' }.configureEach { dependsOn tasks.named('verifyRecipeImages') }
 
+// ---- Utility: strip UTF-8 BOM from source files to avoid 'illegal character: \ufeff' ----
+tasks.register('stripBom') {
+    group = 'verification'
+    description = 'Remove UTF-8 BOM (\uFEFF) from .java/.kt/.xml files under app/src.'
+    doLast {
+        def base = new File(projectDir, 'src/main')
+        if (!base.exists()) return
+        def exts = ['.java', '.kt', '.xml']
+        int fixed = 0
+        base.eachFileRecurse { f ->
+            if (f.isFile() && exts.any { f.name.toLowerCase().endsWith(it) }) {
+                def bytes = f.bytes
+                if (bytes.length >= 3 && bytes[0] == (byte)0xEF && bytes[1] == (byte)0xBB && bytes[2] == (byte)0xBF) {
+                    def out = new byte[bytes.length - 3]
+                    System.arraycopy(bytes, 3, out, 0, out.length)
+                    f.bytes = out
+                    fixed++
+                }
+            }
+        }
+        println "stripBom: removed BOM from ${fixed} file(s)."
+    }
+}
+
+// Ensure BOMs are stripped before compiling
+tasks.matching { it.name == 'preBuild' }.configureEach { dependsOn tasks.named('stripBom') }
 // ---- Utility: import photos from a local folder and rename to expected names ----
 tasks.register('importRecipeImages') {
     group = 'assets'

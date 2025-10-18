@@ -70,10 +70,10 @@
     Vos attributs 'text' et 'icon' ont été remis dans cette balise.
     -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnFindByPantry"
         style="@style/Widget.Material3.Button.TonalButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"

@@ -74,11 +74,6 @@ public class HomeFragment extends Fragment {
         NavController navController = NavHostFragment.findNavController(this);
         binding.btnPantry.setOnClickListener(v -> navController.navigate(R.id.pantryFragment));
         binding.btnDiscover.setOnClickListener(v -> navController.navigate(R.id.recipesFragment));
-        binding.btnFindByPantry.setOnClickListener(v -> {
-            Bundle args = new Bundle();
-            args.putBoolean("focusPantry", true);
-            navController.navigate(R.id.recipesFragment, args);
-        });
     }
 
     @Override
@@ -87,4 +82,3 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 }
-

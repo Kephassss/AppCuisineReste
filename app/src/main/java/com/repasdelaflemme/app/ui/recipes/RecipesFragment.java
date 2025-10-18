@@ -84,9 +84,9 @@ public class RecipesFragment extends Fragment {
 
             // Toggle panneau des filtres avancés
             View advanced = view.findViewById(R.id.advancedFilters);
-            android.view.View btnToggle = view.findViewById(R.id.btnToggleFilters);
-            if (btnToggle != null && advanced != null) {
-                btnToggle.setOnClickListener(v -> {
+            View chipToggle = view.findViewById(R.id.checkAdvancedToggle);
+            if (chipToggle != null && advanced != null) {
+                chipToggle.setOnClickListener(v -> {
                     boolean show = advanced.getVisibility() != View.VISIBLE;
                     animateAdvanced(advanced, show);
                     updateAdvancedButton();
@@ -253,14 +253,14 @@ public class RecipesFragment extends Fragment {
 
     private void updateAdvancedButton() {
         try {
-            View btnToggle = (rootView != null) ? rootView.findViewById(R.id.btnToggleFilters) : null;
+            com.google.android.material.chip.Chip chipToggle = (rootView != null) ? rootView.findViewById(R.id.checkAdvancedToggle) : null;
             View advanced = (rootView != null) ? rootView.findViewById(R.id.advancedFilters) : null;
-            if (!(btnToggle instanceof com.google.android.material.button.MaterialButton)) return;
-            com.google.android.material.button.MaterialButton b = (com.google.android.material.button.MaterialButton) btnToggle;
             int n = countActiveFilters();
             boolean open = (advanced != null && advanced.getVisibility() == View.VISIBLE);
-            String base = getString(open ? R.string.filters_hide : R.string.filters_advanced);
-            b.setText(n > 0 ? base + " (" + n + ")" : base);
+            if (chipToggle != null) {
+                String base = getString(open ? R.string.filters_hide : R.string.filters_advanced);
+                chipToggle.setText(n > 0 ? (base + " (" + n + ")") : base);
+            }
         } catch (Throwable ignored) {}
     }
 
