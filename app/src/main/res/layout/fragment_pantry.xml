@@ -29,17 +29,95 @@
             android:id="@+id/chipSelected"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
+            app:singleLine="false"
+            app:singleSelection="false"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="6dp">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnClearAll"
+                style="@style/Widget.CooknRest.TouchButton.Tonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_clear_all"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/pantryCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:text="0 sélectionné"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pantry_favorites"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"/>
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipsFavorites"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleLine="false"
+            app:singleSelection="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pantry_recents"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"/>
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipsRecents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleLine="false"
+            app:singleSelection="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pantry_frequents"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"/>
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipsFrequents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:singleLine="false"
             app:singleSelection="false"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent" android:layout_height="wrap_content">
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            app:endIconMode="clear_text">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputSearchIngredient"
                 android:hint="@string/search_hint"
                 android:layout_width="match_parent" android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pantry_filter_categories"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"/>
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipsCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:singleSelection="false"
+            app:singleLine="false"/>
+
+        <!-- Removed row for clear visible to simplify UI per request -->
     </LinearLayout>
 
     <TextView

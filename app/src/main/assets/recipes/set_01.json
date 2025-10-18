@@ -5,7 +5,7 @@
     "minutes": 20,
     "servings": 2,
     "vegetarian": true,
-    "image": "res:logo_app",
+    "image": "res:photo_pasta",
     "tags": ["rapide","pas_cher"],
     "ingredients": [
       {"id":"pate","qty":200,"unit":"g"},
@@ -33,7 +33,7 @@
     "minutes": 15,
     "servings": 2,
     "vegetarian": true,
-    "image": "res:logo_app",
+    "image": "res:photo_omelette",
     "tags": ["rapide"],
     "ingredients": [
       {"id":"oeuf","qty":4,"unit":"pcs"},
@@ -58,7 +58,7 @@
     "minutes": 25,
     "servings": 3,
     "vegetarian": false,
-    "image": "res:logo_app",
+    "image": "res:photo_fried_rice",
     "tags": ["rapide","familial"],
     "ingredients": [
       {"id":"riz","qty":200,"unit":"g"},
@@ -84,7 +84,7 @@
     "minutes": 30,
     "servings": 4,
     "vegetarian": false,
-    "image": "res:logo_app",
+    "image": "res:photo_curry",
     "tags": ["épices","crémeux"],
     "ingredients": [
       {"id":"poulet","qty":500,"unit":"g"},
@@ -111,7 +111,7 @@
     "minutes": 12,
     "servings": 2,
     "vegetarian": true,
-    "image": "res:logo_app",
+    "image": "res:photo_salad",
     "tags": ["frais","été"],
     "ingredients": [
       {"id":"concombre","qty":1,"unit":"pcs"},
@@ -136,7 +136,7 @@
     "minutes": 45,
     "servings": 4,
     "vegetarian": true,
-    "image": "res:logo_app",
+    "image": "res:photo_ratatouille",
     "tags": ["classique","légumes"],
     "ingredients": [
       {"id":"aubergine","qty":1,"unit":"pcs"},
@@ -160,4 +160,3 @@
     ]
   }
 ]
-

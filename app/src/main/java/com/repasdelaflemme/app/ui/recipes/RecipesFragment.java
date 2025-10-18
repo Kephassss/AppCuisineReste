@@ -22,6 +22,8 @@ import com.repasdelaflemme.app.data.model.RecipeIngredient;
 import com.repasdelaflemme.app.ui.common.RecipeCard;
 import com.repasdelaflemme.app.ui.home.RecipeAdapter;
 import android.view.animation.AnimationUtils;
+import android.animation.ValueAnimator;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -80,6 +82,24 @@ public class RecipesFragment extends Fragment {
             // Configuration des filtres
             setupFilters(view);
 
+            // Toggle panneau des filtres avancés
+            View advanced = view.findViewById(R.id.advancedFilters);
+            android.view.View btnToggle = view.findViewById(R.id.btnToggleFilters);
+            if (btnToggle != null && advanced != null) {
+                btnToggle.setOnClickListener(v -> {
+                    boolean show = advanced.getVisibility() != View.VISIBLE;
+                    animateAdvanced(advanced, show);
+                    updateAdvancedButton();
+                });
+                updateAdvancedButton();
+            }
+
+            // Actions réinitialiser/appliquer
+            View btnReset = view.findViewById(R.id.btnResetFilters);
+            if (btnReset != null) btnReset.setOnClickListener(v -> resetAllFilters());
+            View btnApply = view.findViewById(R.id.btnApplyFilters);
+            if (btnApply != null) btnApply.setOnClickListener(v -> applyFilters());
+
             // Focus initial sur le placard si demandé
             boolean focusPantry = getArguments() != null && getArguments().getBoolean("focusPantry", false);
             Chip fromPantryOnly = view.findViewById(R.id.checkFromPantryOnly);
@@ -129,7 +149,10 @@ public class RecipesFragment extends Fragment {
 
         for (int id : chipIds) {
             Chip chip = view.findViewById(id);
-            if (chip != null) chip.setOnClickListener(trigger);
+            if (chip != null) chip.setOnClickListener(v -> {
+                trigger.onClick(v);
+                updateAdvancedButton();
+            });
         }
 
         // Recherche en temps réel
@@ -142,6 +165,103 @@ public class RecipesFragment extends Fragment {
                 @Override public void afterTextChanged(android.text.Editable s) {}
             });
         }
+    }
+
+    private void resetAllFilters() {
+        if (rootView == null) return;
+        try {
+            // Clear search
+            EditText search = rootView.findViewById(R.id.inputSearch);
+            if (search != null) search.setText("");
+
+            // All chip ids used across sections
+            int[] ids = new int[]{
+                    R.id.checkVegetarian, R.id.checkQuick, R.id.checkFromPantryOnly, R.id.checkAllowOneMissing,
+                    R.id.checkHalal, R.id.checkBudget1, R.id.checkBudget2, R.id.checkBudget3,
+                    R.id.checkTimeQuick, R.id.checkTimeMedium, R.id.checkTimeLong,
+                    R.id.checkUstPoele, R.id.checkUstCasserole, R.id.checkUstFour,
+                    R.id.checkUstWok, R.id.checkUstCocotte, R.id.checkUstMixeur,
+                    R.id.checkCuisineFrancais, R.id.checkCuisineItalien, R.id.checkCuisineAsiatique,
+                    R.id.checkCuisineIndien, R.id.checkCuisineMaghreb, R.id.checkCuisineMexicain,
+                    R.id.checkCuisineUS, R.id.checkCuisineMed, R.id.checkCuisineAutres,
+                    R.id.checkNoGluten, R.id.checkNoLactose, R.id.checkNoOeuf, R.id.checkNoArachide,
+                    R.id.checkNoFruitsCoque, R.id.checkNoCrustace, R.id.checkNoSoja, R.id.checkNoSesame,
+                    R.id.checkNoAlcohol, R.id.checkNoPork
+            };
+            for (int id : ids) {
+                View v = rootView.findViewById(id);
+                if (v instanceof Chip) ((Chip) v).setChecked(false);
+            }
+            applyFilters();
+            updateAdvancedButton();
+        } catch (Throwable t) {
+            Log.w("RecipesFragment", "resetAllFilters failed", t);
+        }
+    }
+
+    private void animateAdvanced(View view, boolean show) {
+        try {
+            if (show) {
+                view.setAlpha(0f);
+                view.setVisibility(View.VISIBLE);
+                ValueAnimator va = ValueAnimator.ofFloat(0f, 1f);
+                va.setDuration(200);
+                va.setInterpolator(new AccelerateDecelerateInterpolator());
+                va.addUpdateListener(a -> view.setAlpha((Float) a.getAnimatedValue()));
+                va.start();
+            } else {
+                ValueAnimator va = ValueAnimator.ofFloat(1f, 0f);
+                va.setDuration(200);
+                va.setInterpolator(new AccelerateDecelerateInterpolator());
+                va.addUpdateListener(a -> view.setAlpha((Float) a.getAnimatedValue()));
+                va.addListener(new android.animation.AnimatorListenerAdapter() {
+                    @Override public void onAnimationEnd(android.animation.Animator animation) {
+                        view.setVisibility(View.GONE);
+                    }
+                });
+                va.start();
+            }
+        } catch (Throwable ignored) { view.setVisibility(show ? View.VISIBLE : View.GONE); }
+    }
+
+    private int countActiveFilters() {
+        if (rootView == null) return 0;
+        int count = 0;
+        try {
+            int[] ids = new int[]{
+                    R.id.checkVegetarian, R.id.checkQuick, R.id.checkFromPantryOnly, R.id.checkAllowOneMissing,
+                    R.id.checkHalal, R.id.checkBudget1, R.id.checkBudget2, R.id.checkBudget3,
+                    R.id.checkTimeQuick, R.id.checkTimeMedium, R.id.checkTimeLong,
+                    R.id.checkUstPoele, R.id.checkUstCasserole, R.id.checkUstFour,
+                    R.id.checkUstWok, R.id.checkUstCocotte, R.id.checkUstMixeur,
+                    R.id.checkCuisineFrancais, R.id.checkCuisineItalien, R.id.checkCuisineAsiatique,
+                    R.id.checkCuisineIndien, R.id.checkCuisineMaghreb, R.id.checkCuisineMexicain,
+                    R.id.checkCuisineUS, R.id.checkCuisineMed, R.id.checkCuisineAutres,
+                    R.id.checkNoGluten, R.id.checkNoLactose, R.id.checkNoOeuf, R.id.checkNoArachide,
+                    R.id.checkNoFruitsCoque, R.id.checkNoCrustace, R.id.checkNoSoja, R.id.checkNoSesame,
+                    R.id.checkNoAlcohol, R.id.checkNoPork
+            };
+            for (int id : ids) {
+                View v = rootView.findViewById(id);
+                if (v instanceof Chip && ((Chip) v).isChecked()) count++;
+            }
+            EditText search = rootView.findViewById(R.id.inputSearch);
+            if (search != null && search.getText() != null && search.getText().toString().trim().length() > 0) count++;
+        } catch (Throwable ignored) {}
+        return count;
+    }
+
+    private void updateAdvancedButton() {
+        try {
+            View btnToggle = (rootView != null) ? rootView.findViewById(R.id.btnToggleFilters) : null;
+            View advanced = (rootView != null) ? rootView.findViewById(R.id.advancedFilters) : null;
+            if (!(btnToggle instanceof com.google.android.material.button.MaterialButton)) return;
+            com.google.android.material.button.MaterialButton b = (com.google.android.material.button.MaterialButton) btnToggle;
+            int n = countActiveFilters();
+            boolean open = (advanced != null && advanced.getVisibility() == View.VISIBLE);
+            String base = getString(open ? R.string.filters_hide : R.string.filters_advanced);
+            b.setText(n > 0 ? base + " (" + n + ")" : base);
+        } catch (Throwable ignored) {}
     }
 
     private void applyFilters() {
@@ -386,8 +506,21 @@ public class RecipesFragment extends Fragment {
                         remoteCards.add(c);
                     }
 
-                    List<RecipeCard> combined = new ArrayList<>(currentResults);
-                    combined.addAll(remoteCards);
+                    // De-duplicate by id first, then by normalized title
+                    java.util.LinkedHashMap<String, RecipeCard> map = new java.util.LinkedHashMap<>();
+                    for (RecipeCard rc : currentResults) {
+                        if (rc != null && rc.id != null) map.put(rc.id, rc);
+                    }
+                    for (RecipeCard rc : remoteCards) {
+                        if (rc != null && rc.id != null) map.put(rc.id, rc);
+                    }
+                    // Extra pass by title to avoid visual duplicates
+                    java.util.LinkedHashMap<String, RecipeCard> byTitle = new java.util.LinkedHashMap<>();
+                    for (RecipeCard rc : map.values()) {
+                        String key = (rc.title != null ? rc.title.trim().toLowerCase(java.util.Locale.ROOT) : "");
+                        if (!byTitle.containsKey(key)) byTitle.put(key, rc);
+                    }
+                    List<RecipeCard> combined = new ArrayList<>(byTitle.values());
 
                     getActivity().runOnUiThread(() -> {
                         if (adapter != null) adapter.submit(combined);

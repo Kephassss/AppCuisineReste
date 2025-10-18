@@ -58,18 +58,20 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
             holder.tagTime.setText(mins + " min");
         }
         if (holder.cover != null) {
+            // Always clear any tint/filter that may be set from XML
+            try { holder.cover.setImageTintList(null); } catch (Throwable ignored) {}
+            try { holder.cover.setColorFilter(null); } catch (Throwable ignored) {}
             if (item.imageUrl != null && !item.imageUrl.isEmpty()) {
                 com.bumptech.glide.Glide.with(holder.cover.getContext())
                         .load(item.imageUrl)
-                        .placeholder(R.drawable.logo_app)
+                        .placeholder(R.drawable.ic_recipe)
+                        .error(R.drawable.ic_recipe)
                         .centerCrop()
                         .into(holder.cover);
             } else if (item.imageResId != null && item.imageResId != 0) {
                 holder.cover.setImageResource(item.imageResId);
-                holder.cover.setColorFilter(null);
             } else {
-                holder.cover.setImageResource(R.drawable.logo_app);
-                holder.cover.setColorFilter(null);
+                holder.cover.setImageResource(R.drawable.ic_recipe);
             }
         }
         if (holder.chips != null) {
@@ -86,7 +88,17 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
                 Chip chip2 = new Chip(holder.itemView.getContext());
                 chip2.setText(item.matchScore + "% dispo");
                 chip2.setClickable(false);
-                chip2.setChipBackgroundColorResource(R.color.cr_surface_variant);
+                int s = item.matchScore;
+                if (s < 50) {
+                    chip2.setChipBackgroundColorResource(R.color.cr_accent_red);
+                    chip2.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.white));
+                } else if (s < 80) {
+                    chip2.setChipBackgroundColorResource(R.color.cr_accent_orange);
+                    chip2.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.white));
+                } else {
+                    chip2.setChipBackgroundColorResource(R.color.cr_secondary);
+                    chip2.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.white));
+                }
                 holder.chips.addView(chip2);
             }
             if (item.missingCount != null && item.missingCount > 0) {

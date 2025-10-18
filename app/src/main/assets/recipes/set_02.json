@@ -9,7 +9,7 @@
     "budget": 2,
     "utensils": ["casserole","poele"],
     "cuisine": "italien",
-    "image": "res:logo_app",
+    "image": "res:photo_carbonara",
     "tags": ["pâtes","crémeux"],
     "ingredients": [
       {"id":"pate","qty":200,"unit":"g"},
@@ -36,7 +36,7 @@
     "budget": 1,
     "utensils": ["casserole"],
     "cuisine": "maghrébin",
-    "image": "res:logo_app",
+    "image": "res:photo_couscous",
     "tags": ["légumes","léger","halal"],
     "ingredients": [
       {"id":"semoule","qty":300,"unit":"g"},
@@ -67,7 +67,7 @@
     "budget": 2,
     "utensils": ["wok"],
     "cuisine": "asiatique",
-    "image": "res:logo_app",
+    "image": "res:photo_pad_thai",
     "tags": ["wok","street"],
     "ingredients": [
       {"id":"poulet","qty":250,"unit":"g"},
@@ -96,7 +96,7 @@
     "budget": 1,
     "utensils": ["four"],
     "cuisine": "français",
-    "image": "res:logo_app",
+    "image": "res:photo_ratatouille",
     "tags": ["légumes","four"],
     "ingredients": [
       {"id":"aubergine","qty":1,"unit":"pcs"},
@@ -116,4 +116,3 @@
     ]
   }
 ]
-

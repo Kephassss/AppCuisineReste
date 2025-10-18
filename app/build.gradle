@@ -31,6 +31,7 @@ android {
             debuggable true
             minifyEnabled false
             buildConfigField "Boolean", "ENABLE_LOGGING", "true"
+            buildConfigField "Boolean", "GENERATE_SYNTHETIC_RECIPES", "true"
             if (hasGoogleServices) {
                 firebaseCrashlytics {
                     mappingFileUploadEnabled false
@@ -42,6 +43,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "Boolean", "ENABLE_LOGGING", "false"
+            buildConfigField "Boolean", "GENERATE_SYNTHETIC_RECIPES", "false"
             if (hasGoogleServices) {
                 firebaseCrashlytics {
                     mappingFileUploadEnabled true
@@ -120,4 +122,93 @@ dependencies {
     testImplementation libs.mockito.core
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core
+}
+
+// ---- Utility: verify that embedded recipe images are present in res/drawable ----
+def requiredRecipeImages = [
+        'photo_pasta',
+        'photo_omelette',
+        'photo_fried_rice',
+        'photo_curry',
+        'photo_salad',
+        'photo_ratatouille',
+        'photo_carbonara',
+        'photo_pad_thai',
+        'photo_couscous'
+]
+
+tasks.register('verifyRecipeImages') {
+    group = 'verification'
+    description = 'Checks presence of embedded recipe photos in res/drawable.'
+    doLast {
+        def resDirs = android.sourceSets.main.res.srcDirs
+        def allowedExt = ['.png', '.jpg', '.jpeg', '.webp', '.avif']
+        def found = [:]
+        requiredRecipeImages.each { found[it] = false }
+
+        resDirs.each { base ->
+            requiredRecipeImages.each { name ->
+                allowedExt.each { ext ->
+                    def f = new File(base, "drawable/${name}${ext}")
+                    if (f.exists()) {
+                        found[name] = true
+                    }
+                }
+            }
+        }
+
+        def missing = found.findAll { !it.value }.collect { it.key }
+        if (!missing.isEmpty()) {
+            println "WARNING: Missing recipe images in res/drawable: ${missing}"
+            // Fail builds other than debug unless opt-out flag is provided
+            def isDebugBuild = gradle.startParameter.taskNames.any { it.toLowerCase().contains('debug') }
+            def allowBypass = project.hasProperty('allowMissingRecipeImages')
+            if (!isDebugBuild && !allowBypass) {
+                throw new GradleException("Missing embedded recipe images: ${missing}. Add them under app/src/main/res/drawable or pass -PallowMissingRecipeImages to bypass.")
+            }
+        } else {
+            println 'All embedded recipe images are present.'
+        }
+    }
+}
+
+// Run check before building; can bypass with -PallowMissingRecipeImages
+tasks.matching { it.name == 'preBuild' }.configureEach { dependsOn tasks.named('verifyRecipeImages') }
+
+// ---- Utility: import photos from a local folder and rename to expected names ----
+tasks.register('importRecipeImages') {
+    group = 'assets'
+    description = 'Import photos from app/recipe_images_input into res/drawable with expected names.'
+    doLast {
+        def inDir = new File(projectDir, 'recipe_images_input')
+        if (!inDir.exists()) {
+            println "Place your files in ${inDir} named with keywords: pasta, omelette, fried, curry, carbonara, pad, couscous, salad, ratatouille."
+            inDir.mkdirs()
+            return
+        }
+        def outDir = android.sourceSets.main.res.srcDirs.collect { new File(it, 'drawable') }.find { it.exists() } ?: new File(projectDir, 'src/main/res/drawable')
+        outDir.mkdirs()
+        def mapping = [
+                'pasta':'photo_pasta',
+                'omelette':'photo_omelette',
+                'fried':'photo_fried_rice',
+                'curry':'photo_curry',
+                'carbonara':'photo_carbonara',
+                'pad':'photo_pad_thai',
+                'couscous':'photo_couscous',
+                'salad':'photo_salad',
+                'ratatouille':'photo_ratatouille'
+        ]
+        def copied = []
+        inDir.listFiles(new FilenameFilter(){ boolean accept(File d, String n){ n.toLowerCase().matches('.*\\.(png|jpe?g|webp|avif)$') } }).each { f ->
+            def nameLower = f.name.toLowerCase()
+            mapping.find { k, v -> nameLower.contains(k) }?.with { k, v ->
+                def ext = f.name.lastIndexOf('.') >= 0 ? f.name.substring(f.name.lastIndexOf('.')) : '.jpg'
+                def dest = new File(outDir, v + ext)
+                f.withInputStream { ins -> dest.withOutputStream { outs -> outs << ins } }
+                copied << dest.name
+            }
+        }
+        if (copied.isEmpty()) println 'No matching files found in recipe_images_input.' else println "Imported: ${copied}";
+    }
 }

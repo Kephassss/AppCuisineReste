@@ -50,6 +50,8 @@ public class RecipeDetailFragment extends Fragment {
         }
 
         ImageView photo = view.findViewById(R.id.imgPhoto);
+        try { photo.setImageTintList(null); } catch (Throwable ignored) {}
+        try { photo.setColorFilter(null); } catch (Throwable ignored) {}
         TextView title = view.findViewById(R.id.txtTitle);
         TextView timeServ = view.findViewById(R.id.txtTimeServings);
         TextView ings = view.findViewById(R.id.txtIngredients);
@@ -61,17 +63,17 @@ public class RecipeDetailFragment extends Fragment {
         title.setText(r.title);
         if (r.image != null) {
             if (r.image.startsWith("http")) {
-                Glide.with(photo.getContext()).load(r.image).placeholder(R.drawable.logo_app).centerCrop().into(photo);
+                Glide.with(photo.getContext()).load(r.image).placeholder(R.drawable.ic_recipe).error(R.drawable.ic_recipe).centerCrop().into(photo);
             } else if (r.image.startsWith("res:")) {
                 String resName = r.image.substring(4);
                 int resId = getResources().getIdentifier(resName, "drawable", requireContext().getPackageName());
                 if (resId != 0) Glide.with(photo.getContext()).load(resId).centerCrop().into(photo);
-                else photo.setImageResource(R.drawable.logo_app);
+                else photo.setImageResource(R.drawable.ic_recipe);
             } else {
-                photo.setImageResource(R.drawable.logo_app);
+                photo.setImageResource(R.drawable.ic_recipe);
             }
         } else {
-            photo.setImageResource(R.drawable.logo_app);
+            photo.setImageResource(R.drawable.ic_recipe);
         }
 
         String meta = getString(R.string.minutes_short, r.minutes) + (r.servings != null ? " • " + getString(R.string.servings_short, r.servings) : "");

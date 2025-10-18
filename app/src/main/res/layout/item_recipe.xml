@@ -25,8 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_recipe"
-                android:tint="@color/cr_primary_container"/>
+                android:src="@drawable/ic_recipe"/>
             <TextView
                 android:id="@+id/tagTime"
                 android:text="15 min"

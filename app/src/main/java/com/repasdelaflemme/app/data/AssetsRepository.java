@@ -3,6 +3,7 @@ package com.repasdelaflemme.app.data;
 import android.content.Context;
 import android.content.res.AssetManager;
 import com.google.gson.Gson;
+import com.repasdelaflemme.app.BuildConfig;
 import com.google.gson.reflect.TypeToken;
 import com.repasdelaflemme.app.data.model.Ingredient;
 import com.repasdelaflemme.app.data.model.Recipe;
@@ -48,17 +49,29 @@ public class AssetsRepository {
                     } catch (Exception ignored) {}
                 }
             } catch (Exception ignored) {}
-            // Avoid inflating dataset too much on low-memory devices
-            // Keep a reasonable cap to prevent UI freezes or OOMs when opening the Recipes tab.
-            final long maxMem = Runtime.getRuntime().maxMemory();
-            final int target = (maxMem <= 192L * 1024L * 1024L) ? 120 : 240; // 120 items on low-mem, else 240
-            if (all.size() < target) {
-                int need = target - all.size();
-                try { all.addAll(generateSyntheticRecipes(context, need)); } catch (Exception ignored) {}
-            } else if (all.size() > target * 2) {
-                // In case assets already contain a huge list, trim to a sane size
-                all = new java.util.ArrayList<>(all.subList(0, Math.min(all.size(), target * 2)));
+            // Optional synthetic expansion (debug/dev only)
+            if (BuildConfig.GENERATE_SYNTHETIC_RECIPES) {
+                final long maxMem = Runtime.getRuntime().maxMemory();
+                final int target = (maxMem <= 192L * 1024L * 1024L) ? 120 : 240;
+                if (all.size() < target) {
+                    int need = target - all.size();
+                    try { all.addAll(generateSyntheticRecipes(context, need)); } catch (Exception ignored) {}
+                } else if (all.size() > target * 2) {
+                    all = new java.util.ArrayList<>(all.subList(0, Math.min(all.size(), target * 2)));
+                }
             }
+
+            // De-duplicate by id, then by title to avoid visual duplicates
+            java.util.LinkedHashMap<String, Recipe> byId = new java.util.LinkedHashMap<>();
+            for (Recipe r : all) {
+                if (r != null && r.id != null) byId.put(r.id, r);
+            }
+            java.util.LinkedHashMap<String, Recipe> byTitle = new java.util.LinkedHashMap<>();
+            for (Recipe r : byId.values()) {
+                String t = r.title != null ? r.title.trim().toLowerCase(java.util.Locale.ROOT) : "";
+                if (!byTitle.containsKey(t)) byTitle.put(t, r);
+            }
+            all = new java.util.ArrayList<>(byTitle.values());
             RECIPES_CACHE = all;
             return RECIPES_CACHE;
         }
@@ -147,7 +160,18 @@ public class AssetsRepository {
             // utensils 1-2
             r.utensils = new ArrayList<>(); r.utensils.add(utensils[i % utensils.length]); if (rnd.nextBoolean()) r.utensils.add(utensils[(i+3)%utensils.length]);
             r.cuisine = cu;
-            r.image = "res:logo_app";
+            // Cycle through local embedded photos (in res/drawable)
+            String[] sampleResNames = new String[]{
+                    "photo_pasta",
+                    "photo_omelette",
+                    "photo_fried_rice",
+                    "photo_curry",
+                    "photo_salad",
+                    "photo_ratatouille",
+                    "photo_carbonara",
+                    "photo_pad_thai"
+            };
+            r.image = "res:" + sampleResNames[i % sampleResNames.length];
             r.tags = new ArrayList<>(); r.tags.add("auto"); r.tags.add(cu);
             // ingredients
             r.ingredients = new ArrayList<>();
