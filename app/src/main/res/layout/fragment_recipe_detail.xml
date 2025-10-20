@@ -39,6 +39,7 @@
                     android:textColor="#666"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+                
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipsMeta"
                     android:layout_width="wrap_content"
@@ -46,6 +47,15 @@
                     android:layout_marginTop="6dp"
                     app:singleLine="true"
                     app:singleSelection="false"/>
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Version light"
+                    app:useMaterialThemeColors="true"/>
+                
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnStartRecipe"
                     style="@style/Widget.CooknRest.TouchButton"
@@ -75,13 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAddMissingToShopping"
-                    style="@style/Widget.CooknRest.TouchButton.Tonal"
-                    android:text="@string/btn_add_missing"
-                    android:layout_marginTop="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                
 
                 <TextView
                     android:text="@string/section_steps"

@@ -43,11 +43,18 @@ public class RecipeDetailFragment extends Fragment {
             Toast.makeText(getContext(), "ID recette manquant", Toast.LENGTH_SHORT).show();
             return;
         }
-        Recipe r = AssetsRepository.findRecipeById(requireContext(), recipeId);
-        if (r == null) {
+        Recipe loaded = AssetsRepository.findRecipeById(requireContext(), recipeId);
+        if (loaded == null) {
             Toast.makeText(getContext(), getString(R.string.error_loading_recipes), Toast.LENGTH_SHORT).show();
             return;
         }
+        // Resolve base/light pair regardless of which was opened
+        boolean initialIsLight = recipeId != null && recipeId.endsWith("_light");
+        String baseId = initialIsLight ? recipeId.substring(0, recipeId.length() - 6) : recipeId;
+        Recipe maybeBase = initialIsLight ? AssetsRepository.findRecipeById(requireContext(), baseId) : loaded;
+        final Recipe baseRecipe = (maybeBase != null) ? maybeBase : loaded;
+        Recipe rLight = AssetsRepository.findRecipeById(requireContext(), baseId + "_light");
+        final Recipe[] current = new Recipe[]{ initialIsLight && rLight != null ? rLight : baseRecipe };
 
         ImageView photo = view.findViewById(R.id.imgPhoto);
         try { photo.setImageTintList(null); } catch (Throwable ignored) {}
@@ -60,12 +67,12 @@ public class RecipeDetailFragment extends Fragment {
         AnimUtils.attachPressAnimator(start);
         ChipGroup chipsMeta = view.findViewById(R.id.chipsMeta);
 
-        title.setText(r.title);
-        if (r.image != null) {
-            if (r.image.startsWith("http")) {
-                Glide.with(photo.getContext()).load(r.image).placeholder(R.drawable.ic_recipe).error(R.drawable.ic_recipe).centerCrop().into(photo);
-            } else if (r.image.startsWith("res:")) {
-                String resName = r.image.substring(4);
+        title.setText(current[0].title);
+        if (current[0].image != null) {
+            if (current[0].image.startsWith("http")) {
+                Glide.with(photo.getContext()).load(current[0].image).placeholder(R.drawable.ic_recipe).error(R.drawable.ic_recipe).centerCrop().into(photo);
+            } else if (current[0].image.startsWith("res:")) {
+                String resName = current[0].image.substring(4);
                 int resId = getResources().getIdentifier(resName, "drawable", requireContext().getPackageName());
                 if (resId != 0) Glide.with(photo.getContext()).load(resId).centerCrop().into(photo);
                 else photo.setImageResource(R.drawable.ic_recipe);
@@ -76,19 +83,19 @@ public class RecipeDetailFragment extends Fragment {
             photo.setImageResource(R.drawable.ic_recipe);
         }
 
-        String meta = getString(R.string.minutes_short, r.minutes) + (r.servings != null ? " • " + getString(R.string.servings_short, r.servings) : "");
+        String meta = getString(R.string.minutes_short, current[0].minutes) + (current[0].servings != null ? " - " + getString(R.string.servings_short, current[0].servings) : "");
         timeServ.setText(meta);
 
         if (chipsMeta != null) {
             chipsMeta.removeAllViews();
-            if (r.minutes <= 20) {
+            if (current[0].minutes <= 20) {
                 Chip c = new Chip(requireContext());
                 c.setText(getString(R.string.filter_quick)); c.setCheckable(false);
                 c.setChipBackgroundColorResource(R.color.cr_primary_container);
                 c.setTextColor(getResources().getColor(R.color.cr_primary));
                 chipsMeta.addView(c);
             }
-            if (Boolean.TRUE.equals(r.vegetarian)) {
+            if (Boolean.TRUE.equals(current[0].vegetarian)) {
                 Chip c = new Chip(requireContext());
                 c.setText(getString(R.string.filter_veg)); c.setCheckable(false);
                 c.setChipBackgroundColorResource(R.color.cr_secondary);
@@ -98,18 +105,18 @@ public class RecipeDetailFragment extends Fragment {
         }
 
         PrefPantryStore store = new PrefPantryStore(requireContext());
-        List<String> missingIds = renderIngredients(r, ings, store);
+        List<String> missingIds = renderIngredients(current[0], ings, store);
 
         if (stepsContainer != null) {
             stepsContainer.removeAllViews();
-            if (r.steps != null) {
+            if (current[0].steps != null) {
                 LayoutInflater infl = LayoutInflater.from(requireContext());
-                for (int i = 0; i < r.steps.size(); i++) {
+                for (int i = 0; i < current[0].steps.size(); i++) {
                     View row = infl.inflate(R.layout.item_step, stepsContainer, false);
                     TextView num = row.findViewById(R.id.stepNumber);
                     TextView txt = row.findViewById(R.id.stepText);
                     num.setText(String.valueOf(i + 1));
-                    txt.setText(r.steps.get(i));
+                    txt.setText(current[0].steps.get(i));
                     stepsContainer.addView(row);
                     AnimUtils.fadeInKeyframes(row, 400, i * 40L);
                 }
@@ -127,21 +134,83 @@ public class RecipeDetailFragment extends Fragment {
             v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
             androidx.navigation.NavController nav = androidx.navigation.fragment.NavHostFragment.findNavController(this);
             Bundle args = new Bundle();
-            args.putString("recipeId", r.id);
+            args.putString("recipeId", current[0].id);
             nav.navigate(R.id.cookingFragment, args);
         });
 
-        View btnAddMissing = view.findViewById(R.id.btnAddMissingToShopping);
-        if (btnAddMissing != null) {
-            btnAddMissing.setOnClickListener(v -> {
-                List<String> current = store.getIngredientIds();
-                java.util.Set<String> set = new java.util.HashSet<>(current);
-                set.addAll(missingIds);
-                store.setIngredientIds(new ArrayList<>(set));
-                List<String> newMissing = renderIngredients(r, ings, store);
-                Toast.makeText(getContext(), newMissing.isEmpty() ? "Tous les ingrédients sont disponibles" : "Ingrédients ajoutés", Toast.LENGTH_SHORT).show();
-            });
+        // Toggle standard/light variant if available
+        View sw = view.findViewById(R.id.switchLight);
+        if (sw instanceof com.google.android.material.switchmaterial.SwitchMaterial) {
+            com.google.android.material.switchmaterial.SwitchMaterial switchLight = (com.google.android.material.switchmaterial.SwitchMaterial) sw;
+            if (rLight == null) {
+                switchLight.setEnabled(false);
+                switchLight.setChecked(false);
+            } else {
+                switchLight.setEnabled(true);
+                switchLight.setChecked(initialIsLight);
+                switchLight.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    Recipe target = isChecked ? rLight : baseRecipe;
+                    current[0] = target;
+                    title.setText(target.title);
+                    String m = getString(R.string.minutes_short, target.minutes) + (target.servings != null ? " - " + getString(R.string.servings_short, target.servings) : "");
+                    timeServ.setText(m);
+                    // Update image
+                    if (target.image != null) {
+                        if (target.image.startsWith("http")) {
+                            Glide.with(photo.getContext()).load(target.image).placeholder(R.drawable.ic_recipe).error(R.drawable.ic_recipe).centerCrop().into(photo);
+                        } else if (target.image.startsWith("res:")) {
+                            String resName2 = target.image.substring(4);
+                            int resId2 = getResources().getIdentifier(resName2, "drawable", requireContext().getPackageName());
+                            if (resId2 != 0) Glide.with(photo.getContext()).load(resId2).centerCrop().into(photo);
+                            else photo.setImageResource(R.drawable.ic_recipe);
+                        } else {
+                            photo.setImageResource(R.drawable.ic_recipe);
+                        }
+                    } else {
+                        photo.setImageResource(R.drawable.ic_recipe);
+                    }
+                    if (chipsMeta != null) {
+                        chipsMeta.removeAllViews();
+                        if (target.minutes <= 20) {
+                            Chip c = new Chip(requireContext());
+                            c.setText(getString(R.string.filter_quick)); c.setCheckable(false);
+                            c.setChipBackgroundColorResource(R.color.cr_primary_container);
+                            c.setTextColor(getResources().getColor(R.color.cr_primary));
+                            chipsMeta.addView(c);
+                        }
+                        if (Boolean.TRUE.equals(target.vegetarian)) {
+                            Chip c = new Chip(requireContext());
+                            c.setText(getString(R.string.filter_veg)); c.setCheckable(false);
+                            c.setChipBackgroundColorResource(R.color.cr_secondary);
+                            c.setTextColor(getResources().getColor(android.R.color.white));
+                            chipsMeta.addView(c);
+                        }
+                        Chip cL = new Chip(requireContext());
+                        cL.setText(isChecked ? "light" : "standard"); cL.setCheckable(false);
+                        cL.setChipBackgroundColorResource(R.color.cr_surface_variant);
+                        chipsMeta.addView(cL);
+                    }
+                    // Re-render ingredients & steps
+                    renderIngredients(target, ings, store);
+                    if (stepsContainer != null) {
+                        stepsContainer.removeAllViews();
+                        if (target.steps != null) {
+                            LayoutInflater infl2 = LayoutInflater.from(requireContext());
+                            for (int i = 0; i < target.steps.size(); i++) {
+                                View row = infl2.inflate(R.layout.item_step, stepsContainer, false);
+                                TextView num = row.findViewById(R.id.stepNumber);
+                                TextView txt = row.findViewById(R.id.stepText);
+                                num.setText(String.valueOf(i + 1));
+                                txt.setText(target.steps.get(i));
+                                stepsContainer.addView(row);
+                            }
+                        }
+                    }
+                });
+            }
         }
+
+        // Shopping section removed
         try { if (skeleton != null) skeleton.setVisibility(View.GONE); } catch (Exception ignored) {}
     }
 
@@ -159,7 +228,7 @@ public class RecipeDetailFragment extends Fragment {
                 String displayName = nameMap.getOrDefault(ri.id, ri.id);
                 String unit = ri.unit != null ? ri.unit : "";
                 boolean ok = have.contains(ri.id);
-                sb.append(ok ? "• " : "○ ")
+                sb.append(ok ? "* " : "o ")
                   .append(displayName)
                   .append(" — ")
                   .append(ri.qty).append(" ").append(unit);
@@ -171,3 +240,4 @@ public class RecipeDetailFragment extends Fragment {
         return missingIds;
     }
 }
+

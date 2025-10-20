@@ -19,6 +19,7 @@ import com.repasdelaflemme.app.data.PrefPantryStore;
 import com.repasdelaflemme.app.data.model.Ingredient;
 import android.view.ContextThemeWrapper;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,8 @@ public class PantryFragment extends Fragment {
     private ChipGroup chipsGroup;
     private ChipGroup chipsCategories;
     private String currentQuery = "";
+    private final java.util.Set<String> selectedCats = new java.util.HashSet<>();
+    private List<Ingredient> catalogAll = new ArrayList<>();
 
     @Nullable
     @Override
@@ -53,6 +56,7 @@ public class PantryFragment extends Fragment {
         favorites = new com.repasdelaflemme.app.data.PrefPantryFavorites(requireContext());
 
         List<Ingredient> catalog = AssetsRepository.getIngredients(requireContext());
+        catalogAll = new ArrayList<>(catalog);
         ingredientIndex.clear();
         for (Ingredient i : catalog) { ingredientIndex.put(i.id, i); }
 
@@ -76,10 +80,8 @@ public class PantryFragment extends Fragment {
             renderQuickSections();
         });
 
-        // Show skeleton while we prepare the catalog
-        list.setAdapter(new SkeletonAdapter(10, R.layout.item_pantry_skeleton));
-        list.postDelayed(() -> list.setAdapter(catalogAdapter), 150);
-        list.setLayoutAnimation(android.view.animation.AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_slide_up));
+        // On n'utilise plus la liste principale pour parcourir tout le catalogue
+        list.setVisibility(View.GONE);
 
         // Recherche + catÃ©gories
         TextView input = view.findViewById(R.id.inputSearchIngredient);
@@ -115,6 +117,7 @@ public class PantryFragment extends Fragment {
     private void setupCategoryChips(List<Ingredient> catalog) {
         if (chipsCategories == null || catalog == null) return;
         chipsCategories.removeAllViews();
+        selectedCats.clear();
         java.util.Map<String, Integer> catScore = new java.util.HashMap<>();
         for (Ingredient i : catalog) {
             if (i.category == null || i.category.trim().isEmpty()) continue;
@@ -124,18 +127,52 @@ public class PantryFragment extends Fragment {
         }
         java.util.List<String> cats = new java.util.ArrayList<>(catScore.keySet());
         cats.sort((a,b) -> Integer.compare(catScore.getOrDefault(b,0), catScore.getOrDefault(a,0)));
-        java.util.Set<String> selectedCats = new java.util.HashSet<>();
         for (String c : cats) {
             com.google.android.material.chip.Chip chip = new com.google.android.material.chip.Chip(new ContextThemeWrapper(requireContext(), com.google.android.material.R.style.Widget_Material3_Chip_Filter));
             chip.setText(c);
-            chip.setCheckable(true);
-            chip.setOnClickListener(v -> {
-                if (chip.isChecked()) selectedCats.add(c); else selectedCats.remove(c);
-                catalogAdapter.setCategoryFilters(selectedCats);
-                catalogAdapter.filter(currentQuery);
-            });
+            chip.setCheckable(false);
+            chip.setClickable(true);
+            chip.setOnClickListener(v -> openCategorySheet(c));
             chipsCategories.addView(chip);
         }
+    }
+
+    private void openCategorySheet(String category) {
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        View sheet = LayoutInflater.from(requireContext()).inflate(R.layout.bottomsheet_category_ingredients, null);
+        dialog.setContentView(sheet);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+
+        TextView title = sheet.findViewById(R.id.sheetTitle);
+        if (title != null) title.setText(category);
+
+        RecyclerView rv = sheet.findViewById(R.id.sheetList);
+        if (rv != null) {
+            rv.setLayoutManager(new LinearLayoutManager(requireContext()));
+            PantryCatalogAdapter adapter = new PantryCatalogAdapter((ing, selected) -> {
+                if (selected) { store.add(ing.id); try { stats.bump(ing.id); } catch (Throwable ignored) {} }
+                else { store.remove(ing.id); }
+                updateAfterChange();
+            });
+            adapter.setFavorites(favorites.get());
+            adapter.setOnFavoriteToggle((ing, fav) -> {
+                if (fav) favorites.add(ing.id); else favorites.remove(ing.id);
+                renderQuickSections();
+            });
+            List<Ingredient> subset = new ArrayList<>();
+            for (Ingredient i : catalogAll) {
+                if (i != null && category.equals(i.category)) subset.add(i);
+            }
+            adapter.setCatalog(subset);
+            adapter.setSelectedIds(store.getIngredientIds());
+            rv.setAdapter(adapter);
+        }
+
+        View btnClose = sheet.findViewById(R.id.btnCloseSheet);
+        if (btnClose != null) btnClose.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     private List<Ingredient> getSelectedIngredients() {

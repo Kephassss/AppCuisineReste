@@ -55,11 +55,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/shoppingFragment"
-        android:name="com.repasdelaflemme.app.ui.shopping.ShoppingFragment"
-        android:label="@string/tab_shopping" />
-
-    <fragment
         android:id="@+id/cookingFragment"
         android:name="com.repasdelaflemme.app.ui.detail.CookingFragment"
         android:label="@string/btn_start_recipe">

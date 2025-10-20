@@ -12,8 +12,4 @@
         android:id="@+id/recipesFragment"
         android:title="@string/tab_recipes"
         android:icon="@drawable/ic_bowl"/>
-    <item
-        android:id="@+id/shoppingFragment"
-        android:title="@string/tab_shopping"
-        android:icon="@drawable/ic_basket"/>
 </menu>
