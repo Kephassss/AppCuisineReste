@@ -36,10 +36,10 @@ public class PantryFragment extends Fragment {
     private PantryCatalogAdapter catalogAdapter;
     private RecyclerView list;
     private TextView emptyView;
-    private ChipGroup chipsGroup;
+    // Suppression de l'affichage en puces des ingrédients sélectionnés
     private ChipGroup chipsCategories;
     private String currentQuery = "";
-    private final java.util.Set<String> selectedCats = new java.util.HashSet<>();
+    // Plus de sections "rapides" (récents/favoris/fréquents) affichées : nettoyage des états inutilisés
     private List<Ingredient> catalogAll = new ArrayList<>();
 
     @Nullable
@@ -61,7 +61,7 @@ public class PantryFragment extends Fragment {
         for (Ingredient i : catalog) { ingredientIndex.put(i.id, i); }
 
         list = view.findViewById(R.id.pantryList);
-        chipsGroup = view.findViewById(R.id.chipSelected);
+        View btnShowSelected = view.findViewById(R.id.btnShowSelected);
         chipsCategories = view.findViewById(R.id.chipsCategories);
         emptyView = view.findViewById(R.id.emptyView);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -75,10 +75,7 @@ public class PantryFragment extends Fragment {
             updateAfterChange();
         });
         catalogAdapter.setFavorites(favorites.get());
-        catalogAdapter.setOnFavoriteToggle((ing, fav) -> {
-            if (fav) favorites.add(ing.id); else favorites.remove(ing.id);
-            renderQuickSections();
-        });
+        catalogAdapter.setOnFavoriteToggle((ing, fav) -> { if (fav) favorites.add(ing.id); else favorites.remove(ing.id); });
 
         // On n'utilise plus la liste principale pour parcourir tout le catalogue
         list.setVisibility(View.GONE);
@@ -111,13 +108,32 @@ public class PantryFragment extends Fragment {
                         }).show();
             } catch (Throwable ignored) {}
         });
+
+        // Bouton pour aller directement chercher des recettes (onglet Recettes)
+        View btnFindRecipes = view.findViewById(R.id.btnFindRecipes);
+        View cardFindRecipes = view.findViewById(R.id.cardFindRecipes);
+        View.OnClickListener goFind = v2 -> {
+                try {
+                    androidx.navigation.NavController nav = androidx.navigation.fragment.NavHostFragment.findNavController(this);
+                    android.os.Bundle args = new android.os.Bundle();
+                    // Active le focus placard dans l'écran Recettes
+                    args.putBoolean("focusPantry", true);
+                    nav.navigate(com.repasdelaflemme.app.R.id.recipesFragment, args);
+                } catch (Throwable ignored) {}
+        };
+        if (btnFindRecipes != null) { btnFindRecipes.setOnClickListener(goFind); }
+        if (cardFindRecipes != null) { cardFindRecipes.setOnClickListener(goFind); }
+        // Bouton récapitulatif: feuille listant les ingrédients sélectionnés
+        if (btnShowSelected != null) {
+            btnShowSelected.setOnClickListener(v -> openSelectedSheet());
+        }
         updateAfterChange();
     }
 
     private void setupCategoryChips(List<Ingredient> catalog) {
         if (chipsCategories == null || catalog == null) return;
         chipsCategories.removeAllViews();
-        selectedCats.clear();
+        // plus de suivi d'une sélection de catégories persistée
         java.util.Map<String, Integer> catScore = new java.util.HashMap<>();
         for (Ingredient i : catalog) {
             if (i.category == null || i.category.trim().isEmpty()) continue;
@@ -156,10 +172,7 @@ public class PantryFragment extends Fragment {
                 updateAfterChange();
             });
             adapter.setFavorites(favorites.get());
-            adapter.setOnFavoriteToggle((ing, fav) -> {
-                if (fav) favorites.add(ing.id); else favorites.remove(ing.id);
-                renderQuickSections();
-            });
+            adapter.setOnFavoriteToggle((ing, fav) -> { if (fav) favorites.add(ing.id); else favorites.remove(ing.id); });
             List<Ingredient> subset = new ArrayList<>();
             for (Ingredient i : catalogAll) {
                 if (i != null && category.equals(i.category)) subset.add(i);
@@ -185,23 +198,35 @@ public class PantryFragment extends Fragment {
         return have;
     }
 
-    private void renderChips(ChipGroup chipGroup, List<Ingredient> have) {
-        if (chipGroup == null) return;
-        chipGroup.removeAllViews();
-        int idx = 0;
-        for (Ingredient ing : have) {
-            ContextThemeWrapper chipCtx = new ContextThemeWrapper(requireContext(), R.style.Widget_CooknRest_Chip_Ingredient);
-            Chip chip = new Chip(chipCtx);
-            chip.setText(ing.name);
-            chip.setCloseIconVisible(true);
-            chip.setOnCloseIconClickListener(v -> {
-                store.remove(ing.id);
+    private void openSelectedSheet() {
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        View sheet = LayoutInflater.from(requireContext()).inflate(R.layout.bottomsheet_category_ingredients, null);
+        dialog.setContentView(sheet);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+
+        TextView title = sheet.findViewById(R.id.sheetTitle);
+        if (title != null) title.setText(getString(R.string.home_btn_pantry));
+
+        RecyclerView rv = sheet.findViewById(R.id.sheetList);
+        if (rv != null) {
+            rv.setLayoutManager(new LinearLayoutManager(requireContext()));
+            PantryCatalogAdapter adapter = new PantryCatalogAdapter((ing, selected) -> {
+                if (selected) { store.add(ing.id); try { stats.bump(ing.id); } catch (Throwable ignored) {} }
+                else { store.remove(ing.id); }
                 updateAfterChange();
             });
-            chipGroup.addView(chip);
-            AnimUtils.slideInKeyframesX(chip, idx * 20L);
-            idx++;
+            adapter.setFavorites(favorites.get());
+            adapter.setOnFavoriteToggle((ing, fav) -> { if (fav) favorites.add(ing.id); else favorites.remove(ing.id); });
+            adapter.setCatalog(getSelectedIngredients());
+            adapter.setSelectedIds(store.getIngredientIds());
+            rv.setAdapter(adapter);
         }
+
+        View btnClose = sheet.findViewById(R.id.btnCloseSheet);
+        if (btnClose != null) btnClose.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     private void updateAfterChange() {
@@ -209,12 +234,18 @@ public class PantryFragment extends Fragment {
         if (catalogAdapter != null) {
             catalogAdapter.setSelectedIds(store.getIngredientIds());
         }
-        renderChips(chipsGroup, getSelectedIngredients());
+        // Met à jour le libellé du bouton récapitulatif au lieu d'un flot de puces
+        try {
+            View root = getView();
+            if (root != null) {
+                android.widget.Button btn = root.findViewById(R.id.btnShowSelected);
+                if (btn != null) btn.setText(getString(R.string.pantry_selected_count, store.getIngredientIds().size()));
+            }
+        } catch (Throwable ignored) {}
         try {
             TextView cnt = getView().findViewById(R.id.pantryCount);
             if (cnt != null) cnt.setText(getString(R.string.pantry_selected_count, store.getIngredientIds().size()));
         } catch (Throwable ignored) {}
-        renderQuickSections();
         if (emptyView != null) {
             emptyView.setVisibility(store.getIngredientIds().isEmpty() ? View.VISIBLE : View.GONE);
         }
@@ -240,54 +271,7 @@ public class PantryFragment extends Fragment {
                 }
             }
         } catch (Exception ignored) { }
-    }
-
-    private void renderQuickSections() {
-        try {
-            ChipGroup recents = (ChipGroup) (getView() != null ? getView().findViewById(R.id.chipsRecents) : null);
-            ChipGroup frequents = (ChipGroup) (getView() != null ? getView().findViewById(R.id.chipsFrequents) : null);
-            ChipGroup favs = (ChipGroup) (getView() != null ? getView().findViewById(R.id.chipsFavorites) : null);
-            if (recents != null) {
-                recents.removeAllViews();
-                List<String> ids = stats.topRecent(10);
-                addQuickChips(recents, ids);
-            }
-            if (frequents != null) {
-                frequents.removeAllViews();
-                List<String> ids = stats.topFrequent(10);
-                addQuickChips(frequents, ids);
-            }
-            if (favs != null) {
-                favs.removeAllViews();
-                List<String> ids = new java.util.ArrayList<>(favorites.get());
-                addQuickChips(favs, ids);
-            }
-        } catch (Throwable ignored) {}
-    }
-
-    private void addQuickChips(ChipGroup group, List<String> ids) {
-        if (ids == null) return;
-        int idx = 0;
-        for (String id : ids) {
-            Ingredient ing = ingredientIndex.get(id);
-            if (ing == null) continue;
-            ContextThemeWrapper chipCtx = new ContextThemeWrapper(requireContext(), R.style.Widget_CooknRest_Chip_Ingredient);
-            Chip chip = new Chip(chipCtx);
-            chip.setText(ing.name);
-            // reflect current selection state
-            boolean selected = store.getIngredientIds().contains(id);
-            chip.setCheckedIconVisible(true);
-            chip.setCheckable(true);
-            chip.setChecked(selected);
-            chip.setOnClickListener(v -> {
-                boolean now = !selected;
-                if (now) { store.add(id); try { stats.bump(id); } catch (Throwable ignored) {} }
-                else { store.remove(id); }
-                updateAfterChange();
-            });
-            group.addView(chip);
-            AnimUtils.slideInKeyframesX(chip, idx * 16L);
-            idx++;
         }
-    }
+
+    // Suppression des sections rapides: plus d’ajout de chips dynamiques
 }

@@ -103,12 +103,15 @@ public class CookingFragment extends Fragment {
                 tts.stop();
                 speaking = false;
                 btnPlayPause.setText(R.string.step_play);
+                try { btnPlayPause.setIconResource(R.drawable.ic_play); } catch (Throwable ignored) {}
             } else {
                 tts.speak(recipe.steps.get(index), TextToSpeech.QUEUE_FLUSH, null, "step");
                 speaking = true;
                 btnPlayPause.setText(R.string.step_pause);
+                try { btnPlayPause.setIconResource(R.drawable.ic_pause); } catch (Throwable ignored) {}
             }
             updateCookingIconAnimation();
+            try { View st = getView().findViewById(R.id.txtCurrentStep); if (st != null) st.animate().alpha(0f).setDuration(60).withEndAction(() -> st.animate().alpha(1f).setDuration(160).start()).start(); } catch (Throwable ignored) {}
         });
 
         // Init TTS
@@ -196,7 +199,7 @@ public class CookingFragment extends Fragment {
         View v = getView();
         if (v != null) {
             MaterialButton btn = v.findViewById(R.id.btnPlayPause);
-            if (btn != null) btn.setText(R.string.step_play);
+            if (btn != null) { btn.setText(R.string.step_play); try { btn.setIconResource(R.drawable.ic_play); } catch (Throwable ignored) {} }
         }
     }
 

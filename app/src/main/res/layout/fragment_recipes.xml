@@ -48,7 +48,7 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/checkFromPantryOnly"
             style="@style/Widget.Material3.Chip.Filter"
-            android:text="Avec mes ingrédients"
+            android:text="@string/filter_from_pantry_only_strict"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"/>

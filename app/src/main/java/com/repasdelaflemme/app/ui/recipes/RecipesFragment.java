@@ -103,8 +103,9 @@ public class RecipesFragment extends Fragment {
             // Focus initial sur le placard si demandé
             boolean focusPantry = getArguments() != null && getArguments().getBoolean("focusPantry", false);
             Chip fromPantryOnly = view.findViewById(R.id.checkFromPantryOnly);
-            if (focusPantry && fromPantryOnly != null) {
-                fromPantryOnly.setChecked(true);
+            if (fromPantryOnly != null) {
+                // Ne pas pré-sélectionner par défaut lorsque l'on arrive depuis "Trouver des recettes"
+                if (focusPantry) { fromPantryOnly.setChecked(false); }
             }
 
             // Affichage initial

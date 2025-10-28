@@ -60,12 +60,17 @@
                     android:id="@+id/btnStartRecipe"
                     style="@style/Widget.CooknRest.TouchButton"
                     android:text="@string/btn_start_recipe"
-                    app:icon="@drawable/ic_book"
+                    app:icon="@drawable/ic_recipe"
                     app:iconPadding="8dp"
                     app:iconGravity="textStart"
-                    android:layout_marginTop="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_marginTop="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:backgroundTint="@color/cr_surface" 
+                    android:textColor="@color/cr_primary"
+                    app:tint="@color/cr_primary"
+                    app:strokeColor="@color/recipe_card_stroke"
+                    app:strokeWidth="1dp"/>
             </LinearLayout>
 
             <LinearLayout

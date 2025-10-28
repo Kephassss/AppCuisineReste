@@ -34,13 +34,14 @@
             android:layout_height="24dp"/>
     </LinearLayout>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressSteps"
-        style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:layout_marginTop="8dp"
-        android:max="100"/>
+        app:trackCornerRadius="8dp"
+        app:indicatorColor="@color/cr_primary"
+        app:trackColor="@color/cr_surface_variant"/>
 
     <!-- Handle bar (drag/swipe indicator style) -->
     <View
@@ -51,19 +52,28 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/bg_handle_bar"/>
 
-    <ScrollView
-        android:id="@+id/scrollSteps"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="12dp">
-        <TextView
-            android:id="@+id/txtCurrentStep"
-            android:textSize="18sp"
-            android:lineSpacingExtra="4dp"
+        android:layout_marginTop="12dp"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="1dp"
+        app:strokeColor="@color/recipe_card_stroke"
+        app:strokeWidth="1dp">
+        <ScrollView
+            android:id="@+id/scrollSteps"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </ScrollView>
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/txtCurrentStep"
+                android:textSize="18sp"
+                android:lineSpacingExtra="4dp"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </ScrollView>
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Swipe indicator -->
     <LinearLayout
@@ -114,6 +124,9 @@
             android:id="@+id/btnPlayPause"
             style="@style/Widget.CooknRest.TouchButton.Elevated"
             android:text="@string/step_play"
+            app:icon="@drawable/ic_play"
+            app:iconPadding="8dp"
+            app:iconGravity="textStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -125,7 +138,10 @@
             android:text="@string/step_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            app:backgroundTint="@color/cr_primary"
+            android:textColor="@android:color/white"
+            app:tint="@android:color/white"/>
     </LinearLayout>
 
     <!-- Success overlay -->

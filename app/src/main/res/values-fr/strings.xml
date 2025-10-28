@@ -29,6 +29,8 @@
 
   <!-- Actions principales -->
   <string name="action_find_recipes">Trouver des recettes</string>
+  <string name="find_ideas_hint">Choisissez vos ingrédients, puis lancez la recherche.</string>
+  <string name="filter_from_pantry_only_strict">Avec uniquement mes ingrédients</string>
 
   <!-- États/infos -->
   <string name="empty_pantry">Aucun ingrédient pour le moment</string>

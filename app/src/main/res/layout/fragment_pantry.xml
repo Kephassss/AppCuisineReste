@@ -39,13 +39,14 @@
             app:singleSelection="false"
             app:singleLine="false"/>
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipSelected"
+        <!-- Bouton récapitulatif plutôt qu’un flot de chips qui prend toute la place -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShowSelected"
+            style="@style/Widget.CooknRest.TouchButton.Tonal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            app:singleLine="false"
-            app:singleSelection="false"/>
+            android:layout_marginBottom="8dp"
+            android:text="0 sélectionné(s)"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,44 +70,49 @@
             android:gravity="center_horizontal"
             android:text="0 sélectionné"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pantry_favorites"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"/>
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipsFavorites"
+        <!-- CTA principal: encadré saillant autour du bouton "Trouver des recettes" -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardFindRecipes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:singleLine="false"
-            app:singleSelection="false"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pantry_recents"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"/>
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipsRecents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:singleLine="false"
-            app:singleSelection="false"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pantry_frequents"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"/>
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipsFrequents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:singleLine="false"
-            app:singleSelection="false"/>
+            android:layout_marginTop="12dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/recipe_card_stroke"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@color/cr_primary_container">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/find_ideas"
+                    android:textStyle="bold"
+                    android:textColor="@color/cr_primary"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/find_ideas_hint"
+                    android:textColor="@color/cr_on_surface"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnFindRecipes"
+                    style="@style/Widget.CooknRest.TouchButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/action_find_recipes"
+                    app:icon="@drawable/ic_recipe"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:backgroundTint="@color/cr_primary"
+                    android:textColor="@android:color/white"
+                    app:tint="@android:color/white"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"

@@ -44,6 +44,34 @@ public class MainActivity extends AppCompatActivity {
             BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
             if (bottomNav != null) {
                 NavigationUI.setupWithNavController(bottomNav, navController);
+
+                // Renforcer la navigation vers les onglets racine quelle que soit la profondeur
+                bottomNav.setOnItemSelectedListener(item -> {
+                    int id = item.getItemId();
+                    androidx.navigation.NavOptions opts = new androidx.navigation.NavOptions.Builder()
+                            .setLaunchSingleTop(true)
+                            .setPopUpTo(navController.getGraph().getId(), false)
+                            .build();
+                    try {
+                        if (id == R.id.pantryFragment) { navController.navigate(R.id.pantryFragment, null, opts); return true; }
+                        if (id == R.id.recipesFragment) { navController.navigate(R.id.recipesFragment, null, opts); return true; }
+                        if (id == R.id.homeFragment) { navController.navigate(R.id.homeFragment, null, opts); return true; }
+                    } catch (Throwable ignored) {}
+                    return NavigationUI.onNavDestinationSelected(item, navController);
+                });
+
+                bottomNav.setOnItemReselectedListener(item -> {
+                    int id = item.getItemId();
+                    androidx.navigation.NavOptions opts = new androidx.navigation.NavOptions.Builder()
+                            .setLaunchSingleTop(true)
+                            .setPopUpTo(navController.getGraph().getId(), false)
+                            .build();
+                    try {
+                        if (id == R.id.pantryFragment) { navController.navigate(R.id.pantryFragment, null, opts); }
+                        else if (id == R.id.recipesFragment) { navController.navigate(R.id.recipesFragment, null, opts); }
+                        else if (id == R.id.homeFragment) { navController.navigate(R.id.homeFragment, null, opts); }
+                    } catch (Throwable ignored) {}
+                });
             }
 
             // Main content padding to avoid overlap with bottom nav (like .main-content under a fixed nav)
