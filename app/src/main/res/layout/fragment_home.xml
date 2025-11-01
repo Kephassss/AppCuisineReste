@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginBottom="16dp"
+                android:textColor="@color/cr_on_primary"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
                 tools:text="Vous avez 5 recettes" />
 

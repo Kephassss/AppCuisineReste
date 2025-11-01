@@ -23,16 +23,16 @@
         android:id="@+id/fab_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/bottom_nav"
-        app:layout_anchorGravity="top|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="106dp"
         android:contentDescription="@string/action_find_recipes"
         android:elevation="16dp"
         android:translationZ="16dp"
-        app:tint="@color/cr_on_primary"
         app:backgroundTint="@color/cr_primary"
-        app:srcCompat="@drawable/ic_recipe"/>
+        app:layout_anchor="@id/bottom_nav"
+        app:layout_anchorGravity="top|end"
+        app:srcCompat="@drawable/ic_recipe"
+        app:tint="@color/cr_on_primary" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"

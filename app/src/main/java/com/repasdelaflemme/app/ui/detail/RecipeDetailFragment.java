@@ -91,6 +91,20 @@ public class RecipeDetailFragment extends Fragment {
         // Chips meta
         if (chipsMeta != null) {
             chipsMeta.removeAllViews();
+            // Time chip
+            Chip chipTime = new Chip(requireContext());
+            chipTime.setText(getString(R.string.minutes_short, current[0].minutes)); chipTime.setCheckable(false);
+            chipTime.setChipBackgroundColorResource(R.color.cr_surface_variant);
+            chipTime.setTextColor(getResources().getColor(R.color.cr_on_surface));
+            chipsMeta.addView(chipTime);
+            // Servings chip (if any)
+            if (current[0].servings != null) {
+                Chip chipServ = new Chip(requireContext());
+                chipServ.setText(getString(R.string.servings_short, current[0].servings)); chipServ.setCheckable(false);
+                chipServ.setChipBackgroundColorResource(R.color.cr_surface_variant);
+                chipServ.setTextColor(getResources().getColor(R.color.cr_on_surface));
+                chipsMeta.addView(chipServ);
+            }
             if (current[0].minutes <= 20) {
                 Chip c = new Chip(requireContext());
                 c.setText(getString(R.string.filter_quick)); c.setCheckable(false);
@@ -151,6 +165,18 @@ public class RecipeDetailFragment extends Fragment {
                     // chips
                     if (chipsMeta != null) {
                         chipsMeta.removeAllViews();
+                        Chip chipTime2 = new Chip(requireContext());
+                        chipTime2.setText(getString(R.string.minutes_short, target.minutes)); chipTime2.setCheckable(false);
+                        chipTime2.setChipBackgroundColorResource(R.color.cr_surface_variant);
+                        chipTime2.setTextColor(getResources().getColor(R.color.cr_on_surface));
+                        chipsMeta.addView(chipTime2);
+                        if (target.servings != null) {
+                            Chip chipServ2 = new Chip(requireContext());
+                            chipServ2.setText(getString(R.string.servings_short, target.servings)); chipServ2.setCheckable(false);
+                            chipServ2.setChipBackgroundColorResource(R.color.cr_surface_variant);
+                            chipServ2.setTextColor(getResources().getColor(R.color.cr_on_surface));
+                            chipsMeta.addView(chipServ2);
+                        }
                         if (target.minutes <= 20) {
                             Chip c = new Chip(requireContext());
                             c.setText(getString(R.string.filter_quick)); c.setCheckable(false);
