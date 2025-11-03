@@ -1,6 +1,6 @@
 <resources>
   <!-- App -->
-  <string name="app_name">CuisineReste</string>
+  <string name="app_name">CookNReste</string>
 
   <!-- Onglets / Navigation -->
   <string name="tab_pantry">Ingrédients</string>

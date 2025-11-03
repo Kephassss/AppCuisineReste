@@ -26,12 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
-        <ImageView
-            android:id="@+id/cookingIcon"
-            android:src="@drawable/ic_cooking"
-            android:tint="@color/cr_primary"
-            android:layout_width="24dp"
-            android:layout_height="24dp"/>
+        
     </LinearLayout>
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -121,17 +116,7 @@
 
         <Space android:layout_width="8dp" android:layout_height="1dp"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnPlayPause"
-            style="@style/Widget.CooknRest.TouchButton.Elevated"
-            android:text="@string/step_play"
-            app:icon="@drawable/ic_play"
-            app:iconPadding="8dp"
-            app:iconGravity="textStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <Space android:layout_width="8dp" android:layout_height="1dp"/>
+        
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"

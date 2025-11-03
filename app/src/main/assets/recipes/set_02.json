@@ -3,7 +3,7 @@
    "vegetarian":false,"halal":false,"budget":2,"utensils":["casserole","poele"],"cuisine":"italienne",
    "image":"res:photo_carbonara","tags":["pâtes","crémeux"],
    "ingredients":[
-     {"id":"pate","qty":200,"unit":"g"},{"id":"oeuf","qty":2,"unit":"pcs"},{"id":"fromage","qty":60,"unit":"g"},{"id":"lardon","qty":100,"unit":"g"},{"id":"poivre","qty":0.5,"unit":"tsp"}
+     {"id":"pate","qty":200,"unit":"g"},{"id":"oeuf","qty":2,"unit":"pcs"},{"id":"fromage","qty":60,"unit":"g"},{"id":"lardon","qty":120,"unit":"g"},{"id":"poivre","qty":0.5,"unit":"tsp"}
    ],
    "steps":[
      "Porter à ébullition 2 L d'eau salée; cuire 200 g de spaghetti al dente.",
@@ -17,7 +17,7 @@
    "vegetarian":false,"halal":false,"budget":2,"utensils":["casserole","poele"],"cuisine":"italienne",
    "image":"res:photo_carbonara","tags":["pâtes","light"],
    "ingredients":[
-     {"id":"pate","qty":180,"unit":"g"},{"id":"oeuf","qty":2,"unit":"pcs"},{"id":"fromage","qty":40,"unit":"g"},{"id":"lardon","qty":80,"unit":"g"},{"id":"poivre","qty":0.5,"unit":"tsp"}
+     {"id":"pate","qty":180,"unit":"g"},{"id":"oeuf","qty":2,"unit":"pcs"},{"id":"fromage","qty":40,"unit":"g"},{"id":"lardon","qty":100,"unit":"g"},{"id":"poivre","qty":0.5,"unit":"tsp"}
    ],
    "steps":[
      "Même recette en réduisant lardons/fromage; sans ajout de sel.",

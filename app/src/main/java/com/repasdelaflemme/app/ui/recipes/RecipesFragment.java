@@ -377,18 +377,20 @@ public class RecipesFragment extends Fragment {
                         chipChecked(R.id.checkCuisineUS) || chipChecked(R.id.checkCuisineMed) ||
                         chipChecked(R.id.checkCuisineAutres);
                 if (anyCui) {
-                    String cu = r.cuisine != null ? normalizeString(r.cuisine) : null;
+                    String cuRaw = r.cuisine != null ? r.cuisine : null;
+                    String cu = cuRaw != null ? normalizeString(cuRaw) : null;
+                    String key = mapCuisineKey(cu);
                     boolean okCui = false;
-                    if (cu != null) {
-                        okCui = (chipChecked(R.id.checkCuisineFrancais) && "francais".equals(cu)) ||
-                                 (chipChecked(R.id.checkCuisineItalien) && "italien".equals(cu)) ||
-                                 (chipChecked(R.id.checkCuisineAsiatique) && "asiatique".equals(cu)) ||
-                                 (chipChecked(R.id.checkCuisineIndien) && "indien".equals(cu)) ||
-                                 (chipChecked(R.id.checkCuisineMaghreb) && "maghrebin".equals(cu)) ||
-                                 (chipChecked(R.id.checkCuisineMexicain) && "mexicain".equals(cu)) ||
-                                 (chipChecked(R.id.checkCuisineUS) && "us".equals(cu)) ||
-                                 (chipChecked(R.id.checkCuisineMed) && "mediterraneen".equals(cu)) ||
-                                 (chipChecked(R.id.checkCuisineAutres) && "autres".equals(cu));
+                    if (key != null) {
+                        okCui = (chipChecked(R.id.checkCuisineFrancais) && "francais".equals(key)) ||
+                                 (chipChecked(R.id.checkCuisineItalien) && "italien".equals(key)) ||
+                                 (chipChecked(R.id.checkCuisineAsiatique) && "asiatique".equals(key)) ||
+                                 (chipChecked(R.id.checkCuisineIndien) && "indien".equals(key)) ||
+                                 (chipChecked(R.id.checkCuisineMaghreb) && "maghrebin".equals(key)) ||
+                                 (chipChecked(R.id.checkCuisineMexicain) && "mexicain".equals(key)) ||
+                                 (chipChecked(R.id.checkCuisineUS) && "us".equals(key)) ||
+                                 (chipChecked(R.id.checkCuisineMed) && "mediterraneen".equals(key)) ||
+                                 (chipChecked(R.id.checkCuisineAutres) && "autres".equals(key));
                     }
                     if (!okCui) continue;
                 }
@@ -646,5 +648,30 @@ public class RecipesFragment extends Fragment {
         } catch (Throwable t) {
             return s;
         }
+    }
+
+    // Map variations (genre/pluriel/accents) vers une cla canonique
+    private static String mapCuisineKey(String normalized) {
+        if (normalized == null || normalized.isEmpty()) return null;
+        String s = normalized;
+        // italia"n/e/enne
+        if (s.contains("italien")) return "italien";
+        // francais/francaise
+        if (s.contains("francais") || s.contains("francaise")) return "francais";
+        // asiatique
+        if (s.contains("asiat")) return "asiatique";
+        // indien/indienne
+        if (s.startsWith("indien") || s.startsWith("indienn")) return "indien";
+        // maghrebin/maghrebine
+        if (s.contains("maghreb")) return "maghrebin";
+        // mexicain/mexicaine
+        if (s.contains("mexic")) return "mexicain";
+        // mediterraneen/mediterraneenne
+        if (s.contains("mediterran")) return "mediterraneen";
+        // us/americaine/americain
+        if ("us".equals(s) || s.contains("americ")) return "us";
+        // autres
+        if (s.contains("autre")) return "autres";
+        return s;
     }
 }

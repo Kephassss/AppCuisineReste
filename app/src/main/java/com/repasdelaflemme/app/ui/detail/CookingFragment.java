@@ -1,14 +1,12 @@
 package com.repasdelaflemme.app.ui.detail;
 
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.ImageView;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -18,17 +16,14 @@ import com.google.android.material.button.MaterialButton;
 import com.repasdelaflemme.app.R;
 import com.repasdelaflemme.app.data.AssetsRepository;
 import com.repasdelaflemme.app.data.model.Recipe;
-import java.util.Locale;
+ 
 
 public class CookingFragment extends Fragment {
 
     private static final String KEY_INDEX = "step_index";
     private Recipe recipe;
     private int index = 0;
-    private TextToSpeech tts;
-    private boolean ttsReady = false;
-    private boolean speaking = false;
-    private ImageView cookingIcon;
+    
 
     @Nullable
     @Override
@@ -52,8 +47,6 @@ public class CookingFragment extends Fragment {
         ProgressBar progress = view.findViewById(R.id.progressSteps);
         MaterialButton btnPrev = view.findViewById(R.id.btnPrev);
         MaterialButton btnNext = view.findViewById(R.id.btnNext);
-        MaterialButton btnPlayPause = view.findViewById(R.id.btnPlayPause);
-        cookingIcon = view.findViewById(R.id.cookingIcon);
         View swipeIndicator = view.findViewById(R.id.swipeIndicator);
         ImageView swipeIcon = view.findViewById(R.id.swipeIcon);
 
@@ -63,7 +56,7 @@ public class CookingFragment extends Fragment {
             current.setText(getString(R.string.error_loading_recipes));
             btnPrev.setEnabled(false);
             btnNext.setEnabled(false);
-            btnPlayPause.setEnabled(false);
+            
             return;
         }
 
@@ -79,46 +72,19 @@ public class CookingFragment extends Fragment {
             progress.setProgress((int) (((safeIndex + 1) / (float) total) * 100));
             btnPrev.setEnabled(safeIndex > 0);
             btnNext.setText(safeIndex < total - 1 ? R.string.step_next : R.string.step_finish);
-            updateCookingIconAnimation();
+            
         };
 
         btnPrev.setOnClickListener(v -> {
             index = Math.max(0, index - 1);
-            stopTts();
             render.run();
         });
         btnNext.setOnClickListener(v -> {
             if (index < recipe.steps.size() - 1) {
                 index++;
-                stopTts();
                 render.run();
             } else {
                 showSuccessThenExit();
-            }
-        });
-
-        btnPlayPause.setOnClickListener(v -> {
-            if (!ttsReady) return;
-            if (speaking) {
-                tts.stop();
-                speaking = false;
-                btnPlayPause.setText(R.string.step_play);
-                try { btnPlayPause.setIconResource(R.drawable.ic_play); } catch (Throwable ignored) {}
-            } else {
-                tts.speak(recipe.steps.get(index), TextToSpeech.QUEUE_FLUSH, null, "step");
-                speaking = true;
-                btnPlayPause.setText(R.string.step_pause);
-                try { btnPlayPause.setIconResource(R.drawable.ic_pause); } catch (Throwable ignored) {}
-            }
-            updateCookingIconAnimation();
-            try { View st = getView().findViewById(R.id.txtCurrentStep); if (st != null) st.animate().alpha(0f).setDuration(60).withEndAction(() -> st.animate().alpha(1f).setDuration(160).start()).start(); } catch (Throwable ignored) {}
-        });
-
-        // Init TTS
-        tts = new TextToSpeech(requireContext(), status -> {
-            ttsReady = status == TextToSpeech.SUCCESS;
-            if (ttsReady) {
-                try { tts.setLanguage(Locale.getDefault()); } catch (Exception ignored) {}
             }
         });
 
@@ -174,33 +140,19 @@ public class CookingFragment extends Fragment {
     public void onPause() {
         super.onPause();
         requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        stopTts();
-        stopCookingIconAnimation();
+        
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (tts != null) {
-            tts.stop();
-            tts.shutdown();
-        }
+        
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(KEY_INDEX, index);
-    }
-
-    private void stopTts() {
-        if (tts != null) tts.stop();
-        speaking = false;
-        View v = getView();
-        if (v != null) {
-            MaterialButton btn = v.findViewById(R.id.btnPlayPause);
-            if (btn != null) { btn.setText(R.string.step_play); try { btn.setIconResource(R.drawable.ic_play); } catch (Throwable ignored) {} }
-        }
     }
 
     private void showSuccessThenExit() {
@@ -219,21 +171,5 @@ public class CookingFragment extends Fragment {
         }
     }
 
-    private void updateCookingIconAnimation() {
-        if (cookingIcon == null) return;
-        if (speaking) {
-            // Keyframes bounce via code (CSS-like)
-            com.repasdelaflemme.app.ui.common.AnimUtils.bounceKeyframes(cookingIcon, 8f, 2000L, true);
-        } else {
-            stopCookingIconAnimation();
-        }
-    }
-
-    private void stopCookingIconAnimation() {
-        if (cookingIcon != null) {
-            cookingIcon.clearAnimation();
-            // also clear any running ObjectAnimators by resetting translation
-            cookingIcon.setTranslationY(0f);
-        }
-    }
+    
 }

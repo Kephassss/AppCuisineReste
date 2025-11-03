@@ -67,7 +67,7 @@
    "vegetarian":false,"image":"res:photo_fried_rice","tags":["rapide","familial"],
    "ingredients":[
      {"id":"riz","qty":200,"unit":"g"},{"id":"oeuf","qty":2,"unit":"pcs"},{"id":"petit_pois","qty":80,"unit":"g"},
-     {"id":"jambon","qty":100,"unit":"g"},{"id":"oignon","qty":1,"unit":"pcs"},{"id":"sauce_soja","qty":2,"unit":"tbsp"},{"id":"huile","qty":1,"unit":"tbsp"}
+     {"id":"jambon","qty":180,"unit":"g"},{"id":"oignon","qty":1,"unit":"pcs"},{"id":"sauce_soja","qty":2,"unit":"tbsp"},{"id":"huile","qty":1,"unit":"tbsp"}
    ],
    "steps":[
      "Cuire 200 g de riz (200 g/300 ml eau, 12 min doux + 10 min repos).",
@@ -82,7 +82,7 @@
    "vegetarian":false,"image":"res:photo_fried_rice","tags":["rapide","light"],
    "ingredients":[
      {"id":"riz","qty":200,"unit":"g"},{"id":"oeuf","qty":2,"unit":"pcs"},{"id":"petit_pois","qty":80,"unit":"g"},
-     {"id":"crevette","qty":120,"unit":"g"},{"id":"oignon","qty":1,"unit":"pcs"},{"id":"sauce_soja","qty":1,"unit":"tbsp"},{"id":"huile","qty":1,"unit":"tsp"},
+     {"id":"crevette","qty":180,"unit":"g"},{"id":"oignon","qty":1,"unit":"pcs"},{"id":"sauce_soja","qty":1,"unit":"tbsp"},{"id":"huile","qty":1,"unit":"tsp"},
      {"id":"carotte","qty":1,"unit":"pcs"}
    ],
    "steps":[

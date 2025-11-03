@@ -31,7 +31,8 @@ android {
             debuggable true
             minifyEnabled false
             buildConfigField "Boolean", "ENABLE_LOGGING", "true"
-            buildConfigField "Boolean", "GENERATE_SYNTHETIC_RECIPES", "true"
+            // Désactive les recettes synthétiques en debug pour éviter des quantités aléatoires
+            buildConfigField "Boolean", "GENERATE_SYNTHETIC_RECIPES", "false"
             if (hasGoogleServices) {
                 firebaseCrashlytics {
                     mappingFileUploadEnabled false

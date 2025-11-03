@@ -178,13 +178,27 @@ public class AssetsRepository {
             String[] pool = pools[i % pools.length];
             int nIng = 6 + rnd.nextInt(3);
             java.util.Set<String> used = new java.util.HashSet<>();
+            // Use catalog units when possible for realistic quantities
+            java.util.Map<String, String> unitById = new java.util.HashMap<>();
+            try {
+                for (com.repasdelaflemme.app.data.model.Ingredient ing : getIngredients(context)) {
+                    if (ing != null && ing.id != null && ing.unit != null) unitById.put(ing.id, ing.unit);
+                }
+            } catch (Throwable ignored) {}
             for (int k = 0; k < nIng; k++) {
                 com.repasdelaflemme.app.data.model.RecipeIngredient ri = new com.repasdelaflemme.app.data.model.RecipeIngredient();
                 String id = pool[rnd.nextInt(pool.length)];
                 // avoid duplicates
                 int tries = 0; while (used.contains(id) && tries++ < 5) id = pool[rnd.nextInt(pool.length)];
                 used.add(id);
-                ri.id = id; ri.qty = 1 + rnd.nextInt(300); ri.unit = ("pate".equals(id) || "riz".equals(id) || "fromage".equals(id) || "lentille".equals(id)) ? "g" : ("lait".equals(id) || "lait_coco".equals(id) ? "ml" : "pcs");
+                ri.id = id;
+                String unit = unitById.get(id);
+                if (unit == null) {
+                    unit = ("pate".equals(id) || "riz".equals(id) || "fromage".equals(id) || "lentille".equals(id)) ? "g"
+                            : ("lait".equals(id) || "lait_coco".equals(id) ? "ml" : "pcs");
+                }
+                ri.unit = unit;
+                ri.qty = computeSyntheticQty(id, unit, (r.servings != null ? r.servings : 2), rnd);
                 r.ingredients.add(ri);
             }
             // allergens & flags
@@ -225,5 +239,97 @@ public class AssetsRepository {
 
     private static void addIfAbsent(List<String> list, String k) {
         if (list == null) return; for (String s : list) { if (k.equals(s)) return; } list.add(k);
+    }
+
+    // Generate realistic quantities based on unit, id and servings
+    private static double computeSyntheticQty(String id, String unit, int servings, java.util.Random rnd) {
+        if (unit == null) unit = "pcs";
+        String u = unit.toLowerCase(java.util.Locale.ROOT).trim();
+        String ing = id != null ? id.toLowerCase(java.util.Locale.ROOT) : "";
+
+        // helpers
+        java.util.function.Function<double[], Double> choose = range -> {
+            double min = range[0], max = range[1];
+            return min + (max - min) * rnd.nextDouble();
+        };
+        java.util.function.Function<Double, Double> roundHalf = v -> Math.round(v * 2.0) / 2.0;   // .5 steps
+        java.util.function.Function<Double, Double> roundQuarter = v -> Math.round(v * 4.0) / 4.0; // .25 steps
+
+        switch (u) {
+            case "g": {
+                // Staples by id (per person)
+                if (ing.equals("pate") || ing.equals("riz") || ing.equals("semoule") || ing.equals("couscous") ||
+                    ing.equals("quinoa") || ing.equals("boulgour") || ing.equals("lentille")) {
+                    double per = choose.apply(new double[]{75, 100});
+                    return Math.round(per * Math.max(1, servings));
+                }
+                // Cheeses (per person)
+                if (ing.equals("fromage") || ing.equals("mozzarella") || ing.equals("parmesan") || ing.equals("feta")) {
+                    double per = choose.apply(new double[]{18, 35});
+                    return Math.round(per * Math.max(1, servings));
+                }
+                // Meats / fish / shrimp (per person)
+                if (ing.equals("poulet") || ing.equals("boeuf") || ing.equals("porc") || ing.equals("jambon") ||
+                    ing.equals("lardon") || ing.equals("saucisse") || ing.equals("saumon") || ing.equals("thon") || ing.equals("crevette")) {
+                    double per = choose.apply(new double[]{100, 150});
+                    return Math.round(per * Math.max(1, servings));
+                }
+                // Leafy / berries / small veg by weight (per person, modest)
+                double per = choose.apply(new double[]{40, 90});
+                return Math.round(per * Math.max(1, servings));
+            }
+            case "ml": {
+                // Milk / coconut milk per person
+                if (ing.equals("lait") || ing.equals("lait_coco") || ing.equals("sauce_tomate")) {
+                    double per = choose.apply(new double[]{60, 120});
+                    return Math.round(per * Math.max(1, servings));
+                }
+                // Vinegar often small, treat as total, not per person
+                if (ing.equals("vinaigre")) {
+                    return Math.round(choose.apply(new double[]{10, 30}));
+                }
+                // Fallback modest total
+                return Math.round(choose.apply(new double[]{50, 150}));
+            }
+            case "tbsp": {
+                double v = choose.apply(new double[]{0.5, 2.5});
+                return roundHalf.apply(v);
+            }
+            case "tsp": {
+                double v = choose.apply(new double[]{0.25, 1.5});
+                return roundQuarter.apply(v);
+            }
+            case "cube":
+            case "sachet":
+            case "tranche": {
+                int cnt = 1 + rnd.nextInt(2); // 1-2
+                return cnt;
+            }
+            case "pcs":
+            default: {
+                // Specific piece logic
+                if (ing.equals("oeuf")) {
+                    // 1-2 eggs per person
+                    int per = 1 + rnd.nextInt(2);
+                    return per * Math.max(1, servings);
+                }
+                if (ing.equals("ail")) {
+                    // 1 clove per person (cap to 4)
+                    int total = Math.max(1, Math.min(4, servings));
+                    return total;
+                }
+                if (ing.equals("oignon")) {
+                    // ~0.5 onion per person (cap typical 1-2)
+                    double total = 0.5 * Math.max(1, servings);
+                    total = Math.max(0.5, Math.min(2.0, total));
+                    return roundHalf.apply(total);
+                }
+                // Generic pieces: 0.5-1.5 per person, clamp 1..6
+                double per = choose.apply(new double[]{0.5, 1.5});
+                double total = per * Math.max(1, servings);
+                total = Math.max(1.0, Math.min(6.0, total));
+                return roundHalf.apply(total);
+            }
+        }
     }
 }
