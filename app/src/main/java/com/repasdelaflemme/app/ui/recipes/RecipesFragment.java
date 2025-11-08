@@ -58,6 +58,13 @@ public class RecipesFragment extends Fragment {
 
             if (list != null) {
                 list.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                list.setHasFixedSize(true);
+                try {
+                    androidx.recyclerview.widget.RecyclerView.ItemAnimator ia = list.getItemAnimator();
+                    if (ia instanceof androidx.recyclerview.widget.SimpleItemAnimator) {
+                        ((androidx.recyclerview.widget.SimpleItemAnimator) ia).setSupportsChangeAnimations(false);
+                    }
+                } catch (Throwable ignored) {}
                 list.setAdapter(new com.repasdelaflemme.app.ui.home.SkeletonAdapter(8));
                 list.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_slide_up));
                 this.listView = list;

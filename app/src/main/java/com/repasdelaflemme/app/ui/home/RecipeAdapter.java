@@ -28,6 +28,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
 
     public RecipeAdapter(OnClick listener) {
         this.listener = listener;
+        setHasStableIds(true);
     }
 
     public void submit(List<RecipeCard> newData) {
@@ -61,6 +62,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
             // Always clear any tint/filter that may be set from XML
             try { holder.cover.setImageTintList(null); } catch (Throwable ignored) {}
             try { holder.cover.setColorFilter(null); } catch (Throwable ignored) {}
+
+            // Cancel any previous pending Glide request on this recycled ImageView
+            try { com.bumptech.glide.Glide.with(holder.cover.getContext()).clear(holder.cover); } catch (Throwable ignored) {}
+
             if (item.imageUrl != null && !item.imageUrl.isEmpty()) {
                 com.bumptech.glide.Glide.with(holder.cover.getContext())
                         .load(item.imageUrl)
@@ -69,8 +74,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
                         .centerCrop()
                         .into(holder.cover);
             } else if (item.imageResId != null && item.imageResId != 0) {
-                holder.cover.setImageResource(item.imageResId);
+                com.bumptech.glide.Glide.with(holder.cover.getContext())
+                        .load(item.imageResId)
+                        .placeholder(R.drawable.ic_recipe)
+                        .error(R.drawable.ic_recipe)
+                        .centerCrop()
+                        .into(holder.cover);
             } else {
+                // Fallback placeholder
                 holder.cover.setImageResource(R.drawable.ic_recipe);
             }
         }
@@ -153,8 +164,26 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
             }
         }
 
+        // Tag the bound view with the exact recipeId displayed
+        try { holder.itemView.setTag(R.id.tag_recipe_id, item.id); } catch (Throwable ignored) {}
+
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) listener.onRecipeClick(item);
+            if (listener != null) {
+                String tagId = null;
+                try { Object t = holder.itemView.getTag(R.id.tag_recipe_id); tagId = (t instanceof String) ? (String) t : null; } catch (Throwable ignored) {}
+                if (tagId != null) {
+                    // Find the matching card by id to avoid any position drift
+                    RecipeCard found = null;
+                    for (RecipeCard rc : data) {
+                        if (rc != null && tagId.equals(rc.id)) { found = rc; break; }
+                    }
+                    if (found != null) { listener.onRecipeClick(found); return; }
+                }
+                int pos = holder.getBindingAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION && pos < data.size()) {
+                    listener.onRecipeClick(data.get(pos));
+                }
+            }
         });
 
         // Keyframe-like slideIn animation (CSS-style)
@@ -164,6 +193,17 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.VH> {
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        try {
+            RecipeCard rc = data.get(position);
+            if (rc != null && rc.id != null) {
+                return (long) rc.id.hashCode();
+            }
+        } catch (Throwable ignored) {}
+        return RecyclerView.NO_ID;
     }
 
     static class VH extends RecyclerView.ViewHolder {

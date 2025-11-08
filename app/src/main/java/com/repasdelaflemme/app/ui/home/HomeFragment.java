@@ -35,6 +35,14 @@ public class HomeFragment extends Fragment {
 
         // RecyclerView in 2-column grid
         binding.recycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        binding.recycler.setHasFixedSize(true);
+        // Disable change animations to avoid view re-binding glitches on some devices
+        try {
+            androidx.recyclerview.widget.RecyclerView.ItemAnimator ia = binding.recycler.getItemAnimator();
+            if (ia instanceof androidx.recyclerview.widget.SimpleItemAnimator) {
+                ((androidx.recyclerview.widget.SimpleItemAnimator) ia).setSupportsChangeAnimations(false);
+            }
+        } catch (Throwable ignored) {}
         // Show skeleton while loading
         binding.recycler.setAdapter(new SkeletonAdapter(6));
         binding.recycler.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_slide_up));

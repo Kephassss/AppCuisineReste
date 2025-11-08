@@ -52,6 +52,7 @@
   {"id":"haricot_rouge","name":"Haricots rouges","category":"légumineuse","unit":"g"},
   {"id":"haricot_blanc","name":"Haricots blancs","category":"légumineuse","unit":"g"},
 
+  {"id":"oeuf","name":"Œuf","category":"viande","unit":"pcs"},
   {"id":"poulet","name":"Poulet","category":"viande","unit":"g"},
   {"id":"boeuf","name":"Bœuf","category":"viande","unit":"g"},
   {"id":"porc","name":"Porc","category":"viande","unit":"g"},
@@ -70,7 +71,6 @@
   {"id":"mozzarella","name":"Mozzarella","category":"produit_laitier","unit":"g"},
   {"id":"parmesan","name":"Parmesan","category":"produit_laitier","unit":"g"},
   {"id":"feta","name":"Feta","category":"produit_laitier","unit":"g"},
-  {"id":"oeuf","name":"Œuf","category":"produit_laitier","unit":"pcs"},
 
   {"id":"huile","name":"Huile d'olive","category":"condiment","unit":"tbsp"},
   {"id":"vinaigre","name":"Vinaigre","category":"condiment","unit":"ml"},
